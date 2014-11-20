@@ -1,55 +1,67 @@
-var ejs= require('ejs');
 var mysql = require('mysql');
 
-function getConnection(){
+function getConnection() {
 	var connection = mysql.createConnection({
-	    host     : 'localhost',
-	    user     : 'root',
-	    password : 'mukul',
-	    database : 'ebay'
+		host : 'localhost',
+		user : 'root',
+		password : 'Welcome1',
+		database : 'ebay'
 	});
 	return connection;
 }
 
+function fetchData(callback, sqlQuery) {
 
-function fetchData(callback,sqlQuery){
-	
-	console.log("\nSQL Query::"+sqlQuery);
-	
-	var connection=getConnection();
-	
+	console.log("\nSQL Query::" + sqlQuery);
+
+	var connection = getConnection();
+
 	connection.query(sqlQuery, function(err, rows, fields) {
-		if(err){
+		if (err) {
 			console.log("ERROR: " + err.message);
-		}
-		else 
-		{	// return err or result
+		} else { // return err or result
 			callback(err, rows);
 		}
 	});
 	console.log("\nConnection closed..");
 	connection.end();
-}	
+}
 
-function saveData(callback,sqlQuery){
-	
-	console.log("\nSQL Query::"+sqlQuery);
-	
-	var connection=getConnection();
-	
+function saveData(callback, sqlQuery) {
+
+	console.log("\nSQL Query::" + sqlQuery);
+
+	var connection = getConnection();
+
 	connection.query(sqlQuery, function(err, results) {
-		if(err){
+		if (err) {
 			console.log("ERROR: " + err.message);
-		}
-		else 
-		{	// return err or result
+		} else { // return err or result
 			callback(err, results);
 		}
 	});
 	console.log("\nConnection closed..");
 	connection.end();
-}	
+}
 
+function insertData(callBack, data, table) {
+	console.log("Inside insert data")
+	var connection = getConnection();
+	console.log(connection);
+	connection.query('INSERT INTO ' + table + ' SET ?', data, function(err,
+			rows, fields) {
+		// Neat!
+		if (err) {
+			console.log("ERROR: " + err.message);
+		} else { // return err or result
+			callBack(err, rows);
+		}
+	});
+	console.log("\nConnection closed..");
+	connection.end();
 
-exports.fetchData=fetchData;
-exports.saveData=saveData;
+}
+
+exports.fetchData = fetchData;
+exports.saveData = saveData;
+exports.insertData = insertData;

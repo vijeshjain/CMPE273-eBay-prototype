@@ -11,6 +11,10 @@ float: left;
 margin-left: 13%;
 }
 
+.signin-logo{
+margin-left: 13%;
+}
+
 .signUp-header span{
 margin-left: 14%;
 }
@@ -24,7 +28,7 @@ margin-top: -381px;
 border: 1px solid;
 width: 50%;
 margin-left: 14%;
-margin-top: 2%;
+margin-top: 4%;
 border: 1px solid #ddd;
 border-radius: 3px 3px 3px 3px;
 box-shadow: 4px 4px 1px #c4c4c4;
@@ -33,11 +37,59 @@ box-shadow: 4px 4px 1px #c4c4c4;
 background: none repeat scroll 0 0 #fff;
 padding: 14px 26px 26px;
 font-size: 14px;
-height: 350px;
+height: 400px;
 }
 
+.go-to-sigin{
+margin-top: 8%;
+margin-left: 16%;
+}
 
+.signin-div{
+		border: 1px solid;
+		width: 32%;
+		margin-left: 14%;
+		margin-top: 2%;
+		border: 1px solid #ddd;
+		border-radius: 3px 3px 3px 3px;
+		box-shadow: 4px 4px 1px #c4c4c4;
+		-webkit-box-shadow: 4px 4px 1px #c4c4c4;
+		-moz-box-shadow: 4px 4px 1px #c4c4c4;
+		background: none repeat scroll 0 0 #fff;
+		padding: 14px 26px 26px;
+		font-size: 14px;
+		height: 283px;
+	
+}
 
+	.left{
+		float: left;
+	}
+	.right{
+		float: left;
+		margin-left:1%;
+	}
+
+	input[type="text"],
+	input[type="password"]{
+		width: 300px;
+		height: 29px;
+		padding-left: 12px;
+		margin-bottom: 4%;
+		margin-top: 3%;
+	}
+
+.new-to-ebay-title
+{
+width: 144px;
+margin-left: 30%;
+margin-top: 21%;
+}
+.register-link{
+margin-top: 6%;
+margin-left: 32%;
+}
+.register-text{margin-left: 20%;}
  .form-style input[type="text"],
  .form-style input[type="password"]{
  border: 1px solid #ddd;
@@ -179,3 +231,42 @@ cursor: pointer;
 zoom: 1;
 display: inline-block;
 }
+
+.requiredClass{
+color: red;
+
+}
+
+.alert-box {
+		color:#555;
+		border-radius:10px;
+		font-family:Tahoma,Geneva,Arial,sans-serif;font-size:11px;
+		padding:10px 36px;
+		margin:10px;
+		display:none;
+		top: 14%;
+		position: fixed;
+		left: 18%;
+		z-index: 90;
+		width: 780px;
+	}
+	.alert-box span {
+		font-weight:bold;
+		text-transform:uppercase;
+	}
+	.error {
+		background:#ffecec url('../images/error.png') no-repeat 10px 50%;
+		border:1px solid #f5aca6;
+	}
+	.success {
+		background:#e9ffd9 url('../images/success.png') no-repeat 10px 50%;
+		border:1px solid #a6ca8a;
+	}
+	.warning {
+		background:#fff8c4 url('../images/warning.png') no-repeat 10px 50%;
+		border:1px solid #f2c779;
+	}
+	.notice {
+		background:#e3f7fc url('../images/notice.png') no-repeat 10px 50%;
+		border:1px solid #8ed9f6;
+	}

@@ -18,18 +18,22 @@ function homepage(req, res) {
 		if (err) {
 			throw err;
 		} else {
-			if (results.length > 0) {
-				for ( var i = 0; i < results.length; i++) {
-					console.log(results[i].name);
+			try {
+				if (results!=null&&results.length > 0) {
+					for (var i = 0; i < results.length; i++) {
+						console.log(results[i].name);
+					}
+
+					category = results;
+					res.render('homepage', {
+						category : category,
+
+					});
+
 				}
-				
-				category = results;
-				res.render('homepage', {
-					category : category,
-				
-				
-				});
-			
+			} catch (e) {
+				// TODO: handle exception
+				console.log(e);
 			}
 
 		}
@@ -70,6 +74,9 @@ function signup(req,res) {
 	   }
    });
 }
+
+
+
 exports.homepage=homepage;
 exports.signup=signup;
 exports.signin=signin;
