@@ -1726,13 +1726,23 @@ margin: 0 7px 15px;
 }
 
 .dropdown-menu {
+	
+
+    padding: 10px;
+    margin-right: -20;
+    margin-right: -50;
+    right: -30;
+    border-right-width: -50;
+    margin-right: -50px;
+    width: 1150px;
+    
 	position: absolute;
 	top: 100%;
 	left: 30;
 	z-index: 1000;
 	display: none;
 	float: left;
-	min-width: 160px;
+	min-width: 500px;
 	padding: 5px 0;
 	margin: 2px 0 0;
 	list-style: none;

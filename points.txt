@@ -1,0 +1,3 @@
+username should be emailId.. check validation
+home page button on signin/signup
+signUp as buyer/seller not selected

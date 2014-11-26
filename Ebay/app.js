@@ -37,9 +37,12 @@ app.get('/signup', home.signup);
 app.post('/register', user.register);
 
 app.get('/signin', home.signin);
+app.get('/', home.signin);
 app.post('/signin', user.signin);
+app.post('/addCategory', home.addCategory);
 app.get('/homepage', home.homepage);
 app.get('/logout',user.logout);
+app.get('/changeCategory',home.changeCategory);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

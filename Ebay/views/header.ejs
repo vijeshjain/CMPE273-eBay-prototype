@@ -34,7 +34,7 @@ a8P_____88  88P'    "8a  ""     `Y8  `8b     d8'
 
 	<br>
 	<br>
-<div class="header">
+	<div class="header">
 		<div class="gh-acc-exp-div">
 			<a id=gh-hdn-stm class="gh-acc-a" href="#mainContent">Skip to
 				main content</a>
@@ -49,6 +49,7 @@ a8P_____88  88P'    "8a  ""     `Y8  `8b     d8'
 						<td class="gh-td"><h1 id=gh-l-h1>
 								<!--[if lt IE 9]><a href="/homepage" class="iclg" _sp="m570.l2586" id="gh-la">eBay<img width="117" height="120" style="clip:rect(47px, 118px, 95px, 0px); position:absolute; top:-47px;left:0" alt="" src="http://ir.ebaystatic.com/rs/v/apstidvcvu5pxlbxkphrrdo5iqv.png" id="gh-logo"></a><![endif]-->
 								<!--[if (gte IE 9)|!(IE)]><!-->
+
 								<a href="/homepage	" class="iclg" _sp="m570.l2586" id="gh-la">eBay<img
 									width="250" height="200"
 									style="clip: rect(47px, 118px, 95px, 0px); position: absolute; top: -47px; left: 0"
@@ -62,14 +63,37 @@ a8P_____88  88P'    "8a  ""     `Y8  `8b     d8'
 									class="dropdown-toggle" data-toggle="dropdown" class=gh-control
 									aria-controls=gh-sbc-o>Shop by category<strong
 									class="caret"></strong></a>
+								
 								<ul class="dropdown-menu">
-									<% if(category != null){ category.forEach(function(item) {%>
-									<li><a href="#">
-											<option value="<%=item.categoryId%>"><%= item.name%></option></li>
-									<li class="divider"></li>
-									</a> <% });} %>
+								<table class="gh-tbl">
+								<col width="80">
+								<tbody>
+										<tr>
+									<% var count = 0; %> <% if(category != null){
+									category.forEach(function(item) { %>
+									
+									
+											<td class="gh-td" width="10%" >
+											<a href="#">
+											<option value="<%=item.categoryId%>"><%= item.name%></option>
+											<li class="divider"></li>
+											 <% if(subCategories != null){
+											subCategories[count].forEach(function(subcat) {%> <a href="#">
+												&nbsp &nbsp &nbsp
+												<option value="<%=subcat.subCategoryId%>"><%=
+													subcat.name%></option>
 
+										</a> <% });} %> 
+											</td>
+										
 
+									
+									
+									</a> <% count++;});} %>
+
+									</tr>
+									</tbody>
+								</table>
 
 
 
@@ -156,6 +180,28 @@ a8P_____88  88P'    "8a  ""     `Y8  `8b     d8'
 						class="gh-p">Sell</a></li>
 					<li class="gh-t gh-spr " id=gh-p-3><a href="#" _sp=m570.l1545
 						class="gh-p">Help & Contact</a></li>
+
+
+					<td class="gh-td">
+						<li class="gh-t gh-spr " id=gh-p-3><a href="#" _sp=m570.l1545
+							class="gh-p" id=gh-shop-a role=button aria-expanded=false
+							class="dropdown-toggle" data-toggle="dropdown" class=gh-control
+							aria-controls=gh-sbc-o>Change Categories <strong
+								class="caret"></strong></a>
+
+							<ul class="dropdown-menu">
+
+								<li class="gh-t gh-spr " id=gh-p-3><a
+									href="/changeCategory" _sp=m570.l1545 class="gh-p">Categories</a></li>
+
+								<li class="gh-t gh-spr " id=gh-p-3><a
+									href="/changeSub	Category" _sp=m570.l1545 class="gh-p">Sub
+										Categories</a></li>
+							</ul></li>
+
+					</td>
+
+
 					<li class="gh-t gh-spr " id=gh-ti><a href="#" _sp=m570.l2611
 						id=gh-doodleS rel=nofollow><img src="#" id=gh-hsi height=30
 							width=150 alt="Shop Gifts" title="Shop Gifts" /></a></li>
@@ -220,7 +266,11 @@ a8P_____88  88P'    "8a  ""     `Y8  `8b     d8'
 <link href="/includes/css/styles.css" rel="stylesheet">
 <script src="http://code.jquery.com/jquery.js"></script>
 
-<script>window.jQuery || document.write('<script src="/includes/js/jquery-1.8.2.min.js"><\/script>')</script>
+<script>
+	window.jQuery
+			|| document
+					.write('<script src="/includes/js/jquery-1.8.2.min.js"><\/script>')
+</script>
 
 <script src="/bootstrap/js/bootstrap.min.js"></script>
 
