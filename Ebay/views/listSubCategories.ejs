@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>eBay | Sign Up</title>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+     <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+ <script src="/Scripts/signup.js"></script>
+</head>
+<% include header.ejs%>
+<body class="body">
+<h1>List Sub Categories:-</h1>
+<br>
+<div class="table-responsive">
+<table class="table table-bordered table-striped">
+ <thead>
+		<tbody>
+			<tr>
+				
+								<ul class="dropdown-menu">
+								
+								
+								
+								
+										
+									<% var count = 0; %> <% if(category != null){
+									category.forEach(function(item) { %>
+									
+									
+											<td class="gh-td" width="5%" >
+											
+											<font color="Red" size="5"><b>
+											<option value="<%=item.categoryId%>">
+											
+											 <%= item.name%>
+											
+											</option>
+											</b>
+											</font>
+											
+											 <% if(subCategories[count] != null){
+											subCategories[count].forEach(function(subcat) {%> <a href="#">
+												&nbsp &nbsp &nbsp
+												<option value="<%=subcat.subCategoryId%>">
+												
+												<%=subcat.name%>
+												
+												</option>
+
+										</a> <% });} %> 
+											
+										
+
+									
+									
+									</a> <% count++;});} %>
+
+									
+
+
+								</ul>
+							</div></td>
+							
+			</tr>
+		</tbody>
+		
+	</table>
+
+</div>
+</body>
+
+</html>

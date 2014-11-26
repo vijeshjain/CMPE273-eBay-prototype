@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>eBay | Sign Up</title>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+     <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+ <script src="/Scripts/signup.js"></script>
+</head>
+<body class="body">
+	<div class="signUp-header">
+	<img src="../images/ebay_logo.PNG"/ height="" width="" class="logo">
+	<h1>Get started with eBay</h1><br/>
+	<span>Create your personal account or <a>start a business account</a></span>
+	
+	</div>
+	<div class="signup-body">
+	<div class="form-outer-div">
+		<form class="form-style" action="/register"  id="signup-form" method="POST">
+			<div>
+				<div class="float-left">
+					<input id="first-name" type="text" name="fname" placeholder="First name" required="required"><span class="requiredClass">*</span>
+				</div>
+				<div class=float-right>
+					<input id="last-name" type="text" name="lname" placeholder="Last name" required="required"><span class="requiredClass">*</span>
+				</div>
+				
+				
+			</div>
+			<div>
+				<div class="float-left">
+					<input id="username" type="text" name="username" placeholder="Username" required="required"><span class="requiredClass">*</span><br/>
+					<input id="password" name="password" placeholder="Password" type="password" required="required"><span class="requiredClass">*</span><br/>
+					<input id="password" name="Confirmpassword" placeholder="Confirm password" type="password" required="required"><span class="requiredClass">*</span><br/>
+				</div>
+				<div class=float-right>
+					<input id="address" type="text" name="address" placeholder="Address" ><br/>
+					<input id="City" type="text" name="city" placeholder="City" ><br/>
+					<input id="zip" type="text" name="zip" placeholder="Zipcode" ><br/>
+					
+				</div>
+				
+			</div>
+			<div class="form-footer">
+			<input id="userType-seller" name="userType_seller" type="checkbox" ><span class="checkbox-text">Sign up as buyer</span>
+					<input id="userType-buyer" name="userType_buyer" type="checkbox" ><span class="checkbox-text">Sign up as seller</span><br/>
+					<b>By clicking "Submit" I agree that:</b>
+					<ul><li>I have read and accepted the <a title="link opens in new window" href="" target="_blank">User Agreement<b class="g-hdn"></b></a> and <a title="link opens in new window" href="" target="_blank">Privacy Policy<b class="g-hdn"></b></a>.</li><li>I may receive communications from eBay and can change my notification preferences in My eBay.</li><li>I am at least 18 years old.</li></ul>
+			</div>
+			<div>
+			<input id="sbtBtn" class="btn btn-prim" type="submit" value="Submit">
+			</div>
+			
+		
+		</form>
+	</div>
+	<div class="go-to-signin-div">
+	<span>Already have an account?</span><br/>
+			<a href="/signin" class="btn btn-prim go-to-sigin" >Sign in</a>
+	</div>
+	</div>
+	<div class="alert-box error" id="errorMessage"><span id="error-span"></span></div>
+	<div class="alert-box success" id="successMessage"><span id="success-span"></span></div>
+</body>
+
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>eBay | Sign Up</title>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+     <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+ 
+</head>
+<body class="body">
+	<body class="body">
+	<% include header.ejs %>
+	
+	
+	
+	</div>
+	<br>
+	<div class="signup-body">
+	<div class="form-outer-div">
+		<form class="form-style" action="/addCategory"  id="signup-form" method="POST">
+			<div>
+			<h1>Add Category </h1>
+				<div class="float-left">
+			<input id="category-name" type="text" name="categoryName"
+				placeholder="Sub Category Name" required="required"><span
+				class="requiredClass">*</span><br> <br> Upload Image:- <input
+				type="file" name="img"> <br><br> <input
+				id="sbtBtn" class="btn btn-prim" type="submit"
+				value="Add Category">		
+			
+		
+		</form>
+	</div>
+
+	</div>
+	
+</body>
+
+</html>
