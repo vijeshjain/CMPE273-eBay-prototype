@@ -47,10 +47,10 @@ a8P_____88  88P'    "8a  ""     `Y8  `8b     d8'
 				<tbody>
 					<tr>
 						<td class="gh-td"><h1 id=gh-l-h1>
-								<!--[if lt IE 9]><a href="/homepage" class="iclg" _sp="m570.l2586" id="gh-la">eBay<img width="117" height="120" style="clip:rect(47px, 118px, 95px, 0px); position:absolute; top:-47px;left:0" alt="" src="http://ir.ebaystatic.com/rs/v/apstidvcvu5pxlbxkphrrdo5iqv.png" id="gh-logo"></a><![endif]-->
+								<!--[if lt IE 9]><a href="/homePage" class="iclg" _sp="m570.l2586" id="gh-la">eBay<img width="117" height="120" style="clip:rect(47px, 118px, 95px, 0px); position:absolute; top:-47px;left:0" alt="" src="http://ir.ebaystatic.com/rs/v/apstidvcvu5pxlbxkphrrdo5iqv.png" id="gh-logo"></a><![endif]-->
 								<!--[if (gte IE 9)|!(IE)]><!-->
 
-								<a href="/homepage	" class="iclg" _sp="m570.l2586" id="gh-la">eBay<img
+								<a href="/homePage	" class="iclg" _sp="m570.l2586" id="gh-la">eBay<img
 									width="250" height="200"
 									style="clip: rect(47px, 118px, 95px, 0px); position: absolute; top: -47px; left: 0"
 									alt=""
@@ -77,7 +77,7 @@ a8P_____88  88P'    "8a  ""     `Y8  `8b     d8'
 											<a href="#">
 											<option value="<%=item.categoryId%>"><%= item.name%></option>
 											<li class="divider"></li>
-											 <% if(subCategories != null){
+											 <% if(subCategories[count] != null){
 											subCategories[count].forEach(function(subcat) {%> <a h	ref="#">
 												&nbsp &nbsp &nbsp
 												<option value="<%=subcat.subCategoryId%>"><%=
@@ -85,8 +85,13 @@ a8P_____88  88P'    "8a  ""     `Y8  `8b     d8'
 
 										</a> <% });} %> 
 											</td>
-										
-
+											
+											<% if ((count+1) % 5 == 0){%>
+												</tr>
+												<tr>							
+											<% } %>
+											
+											
 									
 									
 									</a> <% count++;});} %>
@@ -190,10 +195,10 @@ a8P_____88  88P'    "8a  ""     `Y8  `8b     d8'
 							<div class="gh-submenu gh-eb-o" id="gh-eb-My-o">
 								<ul role=navigation>
 								
-								<li><a href="/listcategories" _sp=m570.l1533 class="gh-eb-oa thrd">List Categories</a>
+								<li><a href="/listCategories" _sp=m570.l1533 class="gh-eb-oa thrd">List Categories</a>
 								
 								</li>
-									<li><a href="/addCategoryform" _sp=m570.l1533 class="gh-eb-oa thrd">Add Category</a>
+									<li><a href="/addCategoryForm" _sp=m570.l1533 class="gh-eb-oa thrd">Add Category</a>
 								
 								</li>
 									
@@ -211,10 +216,10 @@ a8P_____88  88P'    "8a  ""     `Y8  `8b     d8'
 								class="gh-acc-exp-a gh-acc-a2 gh-control ">Expand sub category</a>
 							<div class="gh-submenu gh-eb-o" id="gh-eb-My-o">
 								<ul role=navigation>
-								<li><a href="/listsubcategories" _sp=m570.l1533 class="gh-eb-oa thrd">List SubCategories</a>
+								<li><a href="/listSubCategories" _sp=m570.l1533 class="gh-eb-oa thrd">List SubCategories</a>
 								
 								</li>
-									<li><a href="/subCategoryform" _sp=m570.l1533 class="gh-eb-oa thrd">Add SubCategory</a>
+									<li><a href="/subCategoryForm" _sp=m570.l1533 class="gh-eb-oa thrd">Add SubCategory</a>
 								
 								</li>
 									

@@ -32,7 +32,7 @@ if ('development' == app.get('env')) {
 
 //app.get('/', routes.index);
 //app.get('/users', user.list);
-app.get('/', home.homepage);
+app.get('/', home.homePage);
 app.get('/signup', home.signup);
 app.post('/register', user.register);
 
@@ -41,12 +41,12 @@ app.get('/', home.signin);
 app.post('/signin', user.signin);
 app.post('/addCategory', home.addCategory);
 app.post('/addSubCategory', home.addSubCategory);
-app.get('/homepage', home.homepage);
+app.get('/homePage', home.homePage);
 app.get('/logout',user.logout);
-app.get('/addCategoryform',home.addCategoryform);
-app.get('/subCategoryform',home.subCategoryform);
-app.get('/listcategories',home.listcategories);
-app.get('/listsubcategories',home.listsubcategories);
+app.get('/addCategoryForm',home.addCategoryForm);
+app.get('/subCategoryForm',home.subCategoryForm);
+app.get('/listCategories',home.listCategories);
+app.get('/listSubCategories',home.listSubCategories);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
