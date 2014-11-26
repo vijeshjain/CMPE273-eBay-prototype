@@ -6,11 +6,12 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
      <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
- <script src="/Scripts/signup.js"></script>
+ 
 </head>
 <body class="body">
-	<div class="signUp-header">
-	<img src="../images/ebay_logo.PNG"/ height="" width="" class="logo">
+	<body class="body">
+	<% include header.ejs %>
+	
 	
 	
 	</div>
@@ -19,16 +20,14 @@
 	<div class="form-outer-div">
 		<form class="form-style" action="/addCategory"  id="signup-form" method="POST">
 			<div>
+			<h1>Add Category </h1>
 				<div class="float-left">
-					<input id="category-name" type="text" name="categoryName" placeholder="Category Name" required="required"><span class="requiredClass">*</span>
-				
-				
-			
-			<input id="sbtBtn" class="btn btn-prim" type="submit" value="Add Category">
-			<br>
-			Select Image:-  <input type="file" name="img">
-	
-			</div>
+			<input id="category-name" type="text" name="subcategoryName"
+				placeholder="Sub Category Name" required="required"><span
+				class="requiredClass">*</span><br> <br> Upload Image:- <input
+				type="file" name="img"> <br><br> <input
+				id="sbtBtn" class="btn btn-prim" type="submit"
+				value="Add Sub Category">		
 			
 		
 		</form>
