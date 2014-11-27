@@ -48,6 +48,11 @@ app.get('/subCategoryForm',home.subCategoryForm);
 app.get('/listCategories',home.listCategories);
 app.get('/listSubCategories',home.listSubCategories);
 
+app.post('/subCategories',home.loadSubCategories);
+
+
+
+
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });

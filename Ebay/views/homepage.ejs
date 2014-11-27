@@ -1,28 +1,75 @@
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-
-
+<!DOCTYPE html>
 <html>
-<link rel='stylesheet' href='/stylesheets/style.css' />
-<link rel='stylesheet' href='/stylesheets/bootstrap.min.css' />
-
 <head>
+<title>eBay | Home</title>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<link rel="stylesheet" href="//code.`jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
 
-<title></title>
-<link rel='stylesheet' href='/stylesheets/style.css' />
-
-
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+<script src="../Scripts/home.js"></script>
 </head>
-
-
-
-
 <body>
-	<%- include header.ejs %>
 
-<b>
-Welcome to eBay !!
-</b>
+	<div  >
+		<%- include header.ejs %>
+	</div>
 	
+	<div class="button-container">
+	
+			<%
+			 for(var count=0;count < category.length; count++)  { 
+	   var curObj=category[count];
+	   var height="398px";
+	   var width="0";
+	   var href="";
+	   
+	   if(curObj.categoryId==1)
+	   {	
+	   width="27%";
+		
+	  }
+	   if(curObj.categoryId==2)
+	   {
+	   width="72%";
+	}
+	   
+	   if(curObj.categoryId==3)
+	   {
+	   width="55%";
+	  }
+	   
+	   if(curObj.categoryId==4)
+	   {
+	   width="44%";
+	  
+	   }
+	    if(curObj.categoryId==5)
+	   {
+	   width="99%";
+	  
+	   }
+	   if(curObj.categoryId>=6)
+	   {
+	   width="49.5%";
+
+	   }	%>
+	   
+	  
+
+<form action="/subCategories" method="post" style='width:<%=width%>;' >
+<div>
+	<input type="image" value="submit" name="submit" src="<%=curObj.image%>" height="<%=height%>" width="<%=width%>">
+
+    <input type="hidden" name="catName" value="<%=category[count].name%>">
+	</div>
+	  </form>
+	<%}; %>
+	
+		
+											
+
+	</div>	
+
 </body>
 </html>
