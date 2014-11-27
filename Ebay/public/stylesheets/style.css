@@ -276,6 +276,7 @@ color: red;
 	#gh-cat{-webkit-appearance:none;width:100px;border:0;padding-right:10px;background-position:right -124px;outline:0;}
 	
 
+
 	.contentArea{
                 width:600px;
                 margin:0 auto;
@@ -361,3 +362,14 @@ color: red;
         margin-top:5%;
         
         }
+
+	.button-container form,
+.button-container form div {
+    display: inline;
+}
+
+.button-container button {
+    display: inline;
+    vertical-align: middle;
+}
+

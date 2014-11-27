@@ -2,42 +2,59 @@
  * New node file
  */
 var ejs = require("ejs");
-var mysql = require('./mysql');
+var mysql = require('./mysql.js');
 
 var category = null;
 var subcategory = null;
 var items = null;
 var categoryId = null;
 var temp = null;
+var subCategories = [];
 
 function homePage(req, res) {
-	var getUser = "select * from category";	
-	console.log("Query is:" + getUser);
-	var subCategories = [];
+	var getUser = "select * from category order by categoryid asc";	
+	//console.log("Query is:" + getUser);
+	//var subCategories = [];
 	var count = 0;
 	mysql.fetchData(function(err, results) {
 		if (err) {
 			throw err;
 		} else {
 			try {
+				console.log(results);
 				if (results!=null&&results.length > 0) {
 					for (var i = 0; i < results.length; i++) {
-					var	getUser1 = "select *  from sub_category where categoryid = " + results[i].categoryId + " limit 5;";
-					
+					var	getUser1 = "select *  from sub_category where categoryid = " + results[i].categoryId + " limit 5";
+					console.log(results[i].name);
 					mysql.fetchData(function(err, result) {
 						if (err) {
 							throw err;
 						} else {
 										if (result.length > 0 ) {
+											console.log("In If*************************************");
+						/*					console.log("Category Name :::::"+results[i].name);*/
+											for (var j=0;j<result.length;j++){
+												console.log("Sub Category:-"+result[j].name+ result[j].categoryId);
+												
+											}
 										subCategories.push(result);
+											//subCategories=result;
+										}
+										else{
+											console.log("In Else--------------------------------");
+											
 										}
 						temp = JSON.parse(JSON.stringify(subCategories));
 							
 						}},getUser1);
 					}	
+					console.log("Category:-"+ category);
+					console.log("Again*************************************");
+					console.log("Sub Category:-"+temp[0].name+ temp[0].categoryId)
+					
 					category = results;
 							
-					res.render('dashboard', {
+					res.render('homePage', {
 						
 						category : category,
 						subCategories : temp,
@@ -69,6 +86,8 @@ function signin(req, res) {
 		}
 	});
 }
+
+
 
 function addCategoryForm(req, res) {
 
@@ -286,6 +305,7 @@ function getSubCategoryForCategory(req,res)
 						}
 					});
 
+
 		}
 	}, getQuery);
 	
@@ -323,6 +343,28 @@ function getProductsForSubCategory(req,res)
 	}, getQuery);	
 
 }
+
+function loadSubCategories(req, res) {
+	
+	var type=req.param("catName");
+	
+	console.log("Type"+type);
+res.render('subCategories', {
+		
+		category : category,
+		subCategories : temp,
+		type:type
+		
+	});
+	
+
+
+}
+
+
+
+
+exports.loadSubCategories = loadSubCategories;
 exports.listSubCategories = listSubCategories;
 exports.listCategories = listCategories;
 exports.addCategory = addCategory;

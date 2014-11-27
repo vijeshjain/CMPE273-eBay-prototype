@@ -52,8 +52,16 @@ app.get('/getProductList',product.getProductJSONList);
 app.get('/getSubCategory',home.getSubCategoryForCategory);
 app.get('/getProductsForSubCategory',home.getProductsForSubCategory);
 
+
 app.post('/getUser',user.getUserFromFirstName);
 app.post('/getUserProfileDetails',user.getUserProfileDetails);
+
+app.post('/subCategories',home.loadSubCategories);
+
+
+
+
+
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });

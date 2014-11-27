@@ -50,7 +50,7 @@ a8P_____88  88P'    "8a  ""     `Y8  `8b     d8'
 								<!--[if lt IE 9]><a href="/homePage" class="iclg" _sp="m570.l2586" id="gh-la">eBay<img width="117" height="120" style="clip:rect(47px, 118px, 95px, 0px); position:absolute; top:-47px;left:0" alt="" src="http://ir.ebaystatic.com/rs/v/apstidvcvu5pxlbxkphrrdo5iqv.png" id="gh-logo"></a><![endif]-->
 								<!--[if (gte IE 9)|!(IE)]><!-->
 
-								<a href="/homePage	" class="iclg" _sp="m570.l2586" id="gh-la">eBay<img
+								<a href="/" class="iclg" _sp="m570.l2586" id="gh-la">eBay<img
 									width="250" height="200"
 									style="clip: rect(47px, 118px, 95px, 0px); position: absolute; top: -47px; left: 0"
 									alt=""
@@ -63,45 +63,44 @@ a8P_____88  88P'    "8a  ""     `Y8  `8b     d8'
 									class="dropdown-toggle" data-toggle="dropdown" class=gh-control
 									aria-controls=gh-sbc-o>Shop by category<strong
 									class="caret"></strong></a>
-								
+
 								<ul class="dropdown-menu">
-								<table class="gh-tbl">
-								<col width="80">
-								<tbody>
-										<tr>
-									<% var count = 0; %> <% if(category != null){
-									category.forEach(function(item) { %>
-									
-									
-											<td class="gh-td" width="10%" >
-											<a href="#">
-											<option value="<%=item.categoryId%>"><%= item.name%></option>
-											<li class="divider"></li>
-											 <% if(subCategories[count] != null){
-											subCategories[count].forEach(function(subcat) {%> <a h	ref="#">
-												&nbsp &nbsp &nbsp
-												<option value="<%=subcat.subCategoryId%>"><%=
-													subcat.name%></option>
+									<table class="gh-tbl">
+										<col width="80">
+										<tbody>
+											<tr>
+												<% var count = 0; %> <% if(category != null){
+												category.forEach(function(item) { %>
 
-										</a> <% });} %> 
-										<li class="divider"></li>
-											</td>
-											
-											<% if ((count+1) % 5 == 0){%>
-											
-												</tr>
-												
-												<tr>							
-											<% } %>
-											
-											
-									
-									
-									</a> <% count++;});} %>
 
-									</tr>
-									</tbody>
-								</table>
+												<td class="gh-td" width="10%"><a href="#">
+														<option value="<%=item.categoryId%>"><%=
+															item.name%></option> 														
+														<li class="divider"></li> <% if(subCategories[count] !=null ){ subCategories[count].forEach(function(subcat) {%>
+														<a href="#"> &nbsp &nbsp &nbsp
+															
+
+															<option value="<%=subcat.subCategoryId%>"><%=
+																subcat.name%></option> 
+															
+															
+
+													</a> <%} );} %>
+														<li class="divider"></li></td> <% if ((count+1) % 5 == 0){%>
+
+											</tr>
+
+											<tr>
+												<% } %>
+
+
+
+
+												</a> <% count++;});} %>
+
+											</tr>
+										</tbody>
+									</table>
 
 
 
@@ -191,7 +190,7 @@ a8P_____88  88P'    "8a  ""     `Y8  `8b     d8'
 					<li class="gh-t gh-spr " id=gh-p-3><a href="#" _sp=m570.l1545
 						class="gh-p">Help & Contact</a></li>
 
-	<li id=gh-eb-My class="gh-eb-li gh-hvr gh-dd" data-imp=10><div
+					<li id=gh-eb-My class="gh-eb-li gh-hvr gh-dd" data-imp=10><div
 							class="gh-menu">
 							<a href="#" _sp=m570.l2919 class="gh-eb-li-a">Categories</a><a
 								href="#gh-eb-My" role=button aria-expanded=false
@@ -199,42 +198,39 @@ a8P_____88  88P'    "8a  ""     `Y8  `8b     d8'
 								class="gh-acc-exp-a gh-acc-a2 gh-control ">Expand category</a>
 							<div class="gh-submenu gh-eb-o" id="gh-eb-My-o">
 								<ul role=navigation>
-								
-								<li><a href="/listCategories" _sp=m570.l1533 class="gh-eb-oa thrd">List Categories</a>
-								
-								</li>
-									<li><a href="/addCategoryForm" _sp=m570.l1533 class="gh-eb-oa thrd">Add Category</a>
-								
-								</li>
-									
-							
+
+									<li><a href="/listCategories" _sp=m570.l1533
+										class="gh-eb-oa thrd">List Categories</a></li>
+									<li><a href="/addCategoryForm" _sp=m570.l1533
+										class="gh-eb-oa thrd">Add Category</a></li>
+
+
 									<li id=gh-eb-sub-li-cpn></li>
 								</ul>
 							</div>
 						</div></li>
-						
-							<li id=gh-eb-My class="gh-eb-li gh-hvr gh-dd" data-imp=10><div
+
+					<li id=gh-eb-My class="gh-eb-li gh-hvr gh-dd" data-imp=10><div
 							class="gh-menu">
 							<a href="#" _sp=m570.l2919 class="gh-eb-li-a">SubCategories</a><a
 								href="#gh-eb-My" role=button aria-expanded=false
 								aria-controls=gh-eb-My-o
-								class="gh-acc-exp-a gh-acc-a2 gh-control ">Expand sub category</a>
+								class="gh-acc-exp-a gh-acc-a2 gh-control ">Expand sub
+								category</a>
 							<div class="gh-submenu gh-eb-o" id="gh-eb-My-o">
 								<ul role=navigation>
-								<li><a href="/listSubCategories" _sp=m570.l1533 class="gh-eb-oa thrd">List SubCategories</a>
-								
-								</li>
-									<li><a href="/subCategoryForm" _sp=m570.l1533 class="gh-eb-oa thrd">Add SubCategory</a>
-								
-								</li>
-									
-							
+									<li><a href="/listSubCategories" _sp=m570.l1533
+										class="gh-eb-oa thrd">List SubCategories</a></li>
+									<li><a href="/subCategoryForm" _sp=m570.l1533
+										class="gh-eb-oa thrd">Add SubCategory</a></li>
+
+
 									<li id=gh-eb-sub-li-cpn></li>
 								</ul>
 							</div>
 						</div></li>
-						
-						<li id=gh-eb-My class="gh-eb-li gh-hvr gh-dd" data-imp=10><div
+
+					<li id=gh-eb-My class="gh-eb-li gh-hvr gh-dd" data-imp=10><div
 							class="gh-menu">
 							<a href="#" _sp=m570.l2919 class="gh-eb-li-a">Products</a><a
 								href="#gh-eb-My" role=button aria-expanded=false
@@ -242,20 +238,18 @@ a8P_____88  88P'    "8a  ""     `Y8  `8b     d8'
 								class="gh-acc-exp-a gh-acc-a2 gh-control ">Expand product</a>
 							<div class="gh-submenu gh-eb-o" id="gh-eb-My-o">
 								<ul role=navigation>
-								<li><a href="#" _sp=m570.l1533 class="gh-eb-oa thrd">List Products</a>
-								
-								</li>
-									<li><a href="#" _sp=m570.l1533 class="gh-eb-oa thrd">Add Product</a>
-								
-								</li>
-									
-							
+									<li><a href="#" _sp=m570.l1533 class="gh-eb-oa thrd">List
+											Products</a></li>
+									<li><a href="#" _sp=m570.l1533 class="gh-eb-oa thrd">Add
+											Product</a></li>
+
+
 									<li id=gh-eb-sub-li-cpn></li>
 								</ul>
 							</div>
 						</div></li>
-						
-						<li id=gh-eb-My class="gh-eb-li gh-hvr gh-dd" data-imp=10><div
+
+					<li id=gh-eb-My class="gh-eb-li gh-hvr gh-dd" data-imp=10><div
 							class="gh-menu">
 							<a href="#" _sp=m570.l2919 class="gh-eb-li-a">Users</a><a
 								href="#gh-eb-My" role=button aria-expanded=false
@@ -263,22 +257,22 @@ a8P_____88  88P'    "8a  ""     `Y8  `8b     d8'
 								class="gh-acc-exp-a gh-acc-a2 gh-control ">Expand Change</a>
 							<div class="gh-submenu gh-eb-o" id="gh-eb-My-o">
 								<ul role=navigation>
-									<li><a href="#" _sp=m570.l1533 class="gh-eb-oa thrd">List Users</a>
-									</li>
-									
-								
-								
-									
-							
+									<li><a href="#" _sp=m570.l1533 class="gh-eb-oa thrd">List
+											Users</a></li>
+
+
+
+
+
 									<li id=gh-eb-sub-li-cpn></li>
 								</ul>
 							</div>
 						</div></li>
 
-					
-						
 
-					
+
+
+
 
 
 					<li class="gh-t gh-spr " id=gh-ti><a href="#" _sp=m570.l2611
@@ -314,7 +308,7 @@ a8P_____88  88P'    "8a  ""     `Y8  `8b     d8'
 								</ul>
 							</div>
 						</div></li>
-						
+
 					<li id=gh-eb-Alerts class="gh-eb-li gh-hvr gh-layer rt"><div
 							class="gh-menu">
 							<a href="#" class="gh-control ghn-b gh-eb-li-a" role=button
