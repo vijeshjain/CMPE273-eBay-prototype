@@ -8,6 +8,7 @@ var express = require('express')
   , user = require('./routes/user')
   , http = require('http')
   , path = require('path')
+  ,product=require('./routes/products')
   ;
 var home = require('./routes/home');
 var session = require('express-session');
@@ -47,7 +48,12 @@ app.get('/addCategoryForm',home.addCategoryForm);
 app.get('/subCategoryForm',home.subCategoryForm);
 app.get('/listCategories',home.listCategories);
 app.get('/listSubCategories',home.listSubCategories);
+app.get('/getProductList',product.getProductJSONList);
+app.get('/getSubCategory',home.getSubCategoryForCategory);
+app.get('/getProductsForSubCategory',home.getProductsForSubCategory);
 
+app.post('/getUser',user.getUserFromFirstName);
+app.post('/getUserProfileDetails',user.getUserProfileDetails);
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });

@@ -1,0 +1,11 @@
+<div class="subCatg-wrapper">
+
+	<% for(var count=0;count < subCategories.length; count++)  { 
+	   var curObj=subCategories[count];
+	  	
+	%>
+		<div class="sub-category" onclick="">
+			<span><%=curObj.name%></span>
+		</div>
+		<% }; %>
+</div>

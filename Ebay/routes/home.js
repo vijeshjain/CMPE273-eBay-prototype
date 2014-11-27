@@ -261,7 +261,68 @@ function listSubCategories(req, res) {
 	}, getUser);
 
 }
+function getSubCategoryForCategory(req,res)
+{
+	var getQuery="select *  from sub_category where categoryid = " + req.param("cid"); 	
+	
+	mysql.fetchData(function(err, results) {
+		if (err) {
+			throw err;
+		} else {
+			var finalObj={
+					subCategories:results
+					
+			}
+			ejs.renderFile('./views/subCategoryListView.ejs', finalObj,
+					function(err, result) {
+						// render on success
+						if (!err) {
+							res.end(result);
+						}
+						// render or error
+						else {
+							res.end('An error occurred');
+							console.log(err);
+						}
+					});
 
+		}
+	}, getQuery);
+	
+	
+	
+	
+}
+
+function getProductsForSubCategory(req,res)
+{
+	var getQuery="select *  from product where subCategoryId = " + req.param("cid"); 	
+	
+	mysql.fetchData(function(err, results) {
+		if (err) {
+			throw err;
+		} else {
+			var finalObj={
+					Products:results
+					
+			}
+			ejs.renderFile('./views/ProductListView.ejs', finalObj,
+					function(err, result) {
+						// render on success
+						if (!err) {
+							res.end(result);
+						}
+						// render or error
+						else {
+							res.end('An error occurred');
+							console.log(err);
+						}
+					});
+
+		}
+	}, getQuery);	
+
+}
 exports.listSubCategories = listSubCategories;
 exports.listCategories = listCategories;
 exports.addCategory = addCategory;
@@ -271,3 +332,5 @@ exports.homePage = homePage;
 exports.signup = signup;
 exports.signin = signin;
 exports.addSubCategory = addSubCategory;
+exports.getSubCategoryForCategory=getSubCategoryForCategory;
+exports.getProductsForSubCategory=getProductsForSubCategory;

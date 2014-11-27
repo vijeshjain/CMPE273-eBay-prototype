@@ -3,6 +3,10 @@
 <head>
 <title>eBay | Sign in</title>
 <link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+     <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+      <script src="/Scripts/home.js"></script>
 </head>
 <body>
 </body>
@@ -13,7 +17,7 @@
 	<div class="signin-body">
 		<div class="signin-div left" >
 		<h2 >Sign in</h2><br/>
-			<form action="/signin" method="POST">
+			<form action="/signin" method="POST" id="signin-form">
 				<span>Email or user ID</span><br/>
 				<input id="username" type="text" name="username" placeholder="username" required="required"><br/>
 				<span>Password</span><br/>

@@ -4,17 +4,14 @@
 <head>
 <title>eBay | Home</title>
 <link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
-<link rel="stylesheet" href="//code.`jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
-<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-<script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
-<script src="../Scripts/home.js"></script>
+
 </head>
 <body>
 	<div class="dashboard-header">
 		<%- include header.ejs %>
 	</div>
 	
-	<div class="dashboard-body">
+	<div class="dashboard-body" id="dashboard-body">
 		<div>
 			<% for(var count=0;count < category.length; count++)  { 
 	   var curObj=category[count];
@@ -42,7 +39,7 @@
 	   }
 	
 	%>
-	<img src="<%=curObj.image%>" height="<%=height%>" width="<%=width%>">
+	<img src="<%=curObj.image%>" height="<%=height%>" width="<%=width%>" onclick="getSubcategories(<%=curObj.categoryId%>)">
 	<% }; %>
 		
 		
@@ -51,4 +48,8 @@
 	
 	<div>
 </body>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+<script src="../Scripts/home.js"></script>
 </html>

@@ -27,7 +27,8 @@ function updateCurrentDateInLoggedInUser(username) {
 exports.signin = function(req, res) {
 	if (typeof (req.param("password")) === "undefined"
 			|| typeof (req.param("username")) === "undefined") {
-		ejs.renderFile('./views/invalidLogin.ejs', function(err, result) {
+		var message = "Invalid username or password";
+		ejs.renderFile('./views/invalidLogin.ejs', message,function(err, result) {
 			// render on success
 			if (!err) {
 				res.end(result);
@@ -66,6 +67,7 @@ exports.signin = function(req, res) {
 
 						req.session.user = loggedInUser;
 						loggedInUser.category = categories;
+						loggedInUser.subCategories=new Array();
 						ejs.renderFile('./views/dashboard.ejs', loggedInUser,
 								function(err, result) {
 									// render on success
@@ -236,3 +238,64 @@ exports.logout=function(req,res){
 	
 }
 
+exports.getUserFromFirstName=function(req,res)
+{
+	var getQ="select *from user where firstName='"+ req.param("searchword")+"' or lastName='"+req.param("searchword")+"'";
+	mysql.fetchData(function(err, results) {
+		if (err) {
+			throw err;
+		} else {
+			if(results==null ||typeof(results)=="undefined"|| results.length==0)
+				{
+					results=new Array();
+				}
+			var businessObj = {
+					searchResults : results
+				};
+			ejs.renderFile('./views/searchResultForuser.ejs', businessObj,
+					function(err, result) {
+						// render on success
+						if (!err) {
+							res.end(result);
+						}
+						// render or error
+						else {
+							res.end('An error occurred');
+							console.log(err);
+						}
+					});
+
+		}
+	}, getQ);	
+
+}
+
+exports.getUserProfileDetails=function(req,res)
+{
+	var id=req.param("userId");
+	if(id!=null&& id!=undefined)
+		{
+		var getQ="select *from user where userId="+ id;
+		mysql.fetchData(function(err, results) {
+			if (err) {
+				throw err;
+			} else {
+				var user=results[0];
+				ejs.renderFile('./views/userProfileDetails.ejs', user,
+						function(err, result) {
+							// render on success
+							if (!err) {
+								res.end(result);
+							}
+							// render or error
+							else {
+								res.end('An error occurred');
+								console.log(err);
+							}
+						});
+
+			}
+		}, getQ);
+		}
+		
+}

@@ -117,16 +117,18 @@ a8P_____88  88P'    "8a  ""     `Y8  `8b     d8'
 								<table class="gh-tbl2">
 									<tbody>
 										<tr>
-											<td class="gh-td-s"><div id="gh-ac-box">
-													<div id="gh-ac-box2">
+											<td class="gh-td-s"><div id="">
+													<div id="">
 														<label for="gh-ac" class="gh-hdn g-hdn">Enter your
-															search keyword</label><input type="text"
-															class="gh-tb ui-autocomplete-input" size="50"
-															maxlength="300" placeholder="Search..." id="gh-ac"
-															name="_nkw" autocapitalize="off" autocorrect="off"
-															spellcheck="false" autocomplete="off">
+															search keyword</label>
+															<div class="contentArea">
+																	<input type="text" class="search" id="inputSearch" placeholder="Search an ebay user..." /><br /> 
+																	<div id="divResult">
+																	</div>
+															</div>
 													</div>
-												</div></td>
+												</div>
+												</td>
 											<td class="gh-td" id=gh-cat-td><div id="gh-cat-box">
 
 													<select title="Select a category for search"
@@ -339,9 +341,12 @@ a8P_____88  88P'    "8a  ""     `Y8  `8b     d8'
 			<div id="top" class="top"></div>
 		</div>
 	</div>
+	
+	<div id="dialog" title="Search result">
+	</div>
 </body>
 <!-- Custom CSS -->
-<link href="/includes/css/styles.css" rel="stylesheet">
+
 <script src="http://code.jquery.com/jquery.js"></script>
 
 <script>
