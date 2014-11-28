@@ -1,34 +1,36 @@
 var ejs = require("ejs");
 var mysql = require('./mysql');
 var common = require('./common');
+var home = require('./home');
 /*
  * GET users listing.
  */
 
-exports.list = function(req, res) {
-	res.send("respond with a resource");
-};
+ exports.list = function(req, res) {
+ 	res.send("respond with a resource");
+ };
 
-function updateCurrentDateInLoggedInUser(username) {
-	var currentDate = common.FormatDate(new Date(), "%Y-%m-%d %H:%M:%S", false);
-	var updateTime = "Update user SET lastLogin='" + currentDate
-			+ "' where username='" + username + "'";
+ function updateCurrentDateInLoggedInUser(username) {
+ 	var currentDate = common.FormatDate(new Date(), "%Y-%m-%d %H:%M:%S", false);
+ 	var updateTime = "Update user SET lastLogin='" + currentDate
+ 	+ "' where username='" + username + "'";
 
-	mysql.fetchData(function(err, results) {
-		if (err) {
-			throw err;
-		} else {
-			console.log("last login time updated for the user.");
-		}
+ 	mysql.fetchData(function(err, results) {
+ 		if (err) {
+ 			throw err;
+ 		} else {
+ 			console.log("last login time updated for the user.");
+ 		}
 
-	}, updateTime);
-}
+ 	}, updateTime);
+ }
 
-exports.signin = function(req, res) {
-	if (typeof (req.param("password")) === "undefined"
-			|| typeof (req.param("username")) === "undefined") {
-		var message = "Invalid username or password";
-		ejs.renderFile('./views/invalidLogin.ejs', message,function(err, result) {
+ exports.signin = function(req, res) {
+ 	
+ 	if (typeof (req.param("password")) === "undefined"
+ 		|| typeof (req.param("username")) === "undefined") {
+ 		var message = "Invalid username or password";
+ 	ejs.renderFile('./views/invalidLogin.ejs', {message: message},function(err, result) {
 			// render on success
 			if (!err) {
 				res.end(result);
@@ -39,9 +41,9 @@ exports.signin = function(req, res) {
 				console.log(err);
 			}
 		});
-	}
-	var getUser = "select * from user where username='" + req.param("username")
-			+ "'" + " and password='" + req.param("password") + "'";
+ }
+ var getUser = "select * from user where username='" + req.param("username")
+ + "'" + " and password='" + req.param("password") + "'";
 
 	// check using the database operations if it is correct
 	mysql.fetchData(function(err, results) {
@@ -54,7 +56,7 @@ exports.signin = function(req, res) {
 				// on login success update the last login time as current time
 				updateCurrentDateInLoggedInUser(req.param("username"));
 				loggedInUser.lastlogin = common.FormatDate(
-						loggedInUser.lastLogin, "%Y-%m-%d %H:%M:%S", false);
+					loggedInUser.lastLogin, "%Y-%m-%d %H:%M:%S", false);
 				// set the session object
 				req.session.user = loggedInUser;
 				// render the home page
@@ -69,7 +71,7 @@ exports.signin = function(req, res) {
 						loggedInUser.category = categories;
 						loggedInUser.subCategories=new Array();
 						ejs.renderFile('./views/dashboard.ejs', loggedInUser,
-								function(err, result) {
+							function(err, result) {
 									// render on success
 									if (!err) {
 										res.end(result);
@@ -85,11 +87,11 @@ exports.signin = function(req, res) {
 				}, getQuery);
 
 			} else {
-
+				
 				console.log("Invalid Login");
 				var message = "Invalid username or password";
-				ejs.renderFile('./views/invalidLogin.ejs', message, function(
-						err, result) {
+				ejs.renderFile('./views/invalidLogin.ejs', {message: message}, function(
+					err, result) {
 					// render on success
 					if (!err) {
 						res.end(result);
@@ -218,11 +220,11 @@ exports.register = function(req, res) {
 						throw err;
 					} else {
 						data = {
-								errorCode : 100,
-								message : "You have successfuly registered to eBay. Please proceed to login."
-							};
-							responseString = JSON.stringify(data);
-							res.send(responseString);
+							errorCode : 100,
+							message : "You have successfuly registered to eBay. Please proceed to login."
+						};
+						responseString = JSON.stringify(data);
+						res.send(responseString);
 					}
 
 				}, newUserData, "user");
@@ -238,6 +240,111 @@ exports.logout=function(req,res){
 	
 }
 
+exports.displayusers = function(req, res){
+
+	var ShowUserQuery = "select * from user where isDeleted=0;";
+
+	mysql.fetchData(function(err,rows){
+		if(!err)
+		{
+			var categories = home.category;
+
+			ejs.renderFile('./views/viewusers.ejs', {rows: rows, category: categories }, function(err, result)
+			{
+				if(!err)
+				{
+					res.end(result);
+				}
+				else
+				{
+					res.end('An error occurred');
+					console.log(err);
+				}
+			});
+		}
+		else
+		{
+			res.end('An error occurred');
+			console.log(err);
+		}
+	},ShowUserQuery);
+
+};
+
+exports.deleteUser = function(req,res)
+{
+
+	var deleteUserQuery = "update user set isDeleted=1 where userId = "+req.param("uid")+";";
+
+	mysql.fetchData(function(err,rows) {
+		if (!err) {
+			res.end(rows);
+            //displayusers(req, res);
+            res.redirect('/users');
+        }
+
+        else {
+
+        	res.end('An error occurred');
+        	console.log(err);
+        }}, deleteUserQuery);
+
+
+}
+
+exports.editUser = function(req,res)
+{
+	
+	var viewUserProfile = "select * from user where userId="+req.param("uid")+";";
+	
+	mysql.fetchData(function(err,rows) {
+		if (!err) {
+			
+			console.log(JSON.stringify(rows));
+
+			ejs.renderFile('./views/editProfile.ejs', { userData: rows}, function(err, result) {
+
+				if (!err) {
+					res.end(result);
+				}
+
+				else {
+					res.end('An error occurred');
+					console.log(err);
+				}
+			});
+		}
+
+		else {
+
+			res.end('An error occurred');
+			console.log(err);
+		}}, viewUserProfile);
+	
+
+}
+
+exports.editAndSaveUser = function(req,res)
+{
+
+	var editAndSaveQuery = "update user set firstName ='"+req.param("fname")+"',lastName ='"+req.param("lname")+"',userName ='"+req.param("lname")+"',membershipId ='"+req.param("membershipId")+"',address ='"+req.param("address")+"',city ='"+req.param("city")+"',zipCode ='"+req.param("zip")+"',isUserBuyer = 0 ,isUserSeller = 1 where userId="+req.param("uid")+";";
+	mysql.fetchData(function(err,rows) {
+		if (!err) {
+			res.end(rows);
+
+			res.redirect('/users');
+
+		}
+
+		else {
+
+			res.end('An error occurred');
+			console.log(err);
+		}}, editAndSaveQuery);
+
+
+}
+
 exports.getUserFromFirstName=function(req,res)
 {
 	var getQ="select *from user where firstName='"+ req.param("searchword")+"' or lastName='"+req.param("searchword")+"'";
@@ -246,14 +353,14 @@ exports.getUserFromFirstName=function(req,res)
 			throw err;
 		} else {
 			if(results==null ||typeof(results)=="undefined"|| results.length==0)
-				{
-					results=new Array();
-				}
+			{
+				results=new Array();
+			}
 			var businessObj = {
-					searchResults : results
-				};
+				searchResults : results
+			};
 			ejs.renderFile('./views/searchResultForuser.ejs', businessObj,
-					function(err, result) {
+				function(err, result) {
 						// render on success
 						if (!err) {
 							res.end(result);
@@ -274,7 +381,7 @@ exports.getUserProfileDetails=function(req,res)
 {
 	var id=req.param("userId");
 	if(id!=null&& id!=undefined)
-		{
+	{
 		var getQ="select *from user where userId="+ id;
 		mysql.fetchData(function(err, results) {
 			if (err) {
@@ -282,7 +389,7 @@ exports.getUserProfileDetails=function(req,res)
 			} else {
 				var user=results[0];
 				ejs.renderFile('./views/userProfileDetails.ejs', user,
-						function(err, result) {
+					function(err, result) {
 							// render on success
 							if (!err) {
 								res.end(result);
@@ -296,6 +403,6 @@ exports.getUserProfileDetails=function(req,res)
 
 			}
 		}, getQ);
-		}
-		
+	}
+
 }

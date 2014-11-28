@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>eBay | Home</title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+    <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+
+    <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js" type="text/javascript"></script>
+    <script src="../Scripts/home.js"></script>
+
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" type="text/css">
+
+
+</head>
+<body>
+<div class="dashboard-header">
+    <%- include header.ejs %>
+</div>
+<div class="container">
+<div id="content">
+<ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+    <li class="active"><a id="aBuyers" href="#buyers" data-toggle="tab">Buyers</a></li>
+    <li><a id="aSellers" href="#sellers" data-toggle="tab">Sellers</a></li>
+    <li><a id="aAllUsers" href="#both" data-toggle="tab">All Users</a></li>
+
+</ul>
+<div id="my-tab-content" class="tab-content">
+<div class="tab-pane active" id="buyers">
+
+    <div class="row header">
+
+
+
+        <div class="col-md-12">
+            <div class="row">
+                <div class="table-responsive">
+                    <table id="tblBuyer" class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+
+                            <th class="text-nowrap">
+                                First Name
+                            </th>
+                            <th>
+                                Last Name
+                            </th>
+                            <th>
+                                Email Address
+                                <small>(username)</small>
+                            </th>
+                            <th>
+                                Membership ID
+
+                            </th>
+                            <th>
+                                Address
+                            </th>
+                            <th>
+                                City
+                            </th>
+                            <th>
+                                Zipcode
+                            </th>
+
+                            <th>
+                                Actions
+                            </th>
+                        </tr>
+                        </thead>
+                        <%
+                        if(rows && rows != null && rows.length > 0 ) {
+                                for(var i=0; i < rows.length; i++) {
+                                if(rows[i].isUserBuyer===1) { %>
+                        <tbody>
+
+                        <tr>
+
+
+
+                            <td><%= rows[i].firstName %></td>
+                            <td><%= rows[i].lastName %></td>
+                            <td><%= rows[i].userName %></td>
+                            <td><%= rows[i].membershipId %></td>
+                            <td><%= rows[i].address %></td>
+                            <td><%= rows[i].city %></td>
+                            <td><%= rows[i].zipCode %></td>
+
+                            <td>
+                                <a href="#" onclick="location.href='/editUser/<%=rows[i].userId%>'" type="button" class="btn btn-info">Update</a>
+                                <a href="#" onclick="location.href='/deleteUser/<%=rows[i].userId%>'" type="button" class="btn btn-danger">Delete</a>
+                            </td>
+
+                        </tr>
+
+                        </tbody>
+                        <% } }  %>
+                    </table>
+
+                </div></div>
+        </div> </div>
+</div>
+<div class="tab-pane" id="sellers">
+    <div class="row header">
+
+
+
+        <div class="col-md-12">
+            <div class="row">
+                <div class="table-responsive">
+                    <table id="tblSeller" class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+
+                            <th class="text-nowrap">
+                                First Name
+                            </th>
+                            <th>
+                                Last Name
+                            </th>
+                            <th>
+                                Email Address
+                                <small>(username)</small>
+                            </th>
+                            <th>
+                                Membership ID
+
+                            </th>
+                            <th>
+                                Address
+                            </th>
+                            <th>
+                                City
+                            </th>
+                            <th>
+                                Zipcode
+                            </th>
+
+                            <th>
+                                Actions
+                            </th>
+                        </tr>
+                        </thead>
+                        <%
+
+                        for(var i=0; i < rows.length; i++) {
+                                if(rows[i].isUserSeller===1) {
+                        %>
+                        <tbody>
+
+                        <tr>
+
+                            <td><%= rows[i].firstName %></td>
+                            <td><%= rows[i].lastName %></td>
+                            <td><%= rows[i].userName %></td>
+                            <td><%= rows[i].membershipId %></td>
+                            <td><%= rows[i].address %></td>
+                            <td><%= rows[i].city %></td>
+                            <td><%= rows[i].zipCode %></td>
+
+                            <td>
+                                <a href="#" onclick="location.href='/editUser/<%=rows[i].userId%>'" type="button" class="btn btn-info">Update</a>
+                                <a href="#" onclick="location.href='/deleteUser/<%=rows[i].userId%>'" type="button" class="btn btn-danger">Delete</a>
+                            </td>
+
+                        </tr>
+
+                        </tbody>
+                        <%  } } %>
+                    </table>
+
+                </div></div>
+        </div> </div>
+</div>
+<div class="tab-pane" id="both">
+    <div class="row header">
+
+
+
+        <div class="col-md-12">
+            <div class="row">
+                <div class="table-responsive">
+                    <table id="tblAllUser" class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+
+                            <th class="text-nowrap">
+                                First Name
+                            </th>
+                            <th>
+                                Last Name
+                            </th>
+                            <th>
+                                Email Address
+                                <small>(username)</small>
+                            </th>
+                            <th>
+                                Membership ID
+
+                            </th>
+                            <th>
+                                Address
+                            </th>
+                            <th>
+                                City
+                            </th>
+                            <th>
+                                Zipcode
+                            </th>
+
+                            <th>
+                                Actions
+                            </th>
+                        </tr>
+                        </thead>
+                        <%
+
+                        for(var i=0; i < rows.length; i++) {
+                        %>
+                        <tbody>
+
+                        <tr>
+
+                            <td><%= rows[i].firstName %></td>
+                            <td><%= rows[i].lastName %></td>
+                            <td><%= rows[i].userName %></td>
+                            <td><%= rows[i].membershipId %></td>
+                            <td><%= rows[i].address %></td>
+                            <td><%= rows[i].city %></td>
+                            <td><%= rows[i].zipCode %></td>
+
+                            <td>
+                                <a href="#" onclick="location.href='/editUser/<%=rows[i].userId%>'" type="button" class="btn btn-info">Update</a>
+                                <a href="#" onclick="location.href='/deleteUser/<%=rows[i].userId%>'" type="button" class="btn btn-danger">Delete</a>
+                            </td>
+
+                        </tr>
+
+                        </tbody>
+                        <% } } %>
+                    </table>
+
+                </div></div>
+        </div> </div>
+</div>
+
+</div>
+</div></div>
+
+
+<script>
+    $( document ).ready(function() {
+
+        var buyerCount = document.getElementById("tblBuyer").rows.length;
+        $( "#aBuyers" ).append(document.createTextNode(" ("+(buyerCount-1)+")"));
+
+
+        var sellerCount = document.getElementById("tblSeller").rows.length;
+
+        $( "#aSellers" ).append(document.createTextNode(" ("+(sellerCount-1)+")"));
+
+        var allUserCount = document.getElementById("tblAllUser").rows.length;
+        $( "#aAllUsers" ).append(document.createTextNode(" ("+(allUserCount-1)+")"));
+
+
+
+
+    });
+
+</script>
+
+</body>
+</html>
