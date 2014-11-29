@@ -111,4 +111,42 @@ $(function() {
 	$('#inputSearch').click(function() {
 		jQuery("#divResult").fadeIn();
 	});
+	
+	//*******************************************************************
+	
+	$(".product-search").keyup(function() {
+		var inputSearch = $(this).val();
+		var dataString = 'searchword=' + inputSearch;
+		if (inputSearch != '') {
+			$.ajax({
+				type : "POST",
+				url : "http://localhost:3000/getProduct",
+				data : dataString,
+				cache : false,
+				success : function(html) {
+					$("#product_divResult").html(html).show();
+				}
+			});
+		}
+		return false;
+	});
+
+	jQuery("#product_divResult").on("click", function(e) {
+		var $clicked = $(e.target);
+		var t= $(e.target)[0];
+		var $name = t.innerHTML;
+		var decoded = $("<div/>").html($name).text();
+		$('#product_inputSearch').val(decoded);
+		
+	});
+	jQuery(document).on("click", function(e) {
+		var $clicked = $(e.target);
+		if (!$clicked.hasClass("product-search")) {
+			jQuery("#product_divResult").fadeOut();
+		}
+	});
+	$('#product_inputSearch').click(function() {
+		jQuery("#product_divResult").fadeIn();
+	});
+	
 });

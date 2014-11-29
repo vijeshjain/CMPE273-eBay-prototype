@@ -1,0 +1,10 @@
+<% for(var count=0;count < searchResults.length; count++)  { 
+	   var curObj=searchResults[count];
+	  	
+	%>
+		
+			<span class="name"><%=curObj.name%></span><br/>
+			<span class="name"><%=curObj.description%></span>
+			<input type="hidden" value="<%=curObj.productId%>" id="user-selected">
+		
+		<% }%>

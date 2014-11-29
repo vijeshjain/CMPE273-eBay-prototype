@@ -298,15 +298,17 @@ color: red;
                 width:600px;
                 margin:0 auto;
         }
-        #inputSearch
+        #inputSearch,
+        #product_inputSearch
         {
-                width:350px;
+                width:289px;
                 
                 height: 36px;
 				
 				border-radius: 0px;
         }
-        #divResult
+        #divResult,
+        #product_divResult
         {
                 position: absolute;
 				width: 350px;
@@ -390,3 +392,7 @@ color: red;
     vertical-align: middle;
 }
 
+.searchwrapper{
+width: 50%;
+float: left;
+}

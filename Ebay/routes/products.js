@@ -23,3 +23,36 @@ exports.getProductJSONList=function(req,res)
 
 	
 };
+
+
+exports.getProductFromName=function(req,res)
+{
+	var getQ="select *from user where name='"+ req.param("searchword")+"'";
+	mysql.fetchData(function(err, results) {
+		if (err) {
+			throw err;
+		} else {
+			if(results==null ||typeof(results)=="undefined"|| results.length==0)
+			{
+				results=new Array();
+			}
+			var businessObj = {
+				searchResults : results
+			};
+			ejs.renderFile('./views/searchResultForProduct.ejs', businessObj,
+				function(err, result) {
+						// render on success
+						if (!err) {
+							res.end(result);
+						}
+						// render or error
+						else {
+							res.end('An error occurred');
+							console.log(err);
+						}
+					});
+
+		}
+	}, getQ);	
+	
+};
