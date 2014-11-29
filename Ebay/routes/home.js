@@ -25,7 +25,7 @@
 				console.log(results);
 				if (results!=null&&results.length > 0) {
 					for (var i = 0; i < results.length; i++) {
-						var	getUser1 = "select *  from sub_category where categoryid = " + results[i].categoryId + " limit 5";
+						var	getUser1 = "select *  from sub_category where categoryid = " + results[i].categoryId + "limit 5 ";
 						console.log(results[i].name);
 						mysql.fetchData(function(err, result) {
 							if (err) {
@@ -369,15 +369,63 @@ function loadSubCategories(req, res) {
 function renderCategoryAndSubCategory(req,res)
 {
 	
-	var getQuery= "Select * from category JOIN sub_category on category.categoryId=sub_category.categoryId where category.isDeleted=0";
+	var getQuery= "Select * from category JOIN sub_category on category.categoryId=sub_category.categoryId where category.isDeleted=0 order by category.categoryId asc";
 		mysql.fetchData(function(err, results) {
 			if (err) {
 				throw err;
 			} else {
+
+				var cat=new Array();
+				var subCat=new Array();
+				var currentCategory=results[0];
+				var subCategory;
+				for(var count=0; count < results.length;count++)
+					{
+						
+						if(currentCategory.categoryId!=results[count].categoryId || count==0)
+							{
+								if(count > 0)
+									{
+										console.log("sub category array");
+										console.log(subCategory);
+										subCat.push(subCategory);
+									}
+								
+								subCategory=new Array();
+								currentCategory=results[count];
+								var newCat={
+										categoryId:results[count].categoryId,
+										name:results[count].name,
+										image:results[count].image
+										
+								}
+								cat.push(newCat);
+							}
+						else
+							{
+								var newSubCat={
+										subCategoryId:results[count].subCategoryId,
+										subName:results[count].subName,
+										image:results[count].subImage,
+									
+									}
+									if(subCategory.length<6)
+										{
+										subCategory.push(newSubCat);
+										}
+									
+									if(count+1== results.length)
+										{
+										subCat.push(subCategory);
+										}
+							}
+					
+					}
+				
 				var resultObj={
-						category:results
-						};
-				console.log(resultObj);						
+				category : cat,
+				subCategories : subCat
+				};
 				ejs.renderFile('./views/homePage.ejs', resultObj,
 						function(err, result) {
 							// render on success

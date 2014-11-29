@@ -41,8 +41,8 @@
 								class="gh-sb gh-sprRetina" size="1" id="gh-cat" name="subCategory"><option
 									selected="selected" value="0">Select Sub Category</option> <%
 								if(subCategories[count] != null){ subCategories[count].forEach(function(item) {%>
-								<option name="subCatName" value="<%= item.subCategoryId%>"><%= item.name %></option>
-								<% console.log("name:"+item.name); });} %>
+								<option name="subCatName" value="<%= item.subCategoryId%>"><%= item.subName %></option>
+								<% console.log("name:"+item.subName); });} %>
 							</select></div></td>
 						
 				<br>		<br>	

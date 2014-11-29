@@ -2,6 +2,7 @@ var ejs = require("ejs");
 var mysql = require('./mysql');
 var common = require('./common');
 var home = require('./home');
+var shoppingCart=require('./shoppingCart');
 /*
  * GET users listing.
  */
@@ -59,6 +60,7 @@ exports.signin = function(req, res) {
 				// set the session object
 				req.session.user = loggedInUser;
 				// render the home page
+				shoppingCart.initializeShoppingCart();
 				var getQuery = "Select * from category";
 				mysql.fetchData(function(err, categories) {
 					if (err) {

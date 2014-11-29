@@ -9,6 +9,7 @@ var express = require('express')
   , http = require('http')
   , path = require('path')
   ,product=require('./routes/products')
+  ,shoppingCart=require('./routes/shoppingCart');
   ;
 var home = require('./routes/home');
 var session = require('express-session');
@@ -33,7 +34,7 @@ if ('development' == app.get('env')) {
 
 //app.get('/', routes.index);
 //app.get('/users', user.list);
-app.get('/', home.homePage);
+app.get('/', home.renderCategoryAndSubCategory);
 app.get('/signup', home.signup);
 app.post('/register', user.register);
 
@@ -70,6 +71,9 @@ app.post('/addProduct',home.addProduct);
 app.post('/deleteProduct',home.deleteProduct);
 // -- tanvi --
 
+app.get('/shoppingCart',shoppingCart.showSoppingCart);
+app.post('/addToShoppingCart',shoppingCart.addToShoppingCart);
+app.post('/removeFromShoppingCart',shoppingCart.removeFromShoppingCart);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
