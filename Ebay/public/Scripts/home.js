@@ -2,6 +2,34 @@
  * New node file
  */
 $(document).ready(function() {
+	
+	$("body").delegate("#category-list", "onchange", function(ev) {
+		// get the id of the selected category
+		var id=$("#category-list").val();
+		// ajax request using id
+		//
+		var serverURL = "http://localhost:3000/getSubCategory?cid=" + id;
+		$.ajax({
+			dataType : "HTML",
+			url : serverURL,
+			success : function(data) {
+				 $('#subcategory-list').find('option').remove();
+
+                 // next iterate thru your object adding each option to the drop down\    
+                 $(data).each(function (index, item) { // GETTING ERROR HERE
+                     debugger;
+
+                     $('#subcategory-list').append($('<option></option>').val(item.subCategoryId).html(item.subName));
+                 });
+			},
+			error : function(data) {
+				
+			}
+		});
+
+		
+	});
+
 
 });
 
