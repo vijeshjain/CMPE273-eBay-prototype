@@ -25,10 +25,9 @@ var home = require('./home');
  	}, updateTime);
  }
 
- exports.signin = function(req, res) {
+exports.signin = function(req, res) {
  	
- 	if (typeof (req.param("password")) === "undefined"
- 		|| typeof (req.param("username")) === "undefined") {
+ 	if (typeof (req.param("password")) === "undefined"|| typeof (req.param("username")) === "undefined") {
  		var message = "Invalid username or password";
  	ejs.renderFile('./views/invalidLogin.ejs', {message: message},function(err, result) {
 			// render on success

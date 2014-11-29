@@ -361,7 +361,38 @@ res.render('subCategories', {
 
 }
 
+function renderCategoryAndSubCategory(req,res)
+{
+	
+	var getQuery= "Select * from category JOIN sub_category on category.categoryId=sub_category.categoryId where category.isDeleted=0";
+		mysql.fetchData(function(err, results) {
+			if (err) {
+				throw err;
+			} else {
+				var resultObj={
+						category:results
+						};
+				console.log(resultObj);						
+				ejs.renderFile('./views/homePage.ejs', resultObj,
+						function(err, result) {
+							// render on success
+							if (!err) {
+								res.end(result);
+							}
+							// render or error
+							else {
+								res.end('An error occurred');
+								console.log(err);
+							}
+						});
+				
+				
 
+			}
+		}, getQuery);	
+	 
+	 
+}
 
 
 exports.loadSubCategories = loadSubCategories;
@@ -376,3 +407,4 @@ exports.signin = signin;
 exports.addSubCategory = addSubCategory;
 exports.getSubCategoryForCategory=getSubCategoryForCategory;
 exports.getProductsForSubCategory=getProductsForSubCategory;
+exports.renderCategoryAndSubCategory=renderCategoryAndSubCategory;
