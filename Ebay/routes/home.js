@@ -1,20 +1,21 @@
 /**
  * New node file
  */
-var ejs = require("ejs");
-var mysql = require('./mysql.js');
+ var sub;
+ var ejs = require("ejs");
+ var mysql = require('./mysql.js');
 
-var category = null;
-var subcategory = null;
-var items = null;
-var categoryId = null;
-var temp = null;
-var subCategories = [];
+ var category = null;
+ var subcategory = null;
+ var items = null;
+ var categoryId = null;
+ var temp = null;
+ var subCategories = [];
 
-function homePage(req, res) {
-	var getUser = "select * from category order by categoryid asc";	
-	//console.log("Query is:" + getUser);
-	//var subCategories = [];
+ function homePage(req, res) {
+ 	var getUser = "select * from category order by categoryid asc";	
+	// console.log("Query is:" + getUser);
+	// var subCategories = [];
 	var count = 0;
 	mysql.fetchData(function(err, results) {
 		if (err) {
@@ -24,36 +25,39 @@ function homePage(req, res) {
 				console.log(results);
 				if (results!=null&&results.length > 0) {
 					for (var i = 0; i < results.length; i++) {
-					var	getUser1 = "select *  from sub_category where categoryid = " + results[i].categoryId + " limit 5";
-					console.log(results[i].name);
-					mysql.fetchData(function(err, result) {
-						if (err) {
-							throw err;
-						} else {
-										if (result.length > 0 ) {
-											console.log("In If*************************************");
-						/*					console.log("Category Name :::::"+results[i].name);*/
-											for (var j=0;j<result.length;j++){
-												console.log("Sub Category:-"+result[j].name+ result[j].categoryId);
-												
-											}
-										subCategories.push(result);
-											//subCategories=result;
+						var	getUser1 = "select *  from sub_category where categoryid = " + results[i].categoryId + " limit 5";
+						console.log(results[i].name);
+						mysql.fetchData(function(err, result) {
+							if (err) {
+								throw err;
+							} else {
+								if (result.length > 0 ) {
+									console.log("In If*************************************");
+									/*
+									 * console.log("Category Name
+									 * :::::"+results[i].name);
+									 */
+									for (var j=0;j<result.length;j++){
+										console.log("Sub Category:-"+result[j].name+ result[j].categoryId);
+
+									}
+									subCategories.push(result);
+											// subCategories=result;
 										}
 										else{
 											console.log("In Else--------------------------------");
 											
 										}
-						temp = JSON.parse(JSON.stringify(subCategories));
-							
-						}},getUser1);
+										temp = JSON.parse(JSON.stringify(subCategories));
+
+									}},getUser1);
 					}	
 					console.log("Category:-"+ category);
 					console.log("Again*************************************");
 					console.log("Sub Category:-"+temp[0].name+ temp[0].categoryId)
 					
 					category = results;
-							
+
 					res.render('homePage', {
 						
 						category : category,
@@ -165,19 +169,19 @@ function addCategory(req, res) {
 	console.log("New Category :" + newCategory);
 
 	var query = "insert into category(name,isdeleted) values('" + newCategory
-			+ "','0')";
-	console.log("Query is:" + query);
+		+ "','0')";
+console.log("Query is:" + query);
 
-	mysql.saveData(function(err, results) {
-		if (err) {
+mysql.saveData(function(err, results) {
+	if (err) {
 
-			throw err;
-		} else {
-			homePage(req, res);
+		throw err;
+	} else {
+		homePage(req, res);
 
-		}
+	}
 
-	}, query);
+}, query);
 
 }
 
@@ -190,20 +194,20 @@ function addSubCategory(req, res) {
 	console.log("New Sub Category :" + newSubCategory);
 
 	var query = "insert into sub_category(name,categoryid,isdeleted) values('"
-			+ newSubCategory + "','" + categoryid + "','0')";
-	console.log("Query is:" + query);
+		+ newSubCategory + "','" + categoryid + "','0')";
+console.log("Query is:" + query);
 
-	mysql.saveData(function(err, results) {
-		if (err) {
+mysql.saveData(function(err, results) {
+	if (err) {
 
-			throw err;
-		} else {
+		throw err;
+	} else {
 
-			category = results;
-			homePage(req, res);
+		category = results;
+		homePage(req, res);
 
-		}
-	}, query);
+	}
+}, query);
 
 }
 
@@ -248,21 +252,21 @@ function listSubCategories(req, res) {
 			try {
 				if (results!=null&&results.length > 0) {
 					for (var i = 0; i < results.length; i++) {
-					var	getUser1 = "select *  from sub_category where categoryid = " + results[i].categoryId + " limit 5;";
-					
-					mysql.fetchData(function(err, result) {
-						if (err) {
-							throw err;
-						} else {
-										if (result.length > 0 ) {
-										subCategories.push(result);
-										}
-						temp = JSON.parse(JSON.stringify(subCategories));
-							
-						}},getUser1);
+						var	getUser1 = "select *  from sub_category where categoryid = " + results[i].categoryId + " limit 5;";
+
+						mysql.fetchData(function(err, result) {
+							if (err) {
+								throw err;
+							} else {
+								if (result.length > 0 ) {
+									subCategories.push(result);
+								}
+								temp = JSON.parse(JSON.stringify(subCategories));
+
+							}},getUser1);
 					}	
 					category = results;
-							
+
 					res.render('listSubCategories', {
 						
 						category : category,
@@ -289,11 +293,11 @@ function getSubCategoryForCategory(req,res)
 			throw err;
 		} else {
 			var finalObj={
-					subCategories:results
-					
+				subCategories:results
+
 			}
 			ejs.renderFile('./views/subCategoryListView.ejs', finalObj,
-					function(err, result) {
+				function(err, result) {
 						// render on success
 						if (!err) {
 							res.end(result);
@@ -323,11 +327,11 @@ function getProductsForSubCategory(req,res)
 			throw err;
 		} else {
 			var finalObj={
-					Products:results
-					
+				Products:results
+
 			}
 			ejs.renderFile('./views/ProductListView.ejs', finalObj,
-					function(err, result) {
+				function(err, result) {
 						// render on success
 						if (!err) {
 							res.end(result);
@@ -349,7 +353,7 @@ function loadSubCategories(req, res) {
 	var type=req.param("catName");
 	
 	console.log("Type"+type);
-res.render('subCategories', {
+	res.render('subCategories', {
 		
 		category : category,
 		subCategories : temp,
@@ -360,6 +364,7 @@ res.render('subCategories', {
 
 
 }
+
 
 function renderCategoryAndSubCategory(req,res)
 {
@@ -386,15 +391,174 @@ function renderCategoryAndSubCategory(req,res)
 							}
 						});
 				
-				
+			}
+		},getQuery);
+}
+
+// tanvi
+
+
+
+function deleteProductForm(req, res) {
+	
+	var getUser = "select * from category";
+	console.log("Query is:" + getUser);
+
+	mysql.fetchData(function(err, results) {
+		if (err) {
+			throw err;
+		} else {
+			if (results.length > 0) {
+				for ( var i = 0; i < results.length; i++) {
+					console.log(results[i].name);
+				}
+
+				category = results;
+				res.render('deleteProduct', {
+
+					category : category,
+					subCategories : temp,
+				});
 
 			}
-		}, getQuery);	
-	 
-	 
+
+		}
+	}, getUser);
+	
 }
 
 
+
+function addProductForm(req, res) {
+
+	var getUser = "select * from category ;";
+	console.log("Query is:" + getUser);
+	
+	var getSubCat = "select * from sub_category;";
+	console.log("Query is:" + getSubCat);
+	
+
+	mysql.fetchData(function(err, ans) {
+		if (err) {
+			throw err;
+		} else {
+			
+
+			if (ans.length > 0 ) {
+				subCategories.push(ans);
+			}
+			temp = JSON.parse(JSON.stringify(subCategories));
+
+
+
+		}
+		
+	}, getSubCat);
+	
+	mysql.fetchData(function(err, results) {
+		if (err) {
+			throw err;
+		} else {
+			if (results.length > 0) {
+				
+				
+
+				category = results;
+				res.render('addProductForm', {
+
+					category : category,
+					subCategories : temp,
+					// subcat : sub,
+				});
+
+
+			}
+
+		}
+	}, getUser);
+	
+	
+}
+
+
+
+function addProduct(req, res) {
+
+	
+	var subCategory = req.param("subCategory");
+	var productPrice = req.param("productPrice");
+	var productName = req.param("productName");
+	var catName = req.param("category");
+	var productDesc = req.param("productDesc");
+	var productType = req.param("productType");
+	var itemCondition = req.param("itemCondition");
+	var quantity = req.param("quantity");
+	
+	var itemConditionId ;
+	var productTypeId;
+	
+	if (productType == "Selling")
+		productTypeId = 1;
+	else
+		productTypeId = 2;
+	
+	
+	if (itemCondition == "New")
+		itemConditionId = 1;
+	else
+		itemConditionId = 2;
+	
+	console.log("sub category :" + subCategory);
+
+	console.log("New Sub Category :" + subCategory);
+
+	var query = "insert into product(name,basePrice,productType,itemCondition , description , subCategoryId , sellerId , quantity , isDeleted ) values('"
+		+ productName + "'," + productPrice + "," + productTypeId + "," + itemConditionId   + ",'" + productDesc +"'," + subCategory  +", 5 , "+ quantity+ ",0 );";
+console.log("Query is:" + query);
+
+mysql.saveData(function(err, results) {
+	if (err) {
+
+		throw err;
+	} else {
+
+		category = results;
+		homePage(req, res);
+
+	}
+}, query);
+
+}
+
+
+
+
+
+function deleteProduct(req, res) {
+
+	var deleteProduct = req.param("deleteProduct");
+
+
+	var query = "update product set isDeleted = 1 where name = '"+deleteProduct+"';";
+	console.log("Query is:" + query);
+
+	mysql.saveData(function(err, results) {
+		if (err) {
+
+			throw err;
+		} else {
+			homePage(req, res);
+
+		}
+
+	}, query);
+
+}
+
+exports.deleteProductForm = deleteProductForm;
+exports.deleteProduct = deleteProduct;
+exports.addProduct = addProduct;
+exports.addProductForm = addProductForm;
 exports.loadSubCategories = loadSubCategories;
 exports.listSubCategories = listSubCategories;
 exports.listCategories = listCategories;

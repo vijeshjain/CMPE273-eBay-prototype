@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>eBay | Delete Product</title>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+
+</head>
+<body class="body">
+	<% include header.ejs %>
+	
+
+	
+	<br>
+
+
+
+	<td class="gh-td" id=gh-as-td><div id="gh-as"></div></td>
+	
+	<div class="signup-body">
+		<div class="form-outer-div">
+			<form class="form-style" action="/deleteProduct" id="signup-form" method="POST">
+                  <h1>Delete Product</h1>
+                  <br> <br>
+                  	<div class="float-left">
+			<input id="deleteProduct" type="text" name="deleteProduct"
+				placeholder="Product Name to be Deleted" required="required"> <br><br> <input
+				id="sbtBtn" class="btn btn-prim" type="submit"
+				value="Delete Product">
+		</div>
+                  
+				
+		</div>
+		<br>
+
+		</form>
+	</div>
+
+
+
+</body>
+
+</html>
