@@ -27,7 +27,8 @@ exports.getProductJSONList=function(req,res)
 
 exports.getProductFromName=function(req,res)
 {
-	var getQ="select *from user where name='"+ req.param("searchword")+"'";
+	var getQ="select * from product where name like '"+ req.param("searchword")+"%' and isDeleted=0";
+	console.log(getQ);
 	mysql.fetchData(function(err, results) {
 		if (err) {
 			throw err;

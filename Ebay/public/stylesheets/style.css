@@ -108,7 +108,8 @@ margin-left: 32%;
 }
 .register-text{margin-left: 20%;}
  .form-style input[type="text"],
- .form-style input[type="password"]{
+ .form-style input[type="password"],
+  .form-style input[type="email"]{
  border: 1px solid #ddd;
 background: #fff;
 box-shadow: 0 1px 0 rgba(255,255,255,0.8),inset 0 1px 2px rgba(0,0,0,0.06);
@@ -118,6 +119,15 @@ padding-left: 12px;
 margin-bottom: 3%;
  }
  
+ select{
+ border: 1px solid #ddd;
+background: #fff;
+box-shadow: 0 1px 0 rgba(255,255,255,0.8),inset 0 1px 2px rgba(0,0,0,0.06);
+width: 250px;
+height: 34px;
+padding-left: 12px;
+margin-bottom: 3%;
+ }
  
  
  input[type="checkbox"]{
@@ -353,6 +363,23 @@ color: red;
         }
         
         .sub-category
+        {
+        	height: 40px;
+			padding: 10px;
+			border-bottom: 1px solid #DED;
+			width: 100%;
+			cursor:pointer;
+        }
+         .category
+        {
+        	height: 40px;
+			padding: 10px;
+			border-bottom: 1px solid #DED;
+			width: 100%;
+			cursor:pointer;
+        }
+        
+        .product
         {
         	height: 40px;
 			padding: 10px;

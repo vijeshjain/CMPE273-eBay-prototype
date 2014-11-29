@@ -34,7 +34,8 @@ if ('development' == app.get('env')) {
 
 //app.get('/', routes.index);
 //app.get('/users', user.list);
-app.get('/', home.renderCategoryAndSubCategory);
+app.get('/', home.homePage);
+//app.get('/', home.renderCategoryAndSubCategory);
 app.get('/signup', home.signup);
 app.post('/register', user.register);
 
@@ -52,7 +53,8 @@ app.get('/listSubCategories',home.listSubCategories);
 app.get('/getProductList',product.getProductJSONList);
 app.get('/getSubCategory',home.getSubCategoryForCategory);
 app.get('/getProductsForSubCategory',home.getProductsForSubCategory);
-
+app.get('/listProducts',home.listProducts);
+app.get('/listProducts',home.listProducts);
 
 app.post('/getUser',user.getUserFromFirstName);
 app.post('/getUserProfileDetails',user.getUserProfileDetails);
@@ -67,12 +69,32 @@ app.get('/deleteUser/:uid', user.deleteUser);
 
 app.post('/subCategories',home.loadSubCategories);
 
+
 // tanvi
 app.get('/addProductForm',home.addProductForm);
 app.get('/deleteProductForm',home.deleteProductForm);
 app.post('/addProduct',home.addProduct);
 app.post('/deleteProduct',home.deleteProduct);
 // -- tanvi --
+app.get('/updateCategoryForm',home.updateCategoryForm);
+app.post('/updateCategory', home.updateCategory);
+
+app.get('/deleteCategoryForm',home.deleteCategoryForm);
+app.post('/deleteCategory', home.deleteCategory);
+
+app.post('/updateSubCategory', home.updateSubCategory);
+app.get('/updateSubCategoryForm', home.updateSubCategoryForm);
+
+app.post('/deleteSubCategory', home.deleteSubCategory);
+app.get('/deleteSubCategoryForm',home.deleteSubCategoryForm);
+
+app.post('/updateProduct', home.updateProduct);
+app.get('/updateProductForm', home.updateProductForm);
+
+app.get('/getSubCategoryInJson', home.getSubCategoryInJson);
+app.get('/getProductsInJson', home.getProductsInJson);
+
+
 
 app.get('/shoppingCart',shoppingCart.showSoppingCart);
 app.post('/addToShoppingCart',shoppingCart.addToShoppingCart);

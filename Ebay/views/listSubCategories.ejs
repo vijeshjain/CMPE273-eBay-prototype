@@ -6,67 +6,89 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
      <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
- <script src="/Scripts/signup.js"></script>
+ <script src="../Scripts/home.js"></script>
 </head>
 <% include header.ejs%>
 <body class="body">
-<h1>List Sub Categories:-</h1>
-<br>
-<div class="table-responsive">
-<table class="table table-bordered table-striped">
- <thead>
-		<tbody>
-			<tr>
-				
-								<ul class="dropdown-menu">
-								
-								
-								
-								
-										
-									<% var count = 0; %> <% if(category != null){
-									category.forEach(function(item) { %>
-									
-									
-											<td class="gh-td" width="5%" >
-											
-											<font color="Red" size="5"><b>
-											<option value="<%=item.categoryId%>">
-											
-											 <%= item.name%>
-											
-											</option>
-											</b>
-											</font>
-											
-											 <% if(subCategories[count] != null){
+<div class="container">
+		<div id="content">
+			<ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+				<li class="active"><a id="aBuyers" href="#buyers"
+					data-toggle="tab">Sub Categories</a></li>
+
+
+			</ul>
+
+<div id="my-tab-content" class="tab-content">
+<div class="tab-pane active" id="buyers">
+
+    <div class="row header">
+
+
+
+        <div class="col-md-12">
+            <div class="row">
+                <div class="table-responsive">
+                    <table id="tblBuyer" class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+
+                            <th class="text-nowrap">
+                               <b> Category Name</b>
+                            </th>
+                         
+                             <th class="text-nowrap">
+                               <b>  Sub Category Name </b>
+                            </th>
+                            <th>
+                              <b>   Click on Image </b>
+                            </th>
+                    
+                        </tr>
+                        </thead>
+                        <% var count=0;		
+                        if(category && category != null && category.length > 0 ) {
+                                for(var i=0; i < category.length; i++) {
+                                 %>
+                        <tbody>
+
+                     
+
+
+                 <tr>
+                 
+                          
+                         
+                           
+                           <% if(subCategories[count] != null){
 											subCategories[count].forEach(function(subcat) {%> <a href="#">
-												&nbsp &nbsp &nbsp
-												<option value="<%=subcat.subCategoryId%>">
+											
+											  <td><%= category[i].name %></td>
+                           
+                        
+												<td>
+												
 												
 												<%=subcat.name%>
 												
-												</option>
+												</td>
+												<td> <img src="<%=subcat.image%>" height="100px" width="100px" ></td>
+												
 
-										</a> <% });} %> 
-											
-										
+                        </tr>
+                       
+                        
+                        
+                        
 
-									
-									
-									</a> <% count++;});} %>
+                        </tbody>
+                        <% count++;});} } } %>
+                    </table>
 
-									
-
-
-								</ul>
-							</div></td>
-							
-			</tr>
-		</tbody>
-		
-	</table>
-
+                </div></div>
+      
+        </div> </div>
+</div>
 </div>
 </body>
 
