@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>eBay | Sign Up</title>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+
+</head>
+<body class="body">
+	<% include header.ejs %>
+	
+
+	
+	<br>
+
+
+
+	<td class="gh-td" id=gh-as-td><div id="gh-as"></div></td>
+	
+	<div class="signup-body">
+		<div class="form-outer-div">
+			<form class="form-style" action="/addProduct" id="signup-form" method="POST">
+                  <h1>Add New Product</h1>
+				<td class="gh-td" id=gh-cat-td><div id="gh-cat-box">
+						<div class="float-left">
+
+							<% var count = 0; %> 
+							<select title="Select a category to Add"
+								class="gh-sb gh-sprRetina" size="1" id="gh-cat" name="category"><option
+									selected="selected" value="0">Select Category</option> <%
+								if(category != null){ category.forEach(function(item) {  count = item.categoryId %>
+								<option name="catName" value="<%= item.categoryId%>"><%= item.name %></option>
+								<% console.log("name:"+item.name); });} %>
+							</select></div></td>
+
+							<br><br>
+							<select title="Select a category to Add"
+								class="gh-sb gh-sprRetina" size="1" id="gh-cat" name="subCategory"><option
+									selected="selected" value="0">Select Sub Category</option> <%
+								if(subCategories[count] != null){ subCategories[count].forEach(function(item) {%>
+								<option name="subCatName" value="<%= item.subCategoryId%>"><%= item.name %></option>
+								<% console.log("name:"+item.name); });} %>
+							</select></div></td>
+						
+				<br>		<br>	
+							
+							
+							<input id="productName" type="text" name="productName"
+				placeholder="Product Name" required="required"><span
+				class="requiredClass">*</span>
+				
+				<br>
+				
+				<input id="productPrice" type="text" name="productPrice"
+				placeholder="Product Price" required="required"><span
+				class="requiredClass">*</span>
+				
+				<br>
+				
+				<input id="productDesc" type="text" name="productDesc"
+				placeholder="Product Description" required="required"><span
+				class="requiredClass">*</span>
+				
+				<br>
+				
+				
+				<input id="quantity" type="text" name="quantity"
+				placeholder="Enter Quantity" required="required"><span
+				class="requiredClass">*</span>
+				
+				<br>
+				
+				<select title="product Type"
+								class="gh-sb gh-sprRetina" size="1" id="gh-cat" name="productType"><option
+									selected="selected" value="0">Select Product Type</option>
+								
+								<option name="Selling" value="Selling">Selling</option>
+								<option name="Bidding" value="Bidding">Bidding</option>
+								
+							</select></td>
+							<br> <br>
+				<br>
+				<select title="item condition"
+								class="gh-sb gh-sprRetina" size="1" id="gh-cat" name="itemCondition"><option
+									selected="selected" value="0">Select Product Condition</option>
+								
+								<option name="New" value="New">New</option>
+								<option name="Refurbished" value="Refurbished">Refurbished</option>
+								
+							</select></td>
+							<br>
+							
+							<br> <br> Upload Image:- <input
+				type="file" name="img"> <br><br> <input
+				id="sbtBtn" class="btn btn-prim" type="submit"
+				value="Add Product">
+							
+							
+							<br>
+							</div>
+							
+							
+		</div>
+		<br>
+
+		</form>
+	</div>
+
+</body>
+
+</html>

@@ -63,8 +63,12 @@ app.get('/deleteUser/:uid', user.deleteUser);
 
 app.post('/subCategories',home.loadSubCategories);
 
-
-
+// tanvi
+app.get('/addProductForm',home.addProductForm);
+app.get('/deleteProductForm',home.deleteProductForm);
+app.post('/addProduct',home.addProduct);
+app.post('/deleteProduct',home.deleteProduct);
+// -- tanvi --
 
 
 http.createServer(app).listen(app.get('port'), function(){
