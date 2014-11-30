@@ -7,6 +7,7 @@ var shoppingCart=require('./shoppingCart');
  * GET users listing.
  */
 
+
  exports.list = function(req, res) {
  	res.send("respond with a resource");
  };
@@ -71,11 +72,12 @@ exports.signin = function(req, res) {
 						req.session.user = loggedInUser;
 						loggedInUser.category = categories;
 						loggedInUser.subCategories=new Array();
-						ejs.renderFile('./views/dashboard.ejs', loggedInUser,
+						ejs.renderFile('./views/homepage.ejs', loggedInUser,
 							function(err, result) {
 									// render on success
 									if (!err) {
 										res.end(result);
+										
 									}
 									// render or error
 									else {
@@ -169,6 +171,7 @@ exports.register = function(req, res) {
 	var addr = req.param("address");
 	var city = req.param("city");
 	var zipcode = req.param("zip");
+	var state = req.param("state");
 	var sellerProp = 1;
 	var buyerProp = 0;
 	var isSeller = req.param("userType_seller");
@@ -195,6 +198,7 @@ exports.register = function(req, res) {
 		city : city,
 		address : addr,
 		zipCode : zipcode,
+		state : state,
 		membershipId : memberId,
 		isUserSeller : sellerProp,
 		isUserBuyer : buyerProp
@@ -223,6 +227,7 @@ exports.register = function(req, res) {
 						data = {
 							errorCode : 100,
 							message : "You have successfuly registered to eBay. Please proceed to login."
+						
 						};
 						responseString = JSON.stringify(data);
 						res.send(responseString);
@@ -348,7 +353,8 @@ exports.editAndSaveUser = function(req,res)
 
 exports.getUserFromFirstName=function(req,res)
 {
-	var getQ="select *from user where firstName='"+ req.param("searchword")+"' or lastName='"+req.param("searchword")+"'";
+	var getQ="select *from user where firstName like'"+ req.param("searchword")+"%' or lastName like'"+req.param("searchword")+"%' and isDeleted=0";
+	console.log(getQ);
 	mysql.fetchData(function(err, results) {
 		if (err) {
 			throw err;
@@ -407,3 +413,4 @@ exports.getUserProfileDetails=function(req,res)
 	}
 
 }
+

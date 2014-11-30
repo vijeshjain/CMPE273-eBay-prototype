@@ -7,7 +7,7 @@
 	href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
-<script src="../Scripts/home.js"></script>
+
 </head>
 <body class="body">
 	<% include header.ejs %>
@@ -22,14 +22,13 @@
 	
 	<div class="signup-body">
 		<div class="form-outer-div">
-			<form class="form-style" action="/addSubCategory" id="signup-form" method="POST">
-                  <h1>Add Sub Category</h1>
+			<form class="form-style" action="/deleteCategory" id="signup-form" method="POST">
+                  <h1>Delete Category</h1>
 				<td class="gh-td" id=gh-cat-td><div id="gh-cat-box">
 						<div class="float-left">
 
-							<select title="Select a Sub category to Add"
-								class="gh-sb gh-sprRetina" size="1" id="gh-cat" name="category"><option
-									selected="selected" value="0">Select Category</option> <%
+							<select title="Select a category to Update"
+								class="gh-sb gh-sprRetina" size="1" id="gh-cat" name="categoryId"> <%
 								if(category != null){ category.forEach(function(item) {%>
 								<option name="catName" value="<%= item.categoryId%>"><%= item.name %></option>
 								<% console.log("name:"+item.name); });} %>
@@ -39,12 +38,9 @@
 
 
 		<div class="float-left">
-			<input id="category-name" type="text" name="subcategoryName"
-				placeholder="Sub Category Name" required="required"><span
-				class="requiredClass">*</span><br> <br> Upload Image:- <input
-				type="file" name="img"> <br><br> <input
+				 <input
 				id="sbtBtn" class="btn btn-prim" type="submit"
-				value="Add Sub Category">
+				value="Delete Category">
 
 
 

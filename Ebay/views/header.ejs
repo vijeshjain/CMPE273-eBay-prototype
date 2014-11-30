@@ -28,6 +28,7 @@ a8P_____88  88P'    "8a  ""     `Y8  `8b     d8'
 	type="text/css" rel="stylesheet">
 <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="/includes/css/bootstrap-glyphicons.css" rel="stylesheet">
+<script src="../Scripts/home.js"></script>
 </head>
 <body class="sz1200 index redux today stdln en_US rvi">
 
@@ -69,29 +70,37 @@ a8P_____88  88P'    "8a  ""     `Y8  `8b     d8'
 										<col width="80">
 										<tbody>
 											<tr>
-												<% var count = 0; %> <% if(category != null){
-												category.forEach(function(item) { %>
+												
+													<% var count = 0; %> <% if(category != null){
+													category.forEach(function(item) { %>
+												<td class="gh-td" width="10%">
+											
+												<form id="form1" action="/subCategories" method="post">
+												<a href="javascript:;"
+													onclick="document.getElementById('form1').submit();">
 
 
-												<td class="gh-td" width="10%"><a href="#">
-														<option value="<%=item.categoryId%>"><%=
-															item.name%></option> 														
-														<li class="divider"></li> <% if(subCategories[count] !=null ){ subCategories[count].forEach(function(subcat) {%>
-														<a href="#"> &nbsp &nbsp &nbsp
-															
+														<%= item.name%> <input type="hidden" name="catName"
+														value="<%=item.name%>">
+												</a>
+													</form>
 
-															<option value="<%=subcat.subCategoryId%>"><%=
-																subcat.subName%></option> 
-															
-															
 
-													</a> <%} );} %>
-														<li class="divider"></li>
-														
-														
-														</td>
-														
-														 <% if ((count+1) % 5 == 0){%>
+													<li class="divider"></li> <% if(subCategories[count] !=null
+													){ subCategories[count].forEach(function(subcat) {%> <a
+													href="#"> &nbsp &nbsp &nbsp
+
+
+														<option value="<%=subcat.subCategoryId%>"><%=
+															subcat.name%></option>
+
+
+
+												</a> <%} );} %>
+
+
+
+													<li class="divider"></li></td> <% if ((count+1) % 5 == 0){%>
 
 											</tr>
 
@@ -101,9 +110,12 @@ a8P_____88  88P'    "8a  ""     `Y8  `8b     d8'
 
 
 
+
 												</a> <% count++;});} %>
 
 											</tr>
+
+
 										</tbody>
 									</table>
 
@@ -125,23 +137,23 @@ a8P_____88  88P'    "8a  ""     `Y8  `8b     d8'
 													<div id="">
 														<label for="gh-ac" class="gh-hdn g-hdn">Enter your
 															search keyword</label>
-															<div class="contentArea">
-																<div class="searchwrapper">
-																		<input type="text" class="search" id="inputSearch" placeholder="Search an ebay user..." /><br /> 
-																	<div id="divResult">
-																	</div>
-																</div>
-																<div class="searchwrapper">
-																	<input type="text" class="product-search" id="product_inputSearch" placeholder="Search a product..." /><br /> 
-																	<div id="product_divResult">
-																	</div>
-																</div>
-																	
+														<div class="contentArea">
+															<div class="searchwrapper">
+																<input type="text" class="search" id="inputSearch"
+																	placeholder="Search an ebay user..." /><br />
+																<div id="divResult"></div>
 															</div>
-															
+															<div class="searchwrapper">
+																<input type="text" class="product-search"
+																	id="product_inputSearch"
+																	placeholder="Search a product..." /><br />
+																<div id="product_divResult"></div>
+															</div>
+
+														</div>
+
 													</div>
-												</div>
-												</td>
+												</div></td>
 											<td class="gh-td" id=gh-cat-td><div id="gh-cat-box">
 
 													<select title="Select a category for search"
@@ -217,7 +229,10 @@ a8P_____88  88P'    "8a  ""     `Y8  `8b     d8'
 										class="gh-eb-oa thrd">List Categories</a></li>
 									<li><a href="/addCategoryForm" _sp=m570.l1533
 										class="gh-eb-oa thrd">Add Category</a></li>
-
+									<li><a href="/updateCategoryForm" _sp=m570.l1533
+										class="gh-eb-oa thrd">Update Category</a></li>
+									<li><a href="/deleteCategoryForm" _sp=m570.l1533
+										class="gh-eb-oa thrd">Delete Category</a></li>
 
 									<li id=gh-eb-sub-li-cpn></li>
 								</ul>
@@ -237,7 +252,10 @@ a8P_____88  88P'    "8a  ""     `Y8  `8b     d8'
 										class="gh-eb-oa thrd">List SubCategories</a></li>
 									<li><a href="/subCategoryForm" _sp=m570.l1533
 										class="gh-eb-oa thrd">Add SubCategory</a></li>
-
+									<li><a href="/updateSubCategoryForm" _sp=m570.l1533
+										class="gh-eb-oa thrd">Update SubCategory</a></li>
+									<li><a href="/deleteSubCategoryForm" _sp=m570.l1533
+										class="gh-eb-oa thrd">Delete SubCategory</a></li>
 
 									<li id=gh-eb-sub-li-cpn></li>
 								</ul>
@@ -252,14 +270,14 @@ a8P_____88  88P'    "8a  ""     `Y8  `8b     d8'
 								class="gh-acc-exp-a gh-acc-a2 gh-control ">Expand product</a>
 							<div class="gh-submenu gh-eb-o" id="gh-eb-My-o">
 								<ul role=navigation>
-									<li><a href="#" _sp=m570.l1533 class="gh-eb-oa thrd">List
-											Products</a></li>
-									 <li><a href="/addProductForm" _sp=m570.l1533 class="gh-eb-oa thrd">Add Product</a>
-                                
-                                </li>
-                                 <li><a href="/deleteProductForm" _sp=m570.l1533 class="gh-eb-oa thrd">Delete Product</a>
-                                
-                                </li>
+									<li><a href="/listProducts" _sp=m570.l1533
+										class="gh-eb-oa thrd">List Products</a></li>
+									<li><a href="/addProductForm" _sp=m570.l1533
+										class="gh-eb-oa thrd">Add Product</a></li>
+										<li><a href="/updateProductForm" _sp=m570.l1533
+										class="gh-eb-oa thrd">Update Product</a></li>
+									<li><a href="/deleteProductForm" _sp=m570.l1533
+										class="gh-eb-oa thrd">Delete Product</a></li>
 
 									<li id=gh-eb-sub-li-cpn></li>
 								</ul>
@@ -352,9 +370,8 @@ a8P_____88  88P'    "8a  ""     `Y8  `8b     d8'
 			<div id="top" class="top"></div>
 		</div>
 	</div>
-	
-	<div id="dialog" title="Search result">
-	</div>
+
+	<div id="dialog" title="Search result"></div>
 </body>
 <!-- Custom CSS -->
 
