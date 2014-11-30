@@ -421,7 +421,8 @@ function renderCategoryAndSubCategory(req,res)
 							}
 					
 					}
-				
+				category=cat;
+				temp=subCat;
 				var resultObj={
 				category : cat,
 				subCategories : subCat

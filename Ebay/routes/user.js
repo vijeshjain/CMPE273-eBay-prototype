@@ -60,7 +60,7 @@ exports.signin = function(req, res) {
 				// set the session object
 				req.session.user = loggedInUser;
 				// render the home page
-				shoppingCart.initializeShoppingCart();
+				
 				var getQuery = "Select * from category";
 				mysql.fetchData(function(err, categories) {
 					if (err) {
