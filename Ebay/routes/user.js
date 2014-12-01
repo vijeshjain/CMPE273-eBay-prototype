@@ -107,9 +107,9 @@ exports.signin = function(req, res) {
 							//}
 
 						}
-						req.session.user = loggedInUser;
 						loggedInUser.category = cat;
 						loggedInUser.subCategories=subCat;
+						req.session.user = loggedInUser;
 						
 						ejs.renderFile('./views/homePage.ejs', loggedInUser, function(err,
 								result) {

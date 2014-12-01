@@ -3,32 +3,7 @@
  */
 $(document).ready(function() {
 	
-	$("body").delegate("#category-list", "onchange", function(ev) {
-		// get the id of the selected category
-		var id=$("#category-list").val();
-		// ajax request using id
-		//
-		var serverURL = "http://localhost:3000/getSubCategory?cid=" + id;
-		$.ajax({
-			dataType : "HTML",
-			url : serverURL,
-			success : function(data) {
-				 $('#subcategory-list').find('option').remove();
-
-                 // next iterate thru your object adding each option to the drop down\    
-                 $(data).each(function (index, item) { // GETTING ERROR HERE
-                     debugger;
-
-                     $('#subcategory-list').append($('<option></option>').val(item.subCategoryId).html(item.subName));
-                 });
-			},
-			error : function(data) {
-				
-			}
-		});
-
-		
-	});
+	
 
 
 });
@@ -67,6 +42,19 @@ function getProductsForSubcategories(categoryId) {
 
 }
 
+
+function showUserDetails(data)
+{
+	$("#success-span").html(data);
+	$("#successMessage").fadeIn("slow", function() {
+		// Animation complete
+		setTimeout(function() {
+			$("#successMessage").fadeOut("slow");
+		}, 4000);
+	});
+
+}
+
 $(function() {
 	//****************************************USER SEARCH***************************
 	$(".search").keyup(function() {
@@ -99,7 +87,8 @@ $(function() {
 			data : dataString,
 			cache : false,
 			success : function(html) {
-				$("#dialog").html(html).dialog();
+				showUserDetails(html);
+				//$("#dialog").html(html).dialog();
 			}
 		});
 	});
@@ -138,6 +127,9 @@ $(function() {
 		var $name = t.innerHTML;
 		var decoded = $("<div/>").html($name).text();
 		$('#product_inputSearch').val(decoded);
+		var dataString="product="+ $("#product-name").text();
+		window.location="http://localhost:3000/getProductDetails?"+dataString;
+		
 		
 	});
 	jQuery(document).on("click", function(e) {

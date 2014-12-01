@@ -93,6 +93,7 @@ app.get('/updateProductForm', home.updateProductForm);
 
 app.get('/getSubCategoryInJson', home.getSubCategoryInJson);
 app.get('/getProductsInJson', home.getProductsInJson);
+app.get('/getProductDetails', product.getProductDetailsFromName);
 
 
 

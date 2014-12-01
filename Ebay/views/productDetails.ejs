@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>eBay | Home</title>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+
+</head>
+<body>
+
+	<div  >
+		<%- include header.ejs %>
+	</div>
+	
+
+	<div class="button-container">
+		<div style="margin-top: 4%;margin-left: 5%;">
+			<div style="float: left;">
+				<% if(image==null){%>
+					<img src="../images/default_image.png" height="300" width="250">
+				<%}%>
+				<% if(image!=null){%>
+					<img src="<%=image%>" height="300" width="250">
+				<%}%>
+				
+			</div>
+			
+			<div style="float: left;margin-left: 4%;">
+				<div class="p-details">
+					<span><%=name%></span></br>
+				</div>
+				<div class="p-details">
+				<span><%=description%></span></br>
+				</div>
+				<div class="p-details">
+				<% if(productType==1) {%>
+					<a href="/addToShoppingCart?product=<%name%>" class="btn btn-prim" style="color:white">Buy</a></br>
+				
+				<%}%>
+				<% if(productType==2) {%>
+					
+					<a href="/placeBid?product=<%name%>" class="btn btn-prim" style="color:white">Bid</a></br>
+				
+				<%}%>
+				</div>
+				<div class="p-details">
+				<span>Price: $ <%=basePrice%></span>
+				</div>
+			</div>
+			
+		</div>	
+
+		
+											
+
+	</div>	
+<%- include footer.ejs %>
+</body>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+<script src="../Scripts/home.js"></script>
+</html>
+
