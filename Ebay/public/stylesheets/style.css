@@ -337,7 +337,7 @@ color: red;
 				border-color: #DEDEDE #DEDEDE #DEDEDE;
 				background-color: white;
 				min-height: 173px;
-				padding: 12px;
+				/*padding: 12px;*/
         }
         .display_box
         {
@@ -389,13 +389,22 @@ color: red;
         }
         .name
         {
-        	cursor:pointer;
+        	
+			
         }
-        
-        .name:hover
+        .product-search-wrap
         {
-        	background:#3bb998;
-            color:#FFFFFF;
+        	cursor: pointer;
+			height: 36px;
+			width: 100%;
+			padding: 12px;
+			border-bottom: 1px solid #DED;
+			
+        }
+        .product-search-wrap:hover
+        {
+        	background:#DED;
+            color:black;
             cursor:pointer;
         }
         
@@ -422,4 +431,8 @@ color: red;
 .searchwrapper{
 width: 50%;
 float: left;
+}
+.cart-links{
+	color:blue;
+	
 }

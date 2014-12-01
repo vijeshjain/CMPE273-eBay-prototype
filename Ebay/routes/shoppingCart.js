@@ -11,6 +11,10 @@ exports.showSoppingCart = function(req, res) {
 	// render the view with the products in it
 
 	var shoppingCart = req.session.shoppingCart;
+	if (typeof (shoppingCart) == "undefined") {
+		shoppingCart = new Array();
+		req.session.shoppingCart = shoppingCart;
+	}
 
 	var resultObj = {
 
@@ -35,6 +39,7 @@ exports.addToShoppingCart = function(req, res) {
 	var responseString;
 	// product id
 	var pId = req.param("pid");
+	var quantity=req.param("quantity");
 	if (typeof (pId) == "undefined") {
 		data = {
 			errorCode : 101,
@@ -53,6 +58,11 @@ exports.addToShoppingCart = function(req, res) {
 			throw err;
 		} else {
 			var product = results[0];
+			product.quantity=quantity;
+			if (typeof (req.session.shoppingCart) == "undefined") {
+				req.session.shoppingCart = new Array();
+				
+			}
 			req.session.shoppingCart.push(product);
 			// store in session variable
 			data = {

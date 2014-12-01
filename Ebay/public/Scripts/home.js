@@ -68,6 +68,7 @@ function getProductsForSubcategories(categoryId) {
 }
 
 $(function() {
+	//****************************************USER SEARCH***************************
 	$(".search").keyup(function() {
 		var inputSearch = $(this).val();
 		var dataString = 'searchword=' + inputSearch;
@@ -112,7 +113,7 @@ $(function() {
 		jQuery("#divResult").fadeIn();
 	});
 	
-	//*******************************************************************
+	//****************************************PRODUCT SEARCH***************************
 	
 	$(".product-search").keyup(function() {
 		var inputSearch = $(this).val();
@@ -149,55 +150,54 @@ $(function() {
 		jQuery("#product_divResult").fadeIn();
 	});
 	
+	//****************************************CATEGORY ONCHANGE***************************
+	 $("#category").change(function() {
+	        //alert( $('option:selected', this).text() );
+			var id=$('option:selected', this).val();
+			// ajax request using id
+			var serverURL = "http://localhost:3000/getSubCategoryInJson?cid=" + id;
+			
+			$.ajax({
+				dataType : "JSON",
+				url : serverURL,
+				success : function(data) {
+					 $('#sub-category').find('option').remove();
+
+	                 // next iterate thru your object adding each option to the drop down\    
+	                 $(data).each(function (index, item) { // GETTING ERROR HERE
+	                     $('#sub-category').append($('<option></option>').val(item.subCategoryId).html(item.name));
+	                 });
+				},
+				error : function(data) {
+					
+				}
+			});
+	    });
+		//****************************************SUB-CATEGORY ONCHANGE***************************
+	 
+	 $("#sub-category").change(function() {
+	        //alert( $('option:selected', this).text() );
+			var id=$('option:selected', this).val();
+			// ajax request using id
+			var serverURL = "http://localhost:3000/getProductsInJson?cid=" + id;
+			
+			$.ajax({
+				dataType : "JSON",
+				url : serverURL,
+				success : function(data) {
+					 $('#product').find('option').remove();
+
+	                 // next iterate thru your object adding each option to the drop down\    
+	                 $(data).each(function (index, item) { // GETTING ERROR HERE
+	                     $('#product').append($('<option></option>').val(item.productId).html(item.name));
+	                 });
+				},
+				error : function(data) {
+					
+				}
+			});
+	    });
+	
 });
 
-$(function() {
-    $("#category").change(function() {
-        //alert( $('option:selected', this).text() );
-		var id=$('option:selected', this).val();
-		// ajax request using id
-		var serverURL = "http://localhost:3000/getSubCategoryInJson?cid=" + id;
-		
-		$.ajax({
-			dataType : "JSON",
-			url : serverURL,
-			success : function(data) {
-				 $('#sub-category').find('option').remove();
-
-                 // next iterate thru your object adding each option to the drop down\    
-                 $(data).each(function (index, item) { // GETTING ERROR HERE
-                     $('#sub-category').append($('<option></option>').val(item.subCategoryId).html(item.name));
-                 });
-			},
-			error : function(data) {
-				
-			}
-		});
-    });
-});
-
-$(function() {
-    $("#sub-category").change(function() {
-        //alert( $('option:selected', this).text() );
-		var id=$('option:selected', this).val();
-		// ajax request using id
-		var serverURL = "http://localhost:3000/getProductsInJson?cid=" + id;
-		
-		$.ajax({
-			dataType : "JSON",
-			url : serverURL,
-			success : function(data) {
-				 $('#product').find('option').remove();
-
-                 // next iterate thru your object adding each option to the drop down\    
-                 $(data).each(function (index, item) { // GETTING ERROR HERE
-                     $('#product').append($('<option></option>').val(item.productId).html(item.name));
-                 });
-			},
-			error : function(data) {
-				
-			}
-		});
-    });
-});
-		
+	

@@ -3,10 +3,11 @@
 	   var curObj=searchResults[count];
 	  	
 	%>
-		
-			<span class="name"><%=curObj.firstName%> <%=curObj.lastName%></span><br/>
+		<div class="product-search-wrap">
+			<span class="name"><%=curObj.firstName%> <%=curObj.lastName%></span><br/>			
+			<input type="hidden" value="<%=curObj.userId%>" id="user-selected">
+		</div>
 			
-		<input type="hidden" value="<%=curObj.userId%>" id="user-selected">
 		
 		<% }%>
 
