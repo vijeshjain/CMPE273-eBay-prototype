@@ -7,15 +7,11 @@
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
      <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
  <script src="../Scripts/home.js"></script>
+<script src="/Scripts/signup.js"></script>
 </head>
 <body class="body">
-	<body class="body">
 	<% include header.ejs %>
 	
-	
-	
-	</div>
-	<br>
 	<div class="signup-body">
 	<div class="form-outer-div">
 		<form class="form-style" action="/addCategory"  id="signup-form" method="POST">
@@ -34,7 +30,8 @@
 	</div>
 
 	</div>
-	
+	<div class="alert-box error" id="errorMessage"><span id="error-span"></span></div>
+	<div class="alert-box success" id="successMessage"><span id="success-span"></span></div>
 </body>
 
 </html>

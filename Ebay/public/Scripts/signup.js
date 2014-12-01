@@ -26,7 +26,7 @@ $(document).ready(function() {
 
 
 function showRecievedMessage(data) {
-	if (data.errorCode == 101) {
+	if (data.errorCode == 101 || data.errorCode == 401) {
 		$("#error-span").text(data.message);
 		$("#errorMessage").fadeIn("slow", function() {
 			// Animation complete

@@ -146,20 +146,48 @@ function addCategory(req, res) {
 	var newCategory = req.param("categoryName");
 	console.log("New Category :" + newCategory);
 
-	var query = "insert into category(name,isdeleted) values('" + newCategory
-			+ "','0')";
-	console.log("Query is:" + query);
+	if (newCategory === null || typeof (newCategory) === 'undefined') {
+		data = {
+			errorCode : 400,
+			message : "Category name required"
+		};
+		responseString = JSON.stringify(data);
+		res.send(responseString);
+	}
 
-	mysql.saveData(function(err, results) {
+	var selectCategory = "select * from category where name='" + newCategory
+			+ "'" + " and isDeleted=0";
+	mysql.fetchData(function(err, results) {
 		if (err) {
-
 			throw err;
 		} else {
-			// homePage(req, res);
-			res.redirect('/listCategories');
-		}
+			if (results.length > 0) {
+				// if we get an entry then send the error
+				data = {
+					errorCode : 401,
+					message : "Please choose a uniqueCategory."
+				};
+				console.log("Already there:");
+				responseString = JSON.stringify(data);
+				res.send(responseString);
+			} else {
+				var query = "insert into category(name,isdeleted) values('"
+						+ newCategory + "','0')";
+				console.log("Query is:" + query);
 
-	}, query);
+				mysql.saveData(function(err, results) {
+					if (err) {
+
+						throw err;
+					} else {
+						// homePage(req, res);
+						res.redirect('/listCategories');
+					}
+
+				}, query);
+			}
+		}
+	}, selectCategory);
 
 }
 
@@ -171,21 +199,57 @@ function addSubCategory(req, res) {
 
 	console.log("New Sub Category :" + newSubCategory);
 
-	var query = "insert into sub_category(name,categoryid,isdeleted) values('"
-			+ newSubCategory + "','" + categoryid + "','0')";
-	console.log("Query is:" + query);
+	var newCategory = req.param("categoryName");
+	console.log("New Category :" + newCategory);
 
-	mysql.saveData(function(err, results) {
-		if (err) {
+	if (newSubCategory === null || typeof (newSubCategory) === 'undefined') {
+		data = {
+			errorCode : 400,
+			message : "SubCategory name required"
+		};
+		responseString = JSON.stringify(data);
+		res.send(responseString);
+	}
 
-			throw err;
-		} else {
+	var selectCategory = "select * from sub_category where name='"
+			+ newSubCategory + "'" + " and isDeleted=0";
+	mysql
+			.fetchData(
+					function(err, results) {
+						if (err) {
+							throw err;
+						} else {
+							if (results.length > 0) {
+								// if we get an entry then send the error
+								data = {
+									errorCode : 401,
+									message : "Please choose a unique SubCategory."
+								};
+								console.log("Already there:");
+								responseString = JSON.stringify(data);
+								res.send(responseString);
+							} else {
+								var query = "insert into sub_category(name,categoryid,isdeleted) values('"
+										+ newSubCategory
+										+ "','"
+										+ categoryid
+										+ "','0')";
+								console.log("Query is:" + query);
 
-			category = results;
-			homePage(req, res);
+								mysql.saveData(function(err, results) {
+									if (err) {
 
-		}
-	}, query);
+										throw err;
+									} else {
+
+										category = results;
+										homePage(req, res);
+
+									}
+								}, query);
+							}
+						}
+					}, selectCategory);
 
 }
 
@@ -565,6 +629,7 @@ function deleteProductForm(req, res) {
 }
 
 function addProduct(req, res) {
+
 	var categoryId = req.param("category");
 	var subCategoryId = req.param("sub-category");
 	var productPrice = req.param("productPrice");
@@ -573,49 +638,84 @@ function addProduct(req, res) {
 	var productType = req.param("productType");
 	var itemCondition = req.param("itemCondition");
 	var quantity = req.param("quantity");
+	console.log("ProductName:" + productName);
 
-	var itemConditionId;
-	var productTypeId;
+	console.log("Product Name: " + productName);
 
-	if (productType == "Selling")
-		productTypeId = 1;
-	else
-		productTypeId = 2;
+	if (productName === null || typeof (productName) === 'undefined') {
+		data = {
+			errorCode : 400,
+			message : "Product name required"
+		};
+		responseString = JSON.stringify(data);
+		res.send(responseString);
+	}
 
-	if (itemCondition == "New")
-		itemConditionId = 1;
-	else
-		itemConditionId = 2;
+	var selectCategory = "select * from product where name='" + productName
+			+ "'" + " and isDeleted=0";
+	mysql
+			.fetchData(
+					function(err, results) {
+						if (err) {
+							throw err;
+						} else {
+							if (results.length > 0) {
+								// if we get an entry then send the error
+								data = {
+									errorCode : 401,
+									message : "Please choose a unique Product."
+								};
+								console.log("Already there:");
+								responseString = JSON.stringify(data);
+								res.send(responseString);
+							} else {
+								var itemConditionId;
+								var productTypeId;
 
-	console.log("sub category :" + subCategoryId);
+								if (productType == "Selling")
+									productTypeId = 1;
+								else
+									productTypeId = 2;
 
-	var query = "insert into product(name,basePrice,productType,itemCondition , description , subCategoryId , sellerId , quantity , isDeleted ) values('"
-			+ productName
-			+ "',"
-			+ productPrice
-			+ ","
-			+ productTypeId
-			+ ","
-			+ itemConditionId
-			+ ",'"
-			+ productDesc
-			+ "',"
-			+ subCategoryId
-			+ ", 5 , " + quantity + ",0 );";
-	console.log("Query is:" + query);
+								if (itemCondition == "New")
+									itemConditionId = 1;
+								else
+									itemConditionId = 2;
 
-	mysql.saveData(function(err, results) {
-		if (err) {
+								console.log("sub category :" + subCategoryId);
 
-			throw err;
-		} else {
+								var query = "insert into product(name,basePrice,productType,itemCondition , description , subCategoryId , sellerId , quantity , isDeleted ) values('"
+										+ productName
+										+ "',"
+										+ productPrice
+										+ ","
+										+ productTypeId
+										+ ","
+										+ itemConditionId
+										+ ",'"
+										+ productDesc
+										+ "',"
+										+ subCategoryId
+										+ ", 5 , "
+										+ quantity + ",0 );";
+								console.log("Query is:" + query);
 
-			// category = results;
-			// res.redirect()--redirect to display product page
-			homePage(req, res);
+								mysql.saveData(function(err, results) {
+									if (err) {
 
-		}
-	}, query);
+										throw err;
+									} else {
+
+										// category = results;
+										// res.redirect()--redirect to display
+										// product page
+										homePage(req, res);
+
+									}
+								}, query);
+							}
+						}
+					}, selectCategory);
 
 }
 
@@ -663,28 +763,57 @@ function updateSubCategoryForm(req, res) {
 }
 
 function updateSubCategory(req, res) {
-
+	var data;
+	var responseString;
 	var newSubCategory = req.param("newSubCategoryName");
 	var subCategoryId = req.param("sub-category");
 	console.log("SubCategoryId :" + subCategoryId);
 
 	console.log("New SubCategory Name: " + newSubCategory);
 
-	var query = "Update sub_category set name = '" + newSubCategory
-			+ "' where subCategoryId = " + subCategoryId;
-	console.log("Query is:" + query);
+	if (newSubCategory === null || typeof (newSubCategory) === 'undefined') {
+		data = {
+			errorCode : 400,
+			message : "SubCategory name required"
+		};
+		responseString = JSON.stringify(data);
+		res.send(responseString);
+	}
 
-	mysql.saveData(function(err, results) {
+	var selectCategory = "select * from sub_category where name='"
+			+ newSubCategory + "'" + " and isDeleted=0";
+	mysql.fetchData(function(err, results) {
 		if (err) {
-
 			throw err;
 		} else {
+			if (results.length > 0) {
+				// if we get an entry then send the error
+				data = {
+					errorCode : 401,
+					message : "Please choose a unique SubCategory."
+				};
+				console.log("Already there:");
+				responseString = JSON.stringify(data);
+				res.send(responseString);
+			} else {
+				var query = "Update sub_category set name = '" + newSubCategory
+						+ "' where subCategoryId = " + subCategoryId;
+				console.log("Query is:" + query);
 
-			// category = results;
-			homePage(req, res);
+				mysql.saveData(function(err, results) {
+					if (err) {
 
+						throw err;
+					} else {
+
+						// category = results;
+						homePage(req, res);
+
+					}
+				}, query);
+			}
 		}
-	}, query);
+	}, selectCategory);
 
 }
 
@@ -829,28 +958,59 @@ function updateCategoryForm(req, res) {
 }
 
 function updateCategory(req, res) {
-
+	var data;
+	var responseString;
 	var newCategory = req.param("newCategoryName");
 	var categoryId = req.param("categoryId");
 	console.log("CategoryId :" + categoryId);
 
 	console.log("New Category Name: " + newCategory);
 
-	var query = "Update category set name = '" + newCategory
-			+ "' where categoryId = " + categoryId;
-	console.log("Query is:" + query);
+	console.log("New Category :" + newCategory);
 
-	mysql.saveData(function(err, results) {
+	if (newCategory === null || typeof (newCategory) === 'undefined') {
+		data = {
+			errorCode : 400,
+			message : "Category name required"
+		};
+		responseString = JSON.stringify(data);
+		res.send(responseString);
+	}
+
+	var selectCategory = "select * from category where name='" + newCategory
+			+ "'" + " and isDeleted=0";
+	mysql.fetchData(function(err, results) {
 		if (err) {
-
 			throw err;
 		} else {
+			if (results.length > 0) {
+				// if we get an entry then send the error
+				data = {
+					errorCode : 401,
+					message : "Please choose a uniqueCategory."
+				};
+				console.log("Already there:");
+				responseString = JSON.stringify(data);
+				res.send(responseString);
+			} else {
+				var query = "Update category set name = '" + newCategory
+						+ "' where categoryId = " + categoryId;
+				console.log("Query is:" + query);
 
-			category = results;
-			homePage(req, res);
+				mysql.saveData(function(err, results) {
+					if (err) {
 
+						throw err;
+					} else {
+
+						category = results;
+						homePage(req, res);
+
+					}
+				}, query);
+			}
 		}
-	}, query);
+	}, selectCategory);
 
 }
 
