@@ -61,32 +61,70 @@ exports.signin = function(req, res) {
 				// set the session object
 				req.session.user = loggedInUser;
 				// render the home page
-				
-				var getQuery = "Select * from category";
-				mysql.fetchData(function(err, categories) {
+				var getQuery = "Select  c.categoryId,c.name,c.image,c.isDeleted,s.subCategoryId,s.name subName,s.image subImage,s.isDeleted,s.categoryId from category c JOIN sub_category s on c.categoryId=s.categoryId where c.isDeleted=0 order by c.categoryId asc;";
+				mysql.fetchData(function(err, results) {
 					if (err) {
 						throw err;
 					} else {
-						// attach the categories for rendering
 
+						var cat = new Array();
+						var subCat = new Array();
+						var currentCategory = results[0];
+						var subCategory = null;
+						for ( var count = 0; count < results.length; count++) {
+
+							if (currentCategory.categoryId != results[count].categoryId
+									|| count == 0) {
+								if (count > 0) {
+									console.log("sub category array");
+									console.log(subCategory);
+									subCat.push(subCategory);
+								}
+								subCategory = new Array();
+								currentCategory = results[count];
+								var newCat = {
+									categoryId : results[count].categoryId,
+									name : results[count].name,
+									image : results[count].image
+
+								};
+								cat.push(newCat);
+							} 
+							//else {
+								var newSubCat = {
+									subCategoryId : results[count].subCategoryId,
+									subName : results[count].subName,
+									image : results[count].subImage,
+
+								};
+								if (subCategory.length < 6) {
+									subCategory.push(newSubCat);
+								}
+
+								if (count + 1 == results.length) {
+									subCat.push(subCategory);
+								}
+							//}
+
+						}
 						req.session.user = loggedInUser;
-						loggedInUser.category = categories;
-						loggedInUser.subCategories=new Array();
-						ejs.renderFile('./views/homepage.ejs', loggedInUser,
-							function(err, result) {
-									// render on success
-									if (!err) {
-										res.end(result);
-										
-									}
-									// render or error
-									else {
-										res.end('An error occurred');
-										console.log(err);
-									}
-								});
-					}
+						loggedInUser.category = cat;
+						loggedInUser.subCategories=subCat;
+						
+						ejs.renderFile('./views/homePage.ejs', loggedInUser, function(err,
+								result) {
+							// render on success
+							if (!err) {
+								res.end(result);
+							}
+							// render or error
+							else {
+								res.end('An error occurred');
+								console.log(err);
+							}
+						});
 
+					}
 				}, getQuery);
 
 			} else {

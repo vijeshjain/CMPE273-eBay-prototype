@@ -34,8 +34,8 @@ if ('development' == app.get('env')) {
 
 //app.get('/', routes.index);
 //app.get('/users', user.list);
-app.get('/', home.homePage);
-//app.get('/', home.renderCategoryAndSubCategory);
+//app.get('/', home.homePage);
+app.get('/', home.renderCategoryAndSubCategory);
 app.get('/signup', home.signup);
 app.post('/register', user.register);
 

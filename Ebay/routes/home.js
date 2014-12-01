@@ -285,7 +285,7 @@ function loadSubCategories(req, res) {
 
 function renderCategoryAndSubCategory(req, res) {
 
-	var getQuery = "Select  c.categoryId,c.name,c.image,c.isDeleted,s.subCategoryId,s.name subName,s.image subImage,s.isDeleted,s.categoryId from category c JOIN sub_category s on c.categoryId=s.categoryId where c.isDeleted=0 order by c.categoryId asc;";
+	var getQuery = "Select  c.categoryId,c.name,c.image,c.isDeleted,s.subCategoryId,s.name subName,s.image subImage,s.isDeleted,s.categoryId from category c JOIN sub_category s on c.categoryId=s.categoryId where c.isDeleted=0 and s.isDeleted=0 order by c.categoryId asc;";
 	mysql.fetchData(function(err, results) {
 		if (err) {
 			throw err;
@@ -313,7 +313,8 @@ function renderCategoryAndSubCategory(req, res) {
 
 					};
 					cat.push(newCat);
-				} else {
+				} 
+				//else {
 					var newSubCat = {
 						subCategoryId : results[count].subCategoryId,
 						subName : results[count].subName,
@@ -327,7 +328,7 @@ function renderCategoryAndSubCategory(req, res) {
 					if (count + 1 == results.length) {
 						subCat.push(subCategory);
 					}
-				}
+				//}
 
 			}
 			
