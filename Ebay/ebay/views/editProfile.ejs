@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>eBay | Sign Up</title>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+    <script src="/Scripts/signup.js"></script>
+    <script src="../Scripts/home.js"></script>
+</head>
+<body class="body">
+<div class="signUp-header">
+    <a href="/"><img src="../images/ebay_logo.PNG"/ height="" width="" class="logo"> </a>
+    <h1>Get started with eBay</h1><br/>
+    <span>Create your personal account or <a>start a business account</a></span>
+
+</div>
+<div class="signup-body">
+    <div class="form-outer-div">
+        <form class="form-style" action="/editAndSaveUser/<%= userData[0].userId %>" method="POST">
+            <div>
+                <div class="float-left">
+                    First Name: <input id="first-name" type="text" name="fname" value="<%= userData[0].firstName %>" required="required"><span class="requiredClass">*</span>
+                    Last Name: <input id="last-name" type="text" name="lname" value="<%= userData[0].lastName %>" required="required"><span class="requiredClass">*</span>
+                    Username: <input id="username" type="text" name="username" value="<%= userData[0].userName %>" required="required"><span class="requiredClass">*</span><br/>
+                    Membership ID: <input id="membershipId" type="text" name="membershipId" value="<%= userData[0].membershipId %>" required="required"><span class="requiredClass">*</span><br/>
+
+                    Address: <input id="address" type="text" name="address" value="<%= userData[0].address %>" ><br/>
+                    City: <input id="City" type="text" name="city" value="<%= userData[0].city %>" ><br/>
+                    Zipcode: <input id="zip" type="text" name="zip" value="<%= userData[0].zipCode %>" ><br/>
+
+                </div>
+
+
+            </div>
+
+            <div class="form-footer">
+                <input id="userType-seller" name="userType_seller" type="checkbox" checked><span class="checkbox-text">Sign up as buyer</span>
+                <input id="userType-buyer" name="userType_buyer" type="checkbox"><span class="checkbox-text">Sign up as seller</span><br/>
+                <b>By clicking "Submit" I agree that:</b>
+                <ul><li>I have read and accepted the <a title="link opens in new window" href="" target="_blank">User Agreement<b class="g-hdn"></b></a> and <a title="link opens in new window" href="" target="_blank">Privacy Policy<b class="g-hdn"></b></a>.</li><li>I may receive communications from eBay and can change my notification preferences in My eBay.</li><li>I am at least 18 years old.</li></ul>
+            </div>
+            <div>
+
+            </div>
+
+            <input id="sbtBtn" class="btn btn-prim" type="submit" value="Submit">
+        </form>
+    </div>
+
+</div>
+<div class="alert-box error" id="errorMessage"><span id="error-span"></span></div>
+<div class="alert-box success" id="successMessage"><span id="success-span"></span></div>
+</body>
+
+</html>

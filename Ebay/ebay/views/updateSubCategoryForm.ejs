@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>eBay | Sign Up</title>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+<script src="../Scripts/home.js"></script>
+<script src="/Scripts/signup.js"></script>
+<script type="text/javascript">
+
+
+	function updateValues(){
+		/* var count = document.getElementById("cat").selectedIndex;
+		document.getElementById("count").innerHTML = count;*/
+		alert(document.getElementById("cat").value); 
+		getSubcategories(document.getElementById("cat").value);
+	}
+</script>
+</head>
+<body class="body" onload="updateValues()"> 
+	<% include header.ejs %>
+	
+
+	
+	<br>
+	
+	<div class="signup-body">
+		<div class="form-outer-div">
+			<form class="form-style" action="/updateSubCategory" id="signup-form" method="POST">
+                  <h1>Update Sub Category</h1>
+				
+						<div class="float-left">
+							<select title="Select a Category to Update"
+								class="category" size="1" id="category" name="category" > <%
+								if(category != null){ category.forEach(function(item) {%>
+								<option name="catName" value="<%= item.categoryId%>"><%= item.name %></option>
+								<% console.log("name:"+item.name); });} %>
+								</select></div>
+							<div class="float-left">
+							<select title="Select a Sub category to Update"
+								class="sub-category" size="1" id="sub-category" name="sub-category"><% 
+								if(subCategories[0]!= null){ subCategories[0].forEach(function(subItem) {%>
+								<option name="subCatName" value="<%= subItem.categoryId%>"><%= subItem.name %></option>
+								<% console.log("name:"+subItem.name); });} %>
+							</select></div></td>
+							<div class="float-left">
+			<input id="category-name" type="text" name="newSubCategoryName"
+				placeholder="Sub Category Name" required="required"><span
+				class="requiredClass">*</span><br> <br> Upload Image:- <input
+				type="file" name="img"> <br><br> <input
+				id="sbtBtn" class="btn btn-prim" type="submit"
+				value="Update Sub Category">
+
+
+
+		</div>
+							
+		</div>
+		<br>
+
+
+		
+
+		</form>
+	</div>
+
+<div class="alert-box error" id="errorMessage"><span id="error-span"></span></div>
+	<div class="alert-box success" id="successMessage"><span id="success-span"></span></div>
+
+</body>
+
+</html>
