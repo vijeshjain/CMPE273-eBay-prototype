@@ -2,7 +2,8 @@
  * 
  * New node file
  */
-
+var ejs = require("ejs");
+var mysql = require('./mysql.js');
 exports.initializeShoppingCart = function(req, res) {
 	req.session.shoppingCart = new Array();
 }

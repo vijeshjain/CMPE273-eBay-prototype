@@ -29,7 +29,7 @@ function homePage(req, res) {
 									for ( var i = 0; i < results.length; i++) {
 										var getUser1 = "select *  from sub_category where categoryid = "
 												+ results[i].categoryId
-												+ " limit 5";
+												;
 										console.log(results[i].name);
 										mysql
 												.fetchData(
@@ -180,8 +180,13 @@ function addCategory(req, res) {
 
 						throw err;
 					} else {
-						// homePage(req, res);
-						res.redirect('/listCategories');
+						 data = {
+                                 errorCode : 100,
+                                 message : "Category added successfully",
+                                 url : "http://localhost:3000/listCategories"
+                         };
+                         responseString = JSON.stringify(data);
+                         res.send(responseString);
 					}
 
 				}, query);
@@ -242,8 +247,13 @@ function addSubCategory(req, res) {
 										throw err;
 									} else {
 
-										category = results;
-										homePage(req, res);
+										 data = {
+                                                 errorCode : 100,
+                                                 message : "Sub Category added successfully",
+                                                 url : "http://localhost:3000/listSubCategories"
+                                         };
+                                         responseString = JSON.stringify(data);
+                                         res.send(responseString);
 
 									}
 								}, query);
@@ -537,7 +547,7 @@ function listProducts(req, res) {
 
 	var category_new = null;
 
-	var getUser = "select c.categoryid,c.name cat_name,c.image cat_image,s.name subcat_name,s.subCategoryId, p.productId,p.name prod_name from category c,sub_category s,product p where c.categoryId=s.categoryId  and s.subCategoryId=p.subCategoryId ";
+	var getUser = "select c.categoryid,c.name cat_name,c.image cat_image,s.name subcat_name,s.subCategoryId, p.productId,p.name prod_name,p.productType  from category c,sub_category s,product p where c.categoryId=s.categoryId  and s.subCategoryId=p.subCategoryId ";
 	console.log("Query is:" + getUser);
 
 	mysql.fetchData(function(err, results) {
@@ -706,10 +716,13 @@ function addProduct(req, res) {
 										throw err;
 									} else {
 
-										// category = results;
-										// res.redirect()--redirect to display
-										// product page
-										homePage(req, res);
+										 data = {
+				                                 errorCode : 100,
+				                                 message : "Product Added successfully",
+				                                 url : "http://localhost:3000/listProducts"
+				                         };
+				                         responseString = JSON.stringify(data);
+				                         res.send(responseString);
 
 									}
 								}, query);
@@ -806,9 +819,13 @@ function updateSubCategory(req, res) {
 						throw err;
 					} else {
 
-						// category = results;
-						homePage(req, res);
-
+						 data = {
+                                 errorCode : 100,
+                                 message : "Sub Category updated successfully",
+                                 url : "http://localhost:3000/listSubCategories"
+                         };
+                         responseString = JSON.stringify(data);
+                         res.send(responseString);
 					}
 				}, query);
 			}
@@ -924,9 +941,13 @@ function updateProduct(req, res) {
 			throw err;
 		} else {
 
-			// category = results;
-			// res.redirect()--redirect to display product page
-			homePage(req, res);
+			data = {
+                    errorCode : 100,
+                    message : "Product updated successfully",
+                    url : "http://localhost:3000/listProducts"
+            };
+            responseString = JSON.stringify(data);
+            res.send(responseString);
 
 		}
 	}, query);
@@ -1002,9 +1023,13 @@ function updateCategory(req, res) {
 
 						throw err;
 					} else {
-
-						category = results;
-						homePage(req, res);
+						 data = {
+                                 errorCode : 100,
+                                 message : "Category updated successfully",
+                                 url : "http://localhost:3000/listCategories"
+                         };
+                         responseString = JSON.stringify(data);
+                         res.send(responseString);
 
 					}
 				}, query);

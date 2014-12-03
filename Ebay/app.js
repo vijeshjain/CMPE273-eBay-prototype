@@ -54,7 +54,9 @@ app.get('/getProductList',product.getProductJSONList);
 app.get('/getSubCategory',home.getSubCategoryForCategory);
 app.get('/getProductsForSubCategory',home.getProductsForSubCategory);
 app.get('/listProducts',home.listProducts);
-app.get('/listProducts',home.listProducts);
+
+app.post('/showProducts', product.listProducts);
+
 
 app.post('/getUser',user.getUserFromFirstName);
 app.post('/getUserProfileDetails',user.getUserProfileDetails);
@@ -94,11 +96,13 @@ app.get('/updateProductForm', home.updateProductForm);
 app.get('/getSubCategoryInJson', home.getSubCategoryInJson);
 app.get('/getProductsInJson', home.getProductsInJson);
 app.get('/getProductDetails', product.getProductDetailsFromName);
+//app.post('/getProductDetails', product.getProductDetailsFromName);
 
 
 
 app.get('/shoppingCart',shoppingCart.showSoppingCart);
 app.post('/addToShoppingCart',shoppingCart.addToShoppingCart);
+app.get('/addToShoppingCart',shoppingCart.addToShoppingCart);
 app.post('/removeFromShoppingCart',shoppingCart.removeFromShoppingCart);
 
 http.createServer(app).listen(app.get('port'), function(){

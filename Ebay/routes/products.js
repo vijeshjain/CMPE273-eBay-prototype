@@ -2,9 +2,10 @@
  * New node file
  */
 
-var ejs = require("ejs");
-var mysql = require('./mysql');
-var common = require('./common');
+ var ejs = require("ejs");
+ var mysql = require('./mysql');
+ var common = require('./common');
+ var home = require('./home');
 
 
 exports.getProductJSONList=function(req,res)
@@ -62,8 +63,10 @@ exports.getProductFromName=function(req,res)
 
 exports.getProductDetailsFromName=function(req,res)
 {
-
-	var getQ="select * from product where name ='"+ req.param("product")+"' and isDeleted=0";
+	
+	
+var getQ="SELECT p.productId ,p.NAME AS productName ,p.description ,p.productType ,pt.NAME AS productTypeName ,p.subCategoryId ,sc.name as subname,p.itemCondition ,ic.NAME AS itemConditionName ,p.basePrice,p.sellerId ,CONCAT (u.firstName	,' '	,u.lastName) AS sellername ,p.IMAGE,p.quantity,p.isDeleted FROM product p INNER JOIN product_type pt ON p.productType = pt.typeId INNER JOIN item_condition ic ON p.itemCondition = ic.conditionId INNER JOIN user u ON p.sellerId = u.userId INNER JOIN sub_category sc ON p.subCategoryId = sc.subCategoryId WHERE p.NAME ='"+ req.param("product")+"' AND p.isDeleted = 0;";
+	//var getQ="select * from product where name ='"+ req.param("product")+"' and isDeleted=0";
 	console.log(getQ);
 	mysql.fetchData(function(err, results) {
 		if (err) {
@@ -119,8 +122,12 @@ exports.getProductDetailsFromName=function(req,res)
 							//}
 
 						}
+						
+						
 						businessObj.category=cat ;
 						businessObj.subCategories=subCat;
+						console.log("***************************mukul");
+						console.log(cat);
 						ejs.renderFile('./views/productDetails.ejs', businessObj,
 								function(err, result) {
 										// render on success
@@ -162,3 +169,39 @@ exports.getProductDetailsFromName=function(req,res)
 	}, getQ);	
 	
 };
+
+ exports.listProducts = function(req, res){
+	 var subCategoryId = req.param("subCategoryId");
+	 var categories = home.category;
+	 //var subCategories = [];
+	 var subCategories = home.subCategories;
+ 	var ShowProductQuery = "SELECT p.productId ,p.NAME AS productName ,p.description ,p.productType ,pt.NAME AS productTypeName ,p.subCategoryId ,sc.name as subname,p.itemCondition ,ic.NAME AS itemConditionName ,p.basePrice,p.sellerId ,CONCAT (u.firstName	,' '	,u.lastName) AS sellername ,p.IMAGE,p.quantity,p.isDeleted FROM product p INNER JOIN product_type pt ON p.productType = pt.typeId INNER JOIN item_condition ic ON p.itemCondition = ic.conditionId INNER JOIN user u ON p.sellerId = u.userId INNER JOIN sub_category sc ON p.subCategoryId = sc.subCategoryId WHERE sc.subCategoryId = "+ subCategoryId+ " AND p.isDeleted = 0;";
+
+
+ 	mysql.fetchData(function(err,rows){
+ 		if(!err)
+ 		{
+
+
+ 			ejs.renderFile('./views/showProducts.ejs', {rows: rows, category: categories,subCategories:subCategories }, function(err, result)
+ 			{
+ 				if(!err)
+ 				{
+ 					console.log("In Product.ejs *******");
+ 					res.end(result);
+ 				}
+ 				else
+ 				{
+ 					res.end('An error occurred');
+ 					console.log(err);
+ 				}
+ 			});
+ 		}
+ 		else
+ 		{
+ 			res.end('An error occurred');
+ 			console.log(err);
+ 		}
+ 	},ShowProductQuery);
+
+ };

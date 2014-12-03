@@ -264,7 +264,8 @@ exports.register = function(req, res) {
 					} else {
 						data = {
 							errorCode : 100,
-							message : "You have successfuly registered to eBay. Please proceed to login."
+							message : "You have successfuly registered to eBay. Please proceed to login.",
+								  url : "http://localhost:3000/signin"
 						
 						};
 						responseString = JSON.stringify(data);

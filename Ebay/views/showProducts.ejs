@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+
+<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"
+	type="text/javascript"></script>
+
+
+<script
+	src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<link
+	href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"
+	rel="stylesheet">
+<script src="../bootstrap/js/bootstrap-rating-input.js"
+	type="text/javascript"></script>
+
+
+<link rel="stylesheet"
+	href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"
+	type="text/css">
+</head>
+<body>
+	<div class="dashboard-header"><%- include header.ejs %></div>
+	<% var itemType=""; if(rows && rows!= null && rows.length > 0) { %>
+	<div class="container">
+
+
+		<div id="content">
+			<ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+				<li class="active"><a id="aItems" href="#allItems"
+					data-toggle="tab">All Listings</a></li>
+				<li><a id="aBuyItNow" href="#buyNow" data-toggle="tab">Buy
+						It Now</a></li>
+				<li><a id="aAuctions" href="#auctions" data-toggle="tab">Auctions</a></li>
+
+
+			</ul>
+			<div id="my-tab-content" class="tab-content">
+				<div class="tab-pane active" id="allItems">
+
+					<div class="row header">
+
+						<div class="well">
+							<div class="row">
+								<% rows.forEach(function(item) { %>
+								<div class="col-sm-12 col-xs-12 col-md-4 col-lg-4">
+									<div class="thumbnail bootsnipp-thumb">
+										<div>
+											<p class="pull-right view-counts hidden-md">
+
+												<span class="label label-info" data-toggle="tooltip"
+													title="" data-original-title=""> <%=
+													item.itemConditionName %></span>
+											</p>
+											<p class="lead snipp-title"><%= item.productName %></p>
+											<p>
+												<i><%= item.description %></i>
+											</p>
+											<p class="boldtext">
+												Seller: <span class="bluetext"> <%= item.sellername
+													%></span><span style="color: red"><input type="number"
+													data-max="5" data-min="1" data-empty-value="0"
+													data-clearable="remove" name="sellerRating"
+													id="sellerRating" class="rating" />
+											</p>
+											</span> <% if(item.productType==1) { %>
+											<p>
+												<span class="boldtext">Quantity left: </span><%=
+												item.quantity %>
+											<p>
+												<label class="boldtext">Buy Quantity: </label>
+												<%if(item.quantity>=5){%> <input type="number" name="txtqty"
+													min="1" max="5" id="txtqty" value="1">
+											</p>
+
+											<%} else {%> <input type="number" name="txtqty" min="1"
+												max="<%=item.quantity%>" id="txtqty" value="1">
+											</p>
+											<%}%>
+											<p class="boldtext">
+											<h3>Now: US$ <%= item.basePrice %></h3>
+											</p>
+
+
+											<% } else { %>
+											<p>Time left:</p>
+											</p>
+											<p class="boldtext">
+											<h3>Current Bid: US$ <%= item.basePrice %></h3>
+											</p>
+											<p>
+												<label class="boldtext">Place a Bid: </label><input
+													type="text1" name="txtqty" id="txtqty"><small
+													style="color: grey"> <br> Enter US $<%=
+													(item.basePrice) %> or more
+												</small>
+											</p>
+											</p>
+
+											<% } %>
+											<p class="boldtext">
+												List Price: <span class="textstrikeoff">$ <%=
+													item.basePrice+(item.basePrice/2) %></span>
+											</p>
+
+
+										</div>
+
+										<div class="caption">
+											<p>
+												<% if(item.productType==1) { %> <a
+													href="/addToShoppingCart?pid=<%=item.productId%>">
+													<button type="button" class="btn btn-primary center-block">Buy
+														It Now</button>
+												</a> <% } else { %>
+												<button type="button" class="btn btn-primary center-block">Place
+													a Bid</button>
+												<% } %> <img style="margin-left: 150px;"
+													src="../images/paypal_logo.png" alt="PayPal" border="0">
+											</p>
+										</div>
+									</div>
+								</div>
+								<% }); %>
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+				<!-- bidding / auction -->
+				<div class="tab-pane " id="auctions">
+
+					<div class="row header">
+						<div class="well">
+							<div class="row">
+								<% rows.forEach(function(item) { %> <%if(item.productType==2) {
+								%>
+
+								<div class="col-sm-12 col-xs-12 col-md-4 col-lg-4">
+									<div class="thumbnail bootsnipp-thumb">
+										<div>
+											<p class="pull-right view-counts hidden-md">
+
+												<span class="label label-info" data-toggle="tooltip"
+													title="" data-original-title=""> <%=
+													item.itemConditionName %></span>
+											</p>
+											<p class="lead snipp-title"><%= item.productName %></p>
+											<p>
+												<i><%= item.description %></i>
+											</p>
+											<p class="boldtext">
+												Seller: <span class="bluetext"> <%= item.sellername
+													%></span><span style="color: red"><input type="number"
+													data-max="5" data-min="1" data-empty-value="0"
+													data-clearable="remove" name="sellerRating"
+													id="sellerRating" class="rating" />
+											</p>
+											</span>
+
+
+											<p>Time left:</p>
+											</p>
+											<p class="boldtext">
+											<h3>Current Bid: US$ <%= item.basePrice %></h3>
+											</p>
+											<p>
+												<label class="boldtext">Place a Bid: </label><input
+													type="text1" name="txtqty" min="<%= (item.basePrice) %>"
+													width=101px height=25px id="txtqty"> <small
+													style="color: grey"><br>Enter US $<%=
+													(item.basePrice) %> or more </small>
+											</p>
+											<p class="boldtext">
+												List Price: <span class="textstrikeoff">$ <%=
+													item.basePrice+(item.basePrice/2) %></span>
+											</p>
+
+
+
+										</div>
+
+										<div class="caption">
+											<p>
+												<button type="button" class="btn btn-primary center-block">Place
+													a Bid</button>
+												<img style="margin-left: 150px;"
+													src="../images/paypal_logo.png" alt="PayPal" border="0">
+											</p>
+
+										</div>
+									</div>
+								</div>
+								<% }}); %>
+
+							</div>
+						</div>
+
+					</div>
+				</div>
+				<!-- END : bidding / auction -->
+
+				<!-- Buy It Now -->
+
+				<div class="tab-pane " id="buyNow">
+
+					<div class="row header">
+
+						<div class="well">
+							<div class="row">
+								<% rows.forEach(function(item) { if(item.productType==1) { %>
+								<div class="col-sm-12 col-xs-12 col-md-4 col-lg-4">
+									<div class="thumbnail bootsnipp-thumb">
+										<div>
+											<p class="pull-right view-counts hidden-md">
+
+												<span class="label label-info" data-toggle="tooltip"
+													title="" data-original-title=""> <%=
+													item.itemConditionName %></span>
+											</p>
+											<p class="lead snipp-title"><%= item.productName %></p>
+											<p>
+												<i><%= item.description %></i>
+											</p>
+											<p class="boldtext">
+												Seller: <span class="bluetext"> <%= item.sellername
+													%></span><span style="color: red"><input type="number"
+													data-max="5" data-min="1" data-empty-value="0"
+													data-clearable="remove" name="sellerRating"
+													id="sellerRating" class="rating" />
+											</p>
+											</span>
+
+											<p>
+												<span class="boldtext">Quantity left: </span><%=
+												item.quantity %>
+											</p>
+											<p>
+												<label class="boldtext">Buy Quantity: </label>
+
+												<%if(item.quantity>=5){%> <input type="number" name="txtqty"
+													min="1" max="5" id="txtqty" value="1">
+											</p>
+
+											<%} else {%> <input type="number" name="txtqty" min="1"
+												max="<%=item.quantity%>" id="txtqty" value="1">
+											</p>
+											<%}%>
+
+											<p class="boldtext">
+											<h3>Now: US$ <%= item.basePrice %></h3>
+											</p>
+											<p class="boldtext">
+												List Price: <span class="textstrikeoff">$ <%=
+													item.basePrice+(item.basePrice/2) %></span>
+											</p>
+
+
+										</div>
+
+										<div class="caption">
+											<a href="/addToShoppingCart?pid=<%=item.productId%>">
+												<p>
+													<button type="button" class="btn btn-primary center-block">Buy
+														It Now</button>
+											</a> <img style="margin-left: 150px;"
+												src="../images/paypal_logo.png" alt="PayPal" border="0">
+											</p>
+
+										</div>
+									</div>
+								</div>
+								<% }}); } %>
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+			</div>
+		</div>
+	</div>
+
+
+</body>
+</html>
