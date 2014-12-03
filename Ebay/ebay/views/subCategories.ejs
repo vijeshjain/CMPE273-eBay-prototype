@@ -19,10 +19,14 @@
 
 		<%category.forEach(function(item){ %> <% if(type ==
 		category[catCount].name){ if(subCategories[catCount] != null){
-		subCategories[catCount].forEach(function(item) { if(count<4) { %> <a
-			href="#"> <img src="<%=item.image%>" height="390px" width="49%"></a>
-
-
+		subCategories[catCount].forEach(function(item) { if(count<4) { %>
+		<form action="/showProducts" method="post"  >
+		<div>
+		  
+		 <input type="image" value="submit" name="submit" src="<%=item.image%>" >
+		  <input type="hidden" name="subCategoryId" value="<%=item.subCategoryId%>">
+		  </div>
+	</form>
 
 
 		<%} else { %> <a href="#"> <img src="<%=item.image%>"

@@ -55,7 +55,7 @@ app.get('/getSubCategory',home.getSubCategoryForCategory);
 app.get('/getProductsForSubCategory',home.getProductsForSubCategory);
 app.get('/listProducts',home.listProducts);
 
-app.get('/showProducts', product.listProducts);
+app.post('/showProducts', product.listProducts);
 
 app.post('/getUser',user.getUserFromFirstName);
 app.post('/getUserProfileDetails',user.getUserProfileDetails);

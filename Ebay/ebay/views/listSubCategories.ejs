@@ -69,10 +69,17 @@
 												<td>
 												
 												
-												<%=subcat.name%>
+												<%=subcat.subName%>
 												
 												</td>
-												<td> <img src="<%=subcat.image%>" height="100px" width="100px" ></td>
+												<td>
+												<form action="/showProducts" method="post"   >
+		<div>
+		  
+		 <input type="image" value="submit" name="submit" src="<%=subcat.image%>" height="100px" width="100px">
+		  <input type="hidden" name="subCategoryId" value="<%=subcat.subCategoryId%>">
+		  </div>
+	</form> </td>
 												
 
                         </tr>

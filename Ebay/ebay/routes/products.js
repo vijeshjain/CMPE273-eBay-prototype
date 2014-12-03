@@ -165,8 +165,9 @@ exports.getProductDetailsFromName=function(req,res)
 };
 
  exports.listProducts = function(req, res){
- 	var categories = home.category;
- 	var ShowProductQuery = "SELECT p.productId ,p.NAME AS productName ,p.description ,p.productType ,pt.NAME AS productTypeName ,p.subCategoryId ,sc.name as subname,p.itemCondition ,ic.NAME AS itemConditionName ,p.basePrice,p.sellerId ,CONCAT (u.firstName	,' '	,u.lastName) AS sellername ,p.IMAGE,p.quantity,p.isDeleted FROM product p INNER JOIN product_type pt ON p.productType = pt.typeId INNER JOIN item_condition ic ON p.itemCondition = ic.conditionId INNER JOIN user u ON p.sellerId = u.userId INNER JOIN sub_category sc ON p.subCategoryId = sc.subCategoryId WHERE sc.subCategoryId = 1 AND p.isDeleted = 0;";
+	 var subCategoryId = req.param("subCategoryId");
+	 var categories = home.category;
+ 	var ShowProductQuery = "SELECT p.productId ,p.NAME AS productName ,p.description ,p.productType ,pt.NAME AS productTypeName ,p.subCategoryId ,sc.name as subname,p.itemCondition ,ic.NAME AS itemConditionName ,p.basePrice,p.sellerId ,CONCAT (u.firstName	,' '	,u.lastName) AS sellername ,p.IMAGE,p.quantity,p.isDeleted FROM product p INNER JOIN product_type pt ON p.productType = pt.typeId INNER JOIN item_condition ic ON p.itemCondition = ic.conditionId INNER JOIN user u ON p.sellerId = u.userId INNER JOIN sub_category sc ON p.subCategoryId = sc.subCategoryId WHERE sc.subCategoryId = "+ subCategoryId+ " AND p.isDeleted = 0;";
 
 
  	mysql.fetchData(function(err,rows){
