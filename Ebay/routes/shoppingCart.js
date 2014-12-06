@@ -67,19 +67,27 @@ exports.showSoppingCart = function(req, res) {
 			}
 			var user=req.session.user;
 			var addr;
+			var firstName;
+			var userId;
 			if(typeof(user)=="undefined")
 				{
 				addr="";
+				firstName="";
+				userId=0;
 				}
 			else{
 				addr=user.address;
+				firstName=user.firstName;
+				userId=user.userId;
 			}
 			var resultObj = {
 
 				products : shoppingCart,
 				category : cat,
 				subCategories : subCat,
-				address:addr
+				address:addr,
+				firstName:firstName,
+				userId:userId
 			};
 			ejs.renderFile('./views/shoppingCart.ejs', resultObj,
 					function(err, result) {
@@ -235,11 +243,27 @@ exports.paymentPage=function(req,res)
 				// }
 
 			}
+			var user=req.session.user;
+			var firstName;
+			var userId;
+			if(typeof(user)=="undefined")
+				{
+				
+				firstName="";
+				userId=0;
+				}
+			else{
+				
+				firstName=user.firstName;
+				userId=user.userId;
+			}
 			var resultObj = {
 
 				category : cat,
 				subCategories : subCat,
-				address:addr
+				address:addr,
+				firstName:firstName,
+				userId:userId
 			};
 			ejs.renderFile('./views/payment.ejs', resultObj,
 					function(err, result) {

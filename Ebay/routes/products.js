@@ -126,12 +126,11 @@ exports.getProductDetailsFromName = function(req, res) {
 															// }
 
 														}
-
 														businessObj.category = cat;
 														businessObj.subCategories = subCat;
-														console
-																.log("***************************mukul");
-														console.log(cat);
+														businessObj.firstName = "";
+														businessObj.userId = 0;
+
 														ejs
 																.renderFile(
 																		'./views/productDetails.ejs',
@@ -163,6 +162,8 @@ exports.getProductDetailsFromName = function(req, res) {
 							} else {
 								businessObj.category = user.category;
 								businessObj.subCategories = user.subCategories;
+								businessObj.firstName = user.firstName;
+								businessObj.userId = user.userId;
 								ejs.renderFile('./views/productDetails.ejs',
 										businessObj, function(err, result) {
 											// render on success
@@ -237,6 +238,16 @@ exports.listProducts = function(req, res) {
 							}
 							var ShowProductQuery = "SELECT p.productId ,p.NAME AS productName ,p.description ,p.productType ,pt.NAME AS productTypeName ,p.subCategoryId ,sc.name as subname,p.itemCondition ,ic.NAME AS itemConditionName ,p.basePrice,p.sellerId ,CONCAT (u.firstName	,' '	,u.lastName) AS sellername ,p.IMAGE,p.quantity,p.isDeleted FROM product p INNER JOIN product_type pt ON p.productType = pt.typeId INNER JOIN item_condition ic ON p.itemCondition = ic.conditionId INNER JOIN user u ON p.sellerId = u.userId INNER JOIN sub_category sc ON p.subCategoryId = sc.subCategoryId WHERE sc.subCategoryId ="
 									+ subCatID + " AND p.isDeleted = 0;";
+							var user = req.session.user;
+							var fname;
+							var uId;
+							if (typeof (user) == "undefined") {
+								fname = "";
+								uId = 0;
+							} else {
+								fname = user.firstName;
+								uId = user.userId;
+							}
 							mysql
 									.fetchData(
 											function(err, rows) {
@@ -248,7 +259,9 @@ exports.listProducts = function(req, res) {
 																	{
 																		rows : rows,
 																		category : cat,
-																		subCategories : subCat
+																		subCategories : subCat,
+																		firstName : fname,
+																		userId : uId
 																	},
 																	function(
 																			err,

@@ -8,10 +8,7 @@ var shoppingCart=require('./shoppingCart');
  */
 
 
- exports.list = function(req, res) {
- 	res.send("respond with a resource");
- };
-
+ 
  function updateCurrentDateInLoggedInUser(username) {
  	var currentDate = common.FormatDate(new Date(), "%Y-%m-%d %H:%M:%S", false);
  	var updateTime = "Update user SET lastLogin='" + currentDate
@@ -293,8 +290,8 @@ exports.displayusers = function(req, res){
 		if(!err)
 		{
 			var categories = home.category;
-
-			ejs.renderFile('./views/viewusers.ejs', {rows: rows, category: categories }, function(err, result)
+			var user=req.session.user;
+			ejs.renderFile('./views/viewusers.ejs', {rows: rows, category: categories,firstName:user.firstName,userId:user.userId }, function(err, result)
 			{
 				if(!err)
 				{
@@ -346,8 +343,8 @@ exports.editUser = function(req,res)
 		if (!err) {
 			
 			console.log(JSON.stringify(rows));
-
-			ejs.renderFile('./views/editProfile.ejs', { userData: rows}, function(err, result) {
+			var user=req.session.user;
+			ejs.renderFile('./views/editProfile.ejs', { userData: rows,firstName:user.firstName,userId:user.userId}, function(err, result) {
 
 				if (!err) {
 					res.end(result);

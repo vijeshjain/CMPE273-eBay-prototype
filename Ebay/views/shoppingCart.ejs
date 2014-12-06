@@ -69,13 +69,16 @@ width: 76%;">
 			<form action="/paymentConfirmation" method="GET">
 				<input type="text" placeholder="Please enter your address" name="address"></br>
 				<input type="hidden" value="0" name="isNew">
-				<input type="submit" value="Checkout" class="btn btn-prim">
+				<input type="submit" value="Checkout" class="btn btn-prim" style="color: white;">
 			</form>
 		<%}%>
 		<%if(address!=""){%>
-			<span><%=address%></span>
+			<span style="min-height: 100px;
+height: 100px;
+display: block;
+margin-top: 11%;"><%=address%></span>
 			<div>
-					<a id="" class="btn btn-prim" href="/paymentConfirmation?isNew=1">Checkout</a></br>
+					<a id="" class="btn btn-prim" style="color: white;" href="/paymentConfirmation?isNew=1">Checkout</a></br>
 			</div>
 		<%}%>
 		

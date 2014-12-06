@@ -186,33 +186,14 @@ a8P_____88  88P'    "8a  ""     `Y8  `8b     d8'
 			</table>
 			<div class="gh-top">
 				<ul id="gh-topl">
-					<li class="gh-t gh-spr " id=gh-eb-u><script>
-						(function() {
-							try {
-								var d = document.cookie, a = ((a = d
-										.match(/u1f.([^^]*)[0-9a-z]{8}/i)) ? a[1]
-										.replace(/\+/g, " ")
-										: "").replace(/(.{12}).*/, "$1...");
-								if (/[<>%&'\/]/.test(a)) {
-									throw (1)
-								}
-								document
-										.write("<span id=gh-ug"
-												+ (!a || /u1p.QEBfX/.test(d) ? ' class=gh-ug-guest>Hi! <a href="/signin">Sign in</a> <span id="gh-ug-flex">or <a href="/signup" rel="nofollow" _sp="m570.l2621">register</a></span>'
-														: ' style="margin-right:3px">Hi <b>-User-</b>!'
-																.replace(
-																		/-User-/,
-																		escape(a)))
-												+ "</span>")
-							} catch (b) {
-								document
-										.write("<style>#gh-topl{display:none}</style>")
-							}
-						})();
-					</script>
-						<noscript class='gh-t gh-spr'>
-							Hi (<a href="#">Sign in</a> to bid or buy)
-						</noscript></li>
+					<li class="gh-t gh-spr " id=gh-eb-u>
+						<%if(firstName==""){%>
+								Hi<a href="/signin"> Sign in</a>
+								<span id="gh-ug-flex">  or 
+								<a href="/signup" rel="nofollow" _sp="m570.l2621">  register</a></span>
+						<%}%>
+						
+						</li>
 					<li class="gh-t gh-spr " id=gh-p-1><a href="#" _sp=m570.l3188
 						class="gh-p">Daily Deals</a></li>
 					<li class="gh-t gh-spr " id=gh-p-4><a href=" #" _sp=m570.l6463
@@ -233,7 +214,8 @@ a8P_____88  88P'    "8a  ""     `Y8  `8b     d8'
 
 									<li><a href="/renderHome" _sp=m570.l1533
 										class="gh-eb-oa thrd">List Categories</a></li>
-									<li><a href="/addCategoryForm" _sp=m570.l1533
+									<%if(userId==5){%>
+										<li><a href="/addCategoryForm" _sp=m570.l1533
 										class="gh-eb-oa thrd">Add Category</a></li>
 									<li><a href="/updateCategoryForm" _sp=m570.l1533
 										class="gh-eb-oa thrd">Update Category</a></li>
@@ -241,7 +223,10 @@ a8P_____88  88P'    "8a  ""     `Y8  `8b     d8'
 										class="gh-eb-oa thrd">Delete Category</a></li>
 
 									<li id=gh-eb-sub-li-cpn></li>
-								</ul>
+										
+									
+									<%}%>	
+																	</ul>
 							</div>
 						</div></li>
 
@@ -256,13 +241,14 @@ a8P_____88  88P'    "8a  ""     `Y8  `8b     d8'
 								<ul role=navigation>
 									<li><a href="/listSubCategories" _sp=m570.l1533
 										class="gh-eb-oa thrd">List SubCategories</a></li>
+										<%if(userId==5){%>
 									<li><a href="/subCategoryForm" _sp=m570.l1533
 										class="gh-eb-oa thrd">Add SubCategory</a></li>
 									<li><a href="/updateSubCategoryForm" _sp=m570.l1533
 										class="gh-eb-oa thrd">Update SubCategory</a></li>
 									<li><a href="/deleteSubCategoryForm" _sp=m570.l1533
 										class="gh-eb-oa thrd">Delete SubCategory</a></li>
-
+									<%}%>
 									<li id=gh-eb-sub-li-cpn></li>
 								</ul>
 							</div>
@@ -270,33 +256,41 @@ a8P_____88  88P'    "8a  ""     `Y8  `8b     d8'
 
 					<li id=gh-eb-My class="gh-eb-li gh-hvr gh-dd" data-imp=10><div
 							class="gh-menu">
+							
 							<a href="#" _sp=m570.l2919 class="gh-eb-li-a">Products</a><a
 								href="#gh-eb-My" role=button aria-expanded=false
 								aria-controls=gh-eb-My-o
 								class="gh-acc-exp-a gh-acc-a2 gh-control ">Expand product</a>
 							<div class="gh-submenu gh-eb-o" id="gh-eb-My-o">
+							
 								<ul role=navigation>
 									<li><a href="/showProducts?sub-category=1" _sp=m570.l1533
 										class="gh-eb-oa thrd">List Products</a></li>
+										<%if(userId!=0){%>
 									<li><a href="/addProductForm" _sp=m570.l1533
 										class="gh-eb-oa thrd">Add Product</a></li>
 										<li><a href="/updateProductForm" _sp=m570.l1533
 										class="gh-eb-oa thrd">Update Product</a></li>
 									<li><a href="/deleteProductForm" _sp=m570.l1533
 										class="gh-eb-oa thrd">Delete Product</a></li>
-
+									<%}%>
 									<li id=gh-eb-sub-li-cpn></li>
 								</ul>
+								
 							</div>
-						</div></li>
+							
+						</div>
+						</li>
 
 					<li id=gh-eb-My class="gh-eb-li gh-hvr gh-dd" data-imp=10><div
 							class="gh-menu">
+							<%if(userId==5){%>
 							<a href="#" _sp=m570.l2919 class="gh-eb-li-a">Users</a><a
 								href="#gh-eb-My" role=button aria-expanded=false
 								aria-controls=gh-eb-My-o
 								class="gh-acc-exp-a gh-acc-a2 gh-control ">Expand Change</a>
 							<div class="gh-submenu gh-eb-o" id="gh-eb-My-o">
+							
 								<ul role=navigation>
 									<li><a href="/users" _sp=m570.l1533 class="gh-eb-oa thrd">List
 											Users</a></li>
@@ -307,12 +301,17 @@ a8P_____88  88P'    "8a  ""     `Y8  `8b     d8'
 
 									<li id=gh-eb-sub-li-cpn></li>
 								</ul>
+								
 							</div>
+							<%}%>
 						</div></li>
 
 
 
-
+<a href="/renderHome" _sp=m570.l2919 class="gh-eb-li-a">Home</a>
+<%if(firstName!=""){%>
+<a href="/logout" _sp=m570.l2919 class="gh-eb-li-a">Logout</a>
+						<%}%>
 
 
 

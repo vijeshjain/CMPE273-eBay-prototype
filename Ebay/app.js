@@ -38,9 +38,8 @@ if ('development' == app.get('env')) {
 app.get('/', home.renderCategoryAndSubCategory);
 app.get('/signup', home.signup);
 app.post('/register', user.register);
-
+app.get('/logout', user.logout);
 app.get('/signin', home.signin);
-app.get('/', home.signin);
 app.post('/signin', user.signin);
 app.post('/addCategory', home.addCategory);
 app.post('/addSubCategory', home.addSubCategory);

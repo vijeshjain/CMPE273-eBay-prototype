@@ -108,20 +108,26 @@ function signin(req, res) {
 }
 
 function addCategoryForm(req, res) {
-
+	var user=req.session.user;
+	
 	res.render('addCategoryForm', {
 
 		category : category,
 		subCategories : temp,
+		firstName:user.firstName,
+		userId:user.userId
 	});
 }
 
 function subCategoryForm(req, res) {
-
+	var user=req.session.user;
 	res.render('subCategoryForm', {
+
 
 		category : category,
 		subCategories : temp,
+		firstName:user.firstName,
+		userId:user.userId
 	});
 
 }
@@ -264,21 +270,25 @@ function addSubCategory(req, res) {
 }
 
 function listCategories(req, res) {
-
+	var user=req.session.user;
 	res.render('listCategories', {
 
 		category : category,
 		subCategories : temp,
+		firstName:user.firstName,
+		userId:user.userId
 	});
 
 }
 
 function listSubCategories(req, res) {
-
+	var user=req.session.user;
 	res.render('listSubCategories', {
 
 		category : category,
-		subCategories : temp
+		subCategories : temp,
+		firstName:user.firstName,
+		userId:user.userId
 
 	});
 }
@@ -345,16 +355,37 @@ function getProductsForSubCategory(req, res) {
 function loadSubCategories(req, res) {
 
 	var type = req.param("catName");
+	var user=req.session.user;
+	if(typeof(user)=="undefined")
+		{
+		console.log("Type" + type);
+		res.render('subCategories', {
 
-	console.log("Type" + type);
-	res.render('subCategories', {
+			category : category,
+			subCategories : temp,
+			type : type,
+			firstName:"",
+			userId:0
 
-		category : category,
-		subCategories : temp,
-		type : type
+		});
 
-	});
+		}
+	else
+		{
+		console.log("Type" + type);
+		res.render('subCategories', {
 
+			category : category,
+			subCategories : temp,
+			type : type,
+			firstName:user.firstName,
+			userId:user.userId
+
+		});
+
+		
+		}
+	
 }
 
 function renderCategoryAndSubCategory(req, res) {
@@ -410,7 +441,9 @@ function renderCategoryAndSubCategory(req, res) {
 			temp = subCat;
 			var resultObj = {
 				category : cat,
-				subCategories : subCat
+				subCategories : subCat,
+				firstName:"",
+				userId:0
 			};
 			ejs.renderFile('./views/homePage.ejs', resultObj, function(err,
 					result) {
@@ -474,10 +507,13 @@ function addProductForm(req, res) {
 			if (results.length > 0) {
 
 				category = results;
+				var user=req.session.user;
 				res.render('addProductForm', {
 
 					category : category,
 					subCategories : temp,
+					firstName:user.firstName,
+					userId:user.userId
 				// subcat : sub,
 				});
 
@@ -552,13 +588,31 @@ function listProducts(req, res) {
 				}
 
 				category_new = results;
-				res.render('listProducts', {
-					category_new : category_new,
-					category : category,
-					subCategories : temp
+				var user=req.session.user;
+				if(typeof(user)=="undefined")
+					{
+					res.render('listProducts', {
+						category_new : category_new,
+						category : category,
+						subCategories : temp,
+						firstName:"",
+						userId:0
 
-				});
+					});
 
+					}
+				else{
+					res.render('listProducts', {
+						category_new : category_new,
+						category : category,
+						subCategories : temp,
+						firstName:user.firstName,
+						userId:user.userId
+
+					});
+
+					
+				}				
 			}
 
 		}
@@ -617,10 +671,13 @@ function deleteProductForm(req, res) {
 				}
 
 				category = results;
+				var user=req.sessio.user;
 				res.render('deleteProduct', {
 
 					category : category,
 					subCategories : temp,
+					firstName:user.firstName,
+					userId:user.userId
 				});
 
 			}
@@ -759,11 +816,13 @@ function updateSubCategoryForm(req, res) {
 	 * 
 	 * category : category, subCategories : temp }); } } }, getUser);
 	 */
-
+	var user=req.session.user;
 	res.render('updateSubCategoryForm', {
 
 		category : category,
-		subCategories : temp
+		subCategories : temp,
+		firstName:user.firstName,
+		userId:user.userId
 	});
 }
 
@@ -840,11 +899,13 @@ function deleteSubCategoryForm(req, res) {
 	 * 
 	 * category : category, subCategories : temp }); } } }, getUser);
 	 */
-
+	var user=req.session.user;
 	res.render('deleteSubCategoryForm', {
 
 		category : category,
-		subCategories : temp
+		subCategories : temp,
+		firstName:user.firstName,
+		userId:user.userId
 	});
 }
 
@@ -886,11 +947,13 @@ function updateProductForm(req, res) {
 	 * 
 	 * category : category, subCategories : temp }); } } }, getUser);
 	 */
-
+	var user=req.session.user;
 	res.render('updateProductForm', {
 
 		category : category,
-		subCategories : temp
+		subCategories : temp,
+		firstName:user.firstName,
+		userId:user.userId
 	});
 }
 
@@ -960,11 +1023,13 @@ function updateCategoryForm(req, res) {
 	 * 
 	 * category : category, subCategories : temp }); } } }, getUser);
 	 */
-
+	var user=req.session.user;
 	res.render('updateCategoryForm', {
 
 		category : category,
-		subCategories : temp
+		subCategories : temp,
+		firstName:user.firstName,
+		userId:user.userId
 	});
 }
 
@@ -1043,11 +1108,13 @@ function deleteCategoryForm(req, res) {
 	 * 
 	 * category : category, subCategories : temp }); } } }, getUser);
 	 */
-
+	var user=req.session.user;
 	res.render('deleteCategoryForm', {
 
 		category : category,
-		subCategories : temp
+		subCategories : temp,
+		firstName:user.firstName,
+		userId:user.userId
 	});
 }
 
@@ -1133,9 +1200,12 @@ function renderHome(req, res) {
 					// }
 
 				}
+				var user=req.session.user;
 				var businessObj = {
 					category : cat,
-					subCategories : subCat
+					subCategories : subCat,
+					firstName:user.firstName,
+					userId:user.userId
 				};
 				ejs.renderFile('./views/homepage.ejs', businessObj,
 						function(err, result) {
