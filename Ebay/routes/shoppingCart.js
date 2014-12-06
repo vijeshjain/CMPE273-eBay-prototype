@@ -68,16 +68,19 @@ exports.showSoppingCart = function(req, res) {
 			var user=req.session.user;
 			var addr;
 			var firstName;
+			var lastLogin;
 			var userId;
 			if(typeof(user)=="undefined")
 				{
 				addr="";
 				firstName="";
 				userId=0;
+				lastLogin="";
 				}
 			else{
 				addr=user.address;
 				firstName=user.firstName;
+				lastLogin=user.lastLogin;
 				userId=user.userId;
 			}
 			var resultObj = {
@@ -87,6 +90,7 @@ exports.showSoppingCart = function(req, res) {
 				subCategories : subCat,
 				address:addr,
 				firstName:firstName,
+				lastLogin:lastLogin,
 				userId:userId
 			};
 			ejs.renderFile('./views/shoppingCart.ejs', resultObj,
@@ -141,7 +145,8 @@ exports.addToShoppingCart = function(req, res) {
 			// store in session variable
 			data = {
 				errorCode : 100,
-				message : "Product added to your shopping cart."
+				message : "Product added to your shopping cart.",
+				url:"http://localhost:3000"
 			};
 			responseString = JSON.stringify(data);
 			res.send(responseString);
@@ -245,16 +250,19 @@ exports.paymentPage=function(req,res)
 			}
 			var user=req.session.user;
 			var firstName;
+			var lastLogin;
 			var userId;
 			if(typeof(user)=="undefined")
 				{
 				
 				firstName="";
 				userId=0;
+				lastLogin="";
 				}
 			else{
 				
 				firstName=user.firstName;
+				lastLogin=user.lastLogin;
 				userId=user.userId;
 			}
 			var resultObj = {
@@ -263,6 +271,7 @@ exports.paymentPage=function(req,res)
 				subCategories : subCat,
 				address:addr,
 				firstName:firstName,
+				lastLogin:lastLogin,
 				userId:userId
 			};
 			ejs.renderFile('./views/payment.ejs', resultObj,

@@ -114,7 +114,7 @@ function addCategoryForm(req, res) {
 
 		category : category,
 		subCategories : temp,
-		firstName:user.firstName,
+		firstName:user.firstName, lastLogin:user.lastLogin,
 		userId:user.userId
 	});
 }
@@ -126,7 +126,7 @@ function subCategoryForm(req, res) {
 
 		category : category,
 		subCategories : temp,
-		firstName:user.firstName,
+		firstName:user.firstName, lastLogin:user.lastLogin,
 		userId:user.userId
 	});
 
@@ -275,7 +275,7 @@ function listCategories(req, res) {
 
 		category : category,
 		subCategories : temp,
-		firstName:user.firstName,
+		firstName:user.firstName, lastLogin:user.lastLogin,
 		userId:user.userId
 	});
 
@@ -287,7 +287,7 @@ function listSubCategories(req, res) {
 
 		category : category,
 		subCategories : temp,
-		firstName:user.firstName,
+		firstName:user.firstName, lastLogin:user.lastLogin,
 		userId:user.userId
 
 	});
@@ -378,7 +378,7 @@ function loadSubCategories(req, res) {
 			category : category,
 			subCategories : temp,
 			type : type,
-			firstName:user.firstName,
+			firstName:user.firstName, lastLogin:user.lastLogin,
 			userId:user.userId
 
 		});
@@ -512,7 +512,7 @@ function addProductForm(req, res) {
 
 					category : category,
 					subCategories : temp,
-					firstName:user.firstName,
+					firstName:user.firstName, lastLogin:user.lastLogin,
 					userId:user.userId
 				// subcat : sub,
 				});
@@ -606,7 +606,7 @@ function listProducts(req, res) {
 						category_new : category_new,
 						category : category,
 						subCategories : temp,
-						firstName:user.firstName,
+						firstName:user.firstName, lastLogin:user.lastLogin,
 						userId:user.userId
 
 					});
@@ -658,32 +658,14 @@ function getProductsInJson(req, res) {
 
 function deleteProductForm(req, res) {
 
-	var getUser = "select * from category";
-	console.log("Query is:" + getUser);
+	var user=req.session.user;
+	res.render('deleteProduct', {
 
-	mysql.fetchData(function(err, results) {
-		if (err) {
-			throw err;
-		} else {
-			if (results.length > 0) {
-				for (var i = 0; i < results.length; i++) {
-					console.log(results[i].name);
-				}
-
-				category = results;
-				var user=req.sessio.user;
-				res.render('deleteProduct', {
-
-					category : category,
-					subCategories : temp,
-					firstName:user.firstName,
-					userId:user.userId
-				});
-
-			}
-
-		}
-	}, getUser);
+		category : category,
+		subCategories : temp,
+		firstName:user.firstName, lastLogin:user.lastLogin,
+		userId:user.userId
+	});
 
 }
 
@@ -697,9 +679,10 @@ function addProduct(req, res) {
 	var productType = req.param("productType");
 	var itemCondition = req.param("itemCondition");
 	var quantity = req.param("quantity");
+	var seller=req.param("seller");
 	console.log("ProductName:" + productName);
 
-	console.log("Product Name: " + productName);
+	console.log("Seller Name: " + seller);
 
 	if (productName === null || typeof (productName) === 'undefined') {
 		data = {
@@ -755,7 +738,7 @@ function addProduct(req, res) {
 										+ productDesc
 										+ "',"
 										+ subCategoryId
-										+ ", 5 , "
+										+ ","+ "(select userid from ebay.user where firstName='"+seller+"')" + ", "
 										+ quantity + ",0 );";
 								console.log("Query is:" + query);
 
@@ -821,7 +804,7 @@ function updateSubCategoryForm(req, res) {
 
 		category : category,
 		subCategories : temp,
-		firstName:user.firstName,
+		firstName:user.firstName, lastLogin:user.lastLogin,
 		userId:user.userId
 	});
 }
@@ -904,7 +887,7 @@ function deleteSubCategoryForm(req, res) {
 
 		category : category,
 		subCategories : temp,
-		firstName:user.firstName,
+		firstName:user.firstName, lastLogin:user.lastLogin,
 		userId:user.userId
 	});
 }
@@ -952,7 +935,7 @@ function updateProductForm(req, res) {
 
 		category : category,
 		subCategories : temp,
-		firstName:user.firstName,
+		firstName:user.firstName, lastLogin:user.lastLogin,
 		userId:user.userId
 	});
 }
@@ -1028,7 +1011,7 @@ function updateCategoryForm(req, res) {
 
 		category : category,
 		subCategories : temp,
-		firstName:user.firstName,
+		firstName:user.firstName, lastLogin:user.lastLogin,
 		userId:user.userId
 	});
 }
@@ -1113,7 +1096,7 @@ function deleteCategoryForm(req, res) {
 
 		category : category,
 		subCategories : temp,
-		firstName:user.firstName,
+		firstName:user.firstName, lastLogin:user.lastLogin,
 		userId:user.userId
 	});
 }

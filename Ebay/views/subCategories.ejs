@@ -19,15 +19,30 @@
 		<%category.forEach(function(item){ %> <% if(type ==
 		category[catCount].name){ if(subCategories[catCount] != null){
 
-		subCategories[catCount].forEach(function(item) { if(count<4) { %> <a
-			href="#"> <img src="<%=item.image%>" height="390px" width="49%" onclick="window.location='/showProducts?sub-category=<%=item.subCategoryId%>';"></a>
+		subCategories[catCount].forEach(function(item) { if(count<4) { %> 
+		
+		
+		<form action="/showProductsBySubCategory" method="get"  >
+		<div>
+		  
+		 <input type="image" value="submit" name="submit" src="<%=item.image%>" height=398px width=49.5% >
+		  <input type="hidden" name="subCategoryId" value="<%=item.subCategoryId%>">
+		  </div>
+</form>
 
 
 
 
+		<%} else { %> 		<form action="/showProductsBySubCategory" method="get"  >
+		<div>
+		  
+		 <input type="image" value="submit" name="submit" src="<%=item.image%>" height=398px width=49.5% >
+		  <input type="hidden" name="subCategoryId" value="<%=item.subCategoryId%>">
+		  </div>
+</form>
 
-		<%} else { %> <a href="#"> <img src="<%=item.image%>"
-			height="300px" width="99%" onclick="window.location='/showProducts?sub-category=<%=item.subCategoryId%>';"></a> <%} count++;});}} catCount++ });%>
+			
+			 <%} count++;});}} catCount++ });%>
 
 
 

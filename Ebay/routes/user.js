@@ -291,7 +291,7 @@ exports.displayusers = function(req, res){
 		{
 			var categories = home.category;
 			var user=req.session.user;
-			ejs.renderFile('./views/viewusers.ejs', {rows: rows, category: categories,firstName:user.firstName,userId:user.userId }, function(err, result)
+			ejs.renderFile('./views/viewusers.ejs', {rows: rows, category: categories,firstName:user.firstName, lastLogin:user.lastLogin,userId:user.userId }, function(err, result)
 			{
 				if(!err)
 				{
@@ -344,7 +344,7 @@ exports.editUser = function(req,res)
 			
 			console.log(JSON.stringify(rows));
 			var user=req.session.user;
-			ejs.renderFile('./views/editProfile.ejs', { userData: rows,firstName:user.firstName,userId:user.userId}, function(err, result) {
+			ejs.renderFile('./views/editProfile.ejs', { userData: rows,firstName:user.firstName, lastLogin:user.lastLogin,userId:user.userId}, function(err, result) {
 
 				if (!err) {
 					res.end(result);

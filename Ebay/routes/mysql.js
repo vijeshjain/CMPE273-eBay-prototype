@@ -4,7 +4,7 @@ function getConnection() {
 	var connection = mysql.createConnection({
 		host : 'localhost',
 		user : 'root',
-		password : 'Welcome1',
+		password : 'mukul',
 		database : 'ebay',
 		port: 3306
 	});

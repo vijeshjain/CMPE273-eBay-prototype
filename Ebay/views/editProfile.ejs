@@ -23,7 +23,7 @@
                 <div class="float-left">
                     First Name: <input id="first-name" type="text" name="fname" value="<%= userData[0].firstName %>" required="required"><span class="requiredClass">*</span>
                     Last Name: <input id="last-name" type="text" name="lname" value="<%= userData[0].lastName %>" required="required"><span class="requiredClass">*</span>
-                    Username: <input id="username" type="text" name="username" value="<%= userData[0].userName %>" required="required"><span class="requiredClass">*</span><br/>
+                    Username: <input id="username" type="email" name="username" value="<%= userData[0].userName %>" required="required"><span class="requiredClass">*</span><br/>
                     Membership ID: <input id="membershipId" type="text" name="membershipId" value="<%= userData[0].membershipId %>" required="required"><span class="requiredClass">*</span><br/>
 
                     Address: <input id="address" type="text" name="address" value="<%= userData[0].address %>" ><br/>
@@ -50,6 +50,8 @@
     </div>
 
 </div>
+	<div class="alert-box error" id="errorMessage"><span id="error-span"></span></div>
+	<div class="alert-box success" id="successMessage"><span id="success-span"></span></div>
 <%- include footer.ejs %>
 </body>
 

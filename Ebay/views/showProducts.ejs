@@ -5,14 +5,15 @@
 	
 	
 </head>
+<script src="/Scripts/signup.js"></script>
 <body>
-	<div class="dashboard-header"><%- include header.ejs %>
-	</div>
+ <div class="dashboard-header"><%- include header.ejs %> 
+	</div> 
 	<% var itemType=""; if(rows && rows!= null && rows.length > 0) { %>
 
 	<div class="container">
 
-
+<div  class="signup-body">
 		<div id="content">
 			<ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
 
@@ -46,13 +47,13 @@
 												<p class="boldtext">Seller: <span class="bluetext"> <%= item.sellername %></span><span style="color:red"><input type="number" data-max="5" data-min="1" data-empty-value="0" data-clearable="remove" name="sellerRating" id="sellerRating" class="rating" /></p></span>
 
 												<p><span class="boldtext">Quantity left: </span><%= item.quantity %></p>
-												<% if(item.productType==2) { %>
+												<% if(item.productType==1) { %>
 												<p><label class="boldtext">Buy Quantity: </label><input type="number" name="txtqty" min="1" max="5" id="txtqty_<%=item.productId%>" value="1"></p>
 												<% } else { %>
 												<p><label class="boldtext">Place a Bid: </label><input type="number" name="txtqty" min="<%= (item.basePrice+1) %>" max="10000" id="txtqty_<%=item.productId%>" ></p>
 												<% } %>
 												<p class="boldtext">List Price: <span class="textstrikeoff">$ <%= item.basePrice+(item.basePrice/2) %></span></p>
-												<% if(item.productType==2) { %>
+												<% if(item.productType==1) { %>
 												<p class="boldtext"><h3>Now: US$ <%= item.basePrice %></h3></p>
 												<% } else { %>
 												<p class="boldtext"><h3>Current Bid: US$ <span id="highest-bid"><%= item.basePrice %></span></h3></p>
@@ -61,7 +62,7 @@
 											</div>
 
 											<div class="caption">
-												<p><% if(item.productType==2) { %>
+												<p><% if(item.productType==1) { %>
 													<button type="button" class="btn btn-primary center-block" onclick="placeBidOrBuyProduct(1,<%=item.productId%>)">Buy It Now</button>
 													<% } else { %>
 													<button type="button" class="btn btn-primary center-block" onclick="placeBidOrBuyProduct(2,<%=item.productId%>)">Place a Bid</button>
@@ -171,7 +172,7 @@
 									</div>
 								</div>
 							</div>
-
+</div>
 <%- include footer.ejs %>
 <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
@@ -185,6 +186,9 @@
 	
 
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" type="text/css">
+	
+	<div class="alert-box error" id="errorMessage"><span id="error-span"></span></div>
+	<div class="alert-box success" id="successMessage"><span id="success-span"></span></div>
 						</body>
 						
 						</html>

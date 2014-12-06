@@ -25,24 +25,28 @@
 		<div class="form-outer-div">
 			<form class="form-style" action="/addProduct" id="signup-form" method="POST">
                   <h1>Add New Product</h1>
-		<div class="float-left">
-					<select title="Select a Category to Update" class="category"
-						size="1" id="category" name="category"> <% if(category
+		
+					<select  
+						  name="category"> <% if(category
 						!= null){ category.forEach(function(item) {%>
 						<option name="catName" value="<%= item.categoryId%>"><%=
 							item.name %></option> <% console.log("name:"+item.name); });} %>
 					</select>
-				</div>
-				<div class="float-left">
-					<select title="Select a Sub category to Update"
-						class="sub-category" size="1" id="sub-category"
+				
+				
+				<br>	<br> <br>
+			
+				
+					<select 
+						  
 						name="sub-category"><% if(subCategories[0]!= null){
 						subCategories[0].forEach(function(subItem) {%>
 						<option name="subCatName" value="<%= subItem.categoryId%>"><%=
 							subItem.name %></option> <% console.log("name:"+subItem.name); });} %>
 					</select>
-					
-							
+				
+								<br>
+								<br>
 							<input id="productName" type="text" name="productName"
 				placeholder="Product Name" required="required"><span
 				class="requiredClass">*</span>
@@ -69,8 +73,7 @@
 				<br>
 				
 				<select title="product Type"
-								class="gh-sb gh-sprRetina" size="1" id="gh-cat" name="productType"><option
-									selected="selected" value="0">Select Product Type</option>
+								 name="productType">
 								
 								<option name="Selling" value="Selling">Selling</option>
 								<option name="Bidding" value="Bidding">Bidding</option>
@@ -79,8 +82,7 @@
 							<br> <br>
 				<br>
 				<select title="item condition"
-								class="gh-sb gh-sprRetina" size="1" id="gh-cat" name="itemCondition"><option
-									selected="selected" value="0">Select Product Condition</option>
+								  name="itemCondition">
 								
 								<option name="New" value="New">New</option>
 								<option name="Refurbished" value="Refurbished">Refurbished</option>
@@ -92,17 +94,20 @@
 				type="file" name="img"> <br><br> <input
 				id="sbtBtn" class="btn btn-prim" type="submit"
 				value="Add Product">
-							
+							<input type="hidden" name="seller" value="<%=firstName%>" >
 							
 							<br>
 							</div>
 							
-							
+		</form>					
 		</div>
+		
 		<br>
 
-		</form>
+	
 	</div>
+		<div class="alert-box error" id="errorMessage"><span id="error-span"></span></div>
+	<div class="alert-box success" id="successMessage"><span id="success-span"></span></div>
 <%- include footer.ejs %>
 </body>
 

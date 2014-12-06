@@ -1,2 +1,0 @@
-ALTER TABLE `ebay`.`user` 
-ADD COLUMN `state` VARCHAR(45) NULL AFTER `zipCode`;

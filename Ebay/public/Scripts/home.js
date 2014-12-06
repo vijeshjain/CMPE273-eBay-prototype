@@ -1,28 +1,7 @@
 /**
  * New node file
  */
-function showRecievedMessage(data) {
-	if (data.errorCode == 101) {
-		$("#error-span").text(data.message);
-		$("#errorMessage").fadeIn("slow", function() {
-			// Animation complete
-			setTimeout(function() {
-				$("#errorMessage").fadeOut("slow");
-			}, 4000);
-		});
 
-	} else {
-		$("#success-span").text(data.message);
-		$("#successMessage").fadeIn("slow", function() {
-			// Animation complete
-			setTimeout(function() {
-				$("#successMessage").fadeOut("slow");
-			}, 4000);
-		});
-
-	}
-
-}
 function getSubcategories(categoryId) {
 
 	var serverURL = "http://localhost:3000/getSubCategory?cid=" + categoryId;
@@ -212,6 +191,9 @@ function placeBidOrBuyProduct(type,productId)
 {
 	var id="#txtqty_"+productId;
 	var qty=$(id).val();
+	
+	console.log("Quantity"+id);
+	console.log("Quantity"+qty);
 	if(type==1)
 		{
 			//ad to cart

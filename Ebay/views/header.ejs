@@ -51,7 +51,7 @@ a8P_____88  88P'    "8a  ""     `Y8  `8b     d8'
 								<!--[if lt IE 9]><a href="/homePage" class="iclg" _sp="m570.l2586" id="gh-la">eBay<img width="117" height="120" style="clip:rect(47px, 118px, 95px, 0px); position:absolute; top:-47px;left:0" alt="" src="http://ir.ebaystatic.com/rs/v/apstidvcvu5pxlbxkphrrdo5iqv.png" id="gh-logo"></a><![endif]-->
 								<!--[if (gte IE 9)|!(IE)]><!-->
 
-								<a href="/" class="iclg" _sp="m570.l2586" id="gh-la">eBay<img
+								<a href="/renderHome" class="iclg" _sp="m570.l2586" id="gh-la">eBay<img
 									width="250" height="200"
 									style="clip: rect(47px, 118px, 95px, 0px); position: absolute; top: -47px; left: 0"
 									alt=""
@@ -90,7 +90,7 @@ a8P_____88  88P'    "8a  ""     `Y8  `8b     d8'
 													){ subCategories[count].forEach(function(subcat) {%> <a
 													href="#"> &nbsp &nbsp &nbsp
 
-              <form id="form1" action="/showProducts" method="post">
+              <form id="form1" action="/showProductsBySubCategory" method="get">
 												
 													
 <a href="javascript:;" onclick="parentNode.submit();"><%=subcat.subName%></a>
@@ -191,13 +191,15 @@ a8P_____88  88P'    "8a  ""     `Y8  `8b     d8'
 								Hi<a href="/signin"> Sign in</a>
 								<span id="gh-ug-flex">  or 
 								<a href="/signup" rel="nofollow" _sp="m570.l2621">  register</a></span>
+						<%} else{%>	
+						Welcome <%=firstName%>
+						
 						<%}%>
 						
 						</li>
 					<li class="gh-t gh-spr " id=gh-p-1><a href="#" _sp=m570.l3188
 						class="gh-p">Daily Deals</a></li>
-					<li class="gh-t gh-spr " id=gh-p-4><a href=" #" _sp=m570.l6463
-						class="gh-p">Gift Cards</a></li>
+					
 					<li class="gh-t gh-spr " id=gh-p-2><a href="#" _sp=m570.l1528
 						class="gh-p">Sell</a></li>
 					<li class="gh-t gh-spr " id=gh-p-3><a href="#" _sp=m570.l1545
@@ -212,7 +214,7 @@ a8P_____88  88P'    "8a  ""     `Y8  `8b     d8'
 							<div class="gh-submenu gh-eb-o" id="gh-eb-My-o">
 								<ul role=navigation>
 
-									<li><a href="/renderHome" _sp=m570.l1533
+									<li><a href="/listCategories" _sp=m570.l1533
 										class="gh-eb-oa thrd">List Categories</a></li>
 									<%if(userId==5){%>
 										<li><a href="/addCategoryForm" _sp=m570.l1533
@@ -264,7 +266,7 @@ a8P_____88  88P'    "8a  ""     `Y8  `8b     d8'
 							<div class="gh-submenu gh-eb-o" id="gh-eb-My-o">
 							
 								<ul role=navigation>
-									<li><a href="/showProducts?sub-category=1" _sp=m570.l1533
+									<li><a href="/listAllProducts" _sp=m570.l1533
 										class="gh-eb-oa thrd">List Products</a></li>
 										<%if(userId!=0){%>
 									<li><a href="/addProductForm" _sp=m570.l1533
@@ -310,6 +312,8 @@ a8P_____88  88P'    "8a  ""     `Y8  `8b     d8'
 
 <a href="/renderHome" _sp=m570.l2919 class="gh-eb-li-a">Home</a>
 <%if(firstName!=""){%>
+<%var date= lastLogin.toString().substring(0,24);%>
+						<%=date%>
 <a href="/logout" _sp=m570.l2919 class="gh-eb-li-a">Logout</a>
 						<%}%>
 

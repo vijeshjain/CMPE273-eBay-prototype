@@ -73,14 +73,14 @@
 												<%=subcat.subName%>
 												
 												</td>
-												<td>
-												
+											<td>
+												<form action="/showProductsBySubCategory" method="get"   >
 		<div>
 		  
-		 <img src="<%=subcat.image%>" height="100px" width="100px" onclick="window.location='/showProducts?sub-category=<%=subcat.subCategoryId%>';">
-		  
+		 <input type="image" value="submit" name="submit" src="<%=subcat.image%>" height="100px" width="100px">
+		  <input type="hidden" name="subCategoryId" value="<%=subcat.subCategoryId%>">
 		  </div>
-	 </td>
+	</form> </td>
 												
 
                         </tr>
