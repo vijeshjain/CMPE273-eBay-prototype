@@ -37,13 +37,15 @@ function showRecievedMessage(data) {
 
 	} else {
 		$("#success-span").text(data.message);
-		$("#successMessage").fadeIn("slow", function() {
-			// Animation complete
-			setTimeout(function() {
-				$("#successMessage").fadeOut("slow");
-			}, 4000);
-		});
-
+        $("#successMessage").fadeIn("slow", function() {
+                // Animation complete
+                setTimeout(function() {
+                        $("#successMessage").fadeOut("slow");
+                }, 4000);
+        });
+        setTimeout(function () {
+                window.location = data.url;
+            }, 3000);
 	}
 
 }

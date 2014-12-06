@@ -64,15 +64,23 @@
 											subCategories[count].forEach(function(subcat) {%> <a href="#">
 											
 											  <td><%= category[i].name %></td>
+											  
                            
                         
 												<td>
 												
 												
-												<%=subcat.name%>
+												<%=subcat.subName%>
 												
 												</td>
-												<td> <img src="<%=subcat.image%>" height="100px" width="100px" ></td>
+												<td>
+												
+		<div>
+		  
+		 <img src="<%=subcat.image%>" height="100px" width="100px" onclick="window.location='/showProducts?sub-category=<%=item.subCategoryId%>';">
+		  
+		  </div>
+	 </td>
 												
 
                         </tr>
@@ -82,7 +90,7 @@
                         
 
                         </tbody>
-                        <% count++;});} } } %>
+                        <% });count++;} } } %>
                     </table>
 
                 </div></div>
@@ -94,3 +102,7 @@
 </body>
 
 </html>
+
+
+
+ 

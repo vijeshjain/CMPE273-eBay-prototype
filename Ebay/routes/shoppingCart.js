@@ -3,6 +3,7 @@
  * New node file
  */
 var ejs = require("ejs");
+
 var mysql = require('./mysql');
 var common = require('./common');
 var home = require('./home');

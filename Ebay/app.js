@@ -55,7 +55,9 @@ app.get('/getSubCategory',home.getSubCategoryForCategory);
 app.get('/getProductsForSubCategory',home.getProductsForSubCategory);
 app.get('/listProducts',home.listProducts);
 
+
 app.get('/showProducts', product.listProducts);
+
 
 app.post('/getUser',user.getUserFromFirstName);
 app.post('/getUserProfileDetails',user.getUserProfileDetails);
@@ -95,12 +97,14 @@ app.get('/updateProductForm', home.updateProductForm);
 app.get('/getSubCategoryInJson', home.getSubCategoryInJson);
 app.get('/getProductsInJson', home.getProductsInJson);
 app.get('/getProductDetails', product.getProductDetailsFromName);
+//app.post('/getProductDetails', product.getProductDetailsFromName);
 
 
 app.get('/paymentConfirmation',shoppingCart.paymentPage);
 app.get('/shoppingCart',shoppingCart.showSoppingCart);
 app.get('/addToShoppingCart',shoppingCart.addToShoppingCart);
 app.get('/removeFromShoppingCart',shoppingCart.removeFromShoppingCart);
+
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

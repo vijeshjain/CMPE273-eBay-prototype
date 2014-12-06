@@ -6,17 +6,16 @@
 	
 </head>
 <body>
-	<div class="dashboard-header">
-		<%- include header.ejs %>
+	<div class="dashboard-header"><%- include header.ejs %>
 	</div>
-	<%
-	var itemType=""; 
-	if(rows && rows!= null && rows.length > 0) { %>
+	<% var itemType=""; if(rows && rows!= null && rows.length > 0) { %>
+
 	<div class="container">
 
 
 		<div id="content">
 			<ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+
 				<li class="active"><a id="aItems" href="#allItems" data-toggle="tab">All Listings</a></li>
 				<li><a id="aBuyItNow" href="#buyNow" data-toggle="tab">Buy It Now</a></li>
 				<li><a id="aAuctions" href="#auctions" data-toggle="tab">Auctions</a></li>
@@ -35,6 +34,7 @@
 									<div class="thumbnail bootsnipp-thumb">
 										<div>
 											<p class="pull-right view-counts hidden-md">
+
 
 												<span class="label label-info" data-toggle="tooltip" title="" data-original-title="">
 													<%= item.itemConditionName %></span>
@@ -188,3 +188,4 @@
 						</body>
 						
 						</html>
+

@@ -76,11 +76,11 @@ a8P_____88  88P'    "8a  ""     `Y8  `8b     d8'
 												<td class="gh-td" width="10%">
 											
 												<form id="form1" action="/subCategories" method="post">
-												<a href="javascript:;"
-													onclick="document.getElementById('form1').submit();">
+												
+													
+<a href="javascript:;" onclick="parentNode.submit();"><%= item.name%></a>
 
-
-														<%= item.name%> <input type="hidden" name="catName"
+														 <input type="hidden" name="catName"
 														value="<%=item.name%>">
 												</a>
 													</form>
@@ -90,9 +90,15 @@ a8P_____88  88P'    "8a  ""     `Y8  `8b     d8'
 													){ subCategories[count].forEach(function(subcat) {%> <a
 													href="#"> &nbsp &nbsp &nbsp
 
+              <form id="form1" action="/showProducts" method="post">
+												
+													
+<a href="javascript:;" onclick="parentNode.submit();"><%=subcat.subName%></a>
 
-														<option value="<%=subcat.subCategoryId%>"><%=
-															subcat.subName%></option>
+														 <input type="hidden" name="subCategoryId" value="<%=subcat.subCategoryId%>">
+												</a>
+													</form>
+														
 
 
 

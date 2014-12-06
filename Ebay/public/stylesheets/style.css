@@ -96,6 +96,13 @@ margin-left: 16%;
 		margin-top: 3%;
 	}
 
+
+input[type="text1"]{
+		width: 101px;
+		height: 25px;
+		
+	}
+
 .new-to-ebay-title
 {
 width: 144px;
@@ -460,6 +467,7 @@ height: 46px;
 	text-decoration: line-through;
 }
 
+
 #shoppingCart
 {
 width: 66%;
@@ -474,3 +482,8 @@ margin-left: 22%;
 }
 
 /* end : vijesh - css */
+
+
+
+
+

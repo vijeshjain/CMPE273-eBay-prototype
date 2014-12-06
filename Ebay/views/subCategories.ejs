@@ -13,14 +13,15 @@
 	<div class="dashboard-header"><%- include header.ejs %></div>
 
 
-	<div class="dashboard-body">
-
+	<div class="button-container">
 		<% var count=0; var catCount = 0; %>
 
 		<%category.forEach(function(item){ %> <% if(type ==
 		category[catCount].name){ if(subCategories[catCount] != null){
+
 		subCategories[catCount].forEach(function(item) { if(count<4) { %> <a
 			href="#"> <img src="<%=item.image%>" height="390px" width="49%" onclick="window.location='/showProducts?sub-category=<%=item.subCategoryId%>';"></a>
+
 
 
 
