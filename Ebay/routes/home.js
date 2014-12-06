@@ -1204,8 +1204,8 @@ function renderHome(req, res) {
 				var businessObj = {
 					category : cat,
 					subCategories : subCat,
-					firstName:user.firstName,
-					userId:user.userId
+					firstName:"",
+					userId:0
 				};
 				ejs.renderFile('./views/homepage.ejs', businessObj,
 						function(err, result) {
@@ -1224,7 +1224,7 @@ function renderHome(req, res) {
 		}, getQuery);
 
 	} else {
-
+		
 		ejs.renderFile('./views/homepage.ejs', user, function(err, result) {
 			// render on success
 			if (!err) {
