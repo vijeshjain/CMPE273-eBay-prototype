@@ -441,3 +441,36 @@ float: left;
 height: 46px;
 
 }
+
+/* vijesh - css */
+
+.bluetext
+{
+	font-weight: bold;
+	color: #00c;
+}
+
+.boldtext
+{
+	font-weight: bold;
+}
+
+.textstrikeoff
+{
+	text-decoration: line-through;
+}
+
+#shoppingCart
+{
+width: 66%;
+}
+#shoppingCart thead tr th{
+text-align:center;
+
+}
+#shoppingCart tr div{
+width: 80%;
+margin-left: 22%;
+}
+
+/* end : vijesh - css */

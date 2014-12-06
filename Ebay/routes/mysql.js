@@ -5,7 +5,8 @@ function getConnection() {
 		host : 'localhost',
 		user : 'root',
 		password : 'Welcome1',
-		database : 'ebay'
+		database : 'ebay',
+		port: 3306
 	});
 	return connection;
 }

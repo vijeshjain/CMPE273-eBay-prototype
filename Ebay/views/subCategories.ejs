@@ -20,18 +20,19 @@
 		<%category.forEach(function(item){ %> <% if(type ==
 		category[catCount].name){ if(subCategories[catCount] != null){
 		subCategories[catCount].forEach(function(item) { if(count<4) { %> <a
-			href="#"> <img src="<%=item.image%>" height="390px" width="49%"></a>
+			href="#"> <img src="<%=item.image%>" height="390px" width="49%" onclick="window.location='/showProducts?sub-category=<%=item.subCategoryId%>';"></a>
 
 
 
 
 		<%} else { %> <a href="#"> <img src="<%=item.image%>"
-			height="300px" width="99%"></a> <%} count++;});}} catCount++ });%>
+			height="300px" width="99%" onclick="window.location='/showProducts?sub-category=<%=item.subCategoryId%>';"></a> <%} count++;});}} catCount++ });%>
 
 
 
 
 
 	</div>
+	<%- include footer.ejs %>
 </body>
 </html>

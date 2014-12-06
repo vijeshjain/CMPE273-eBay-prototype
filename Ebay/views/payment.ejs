@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>eBay | Home</title>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+
+</head>
+<body>
+<div>
+		<%- include header.ejs %>
+	</div>
+	
+
+<div>
+	<h2 style="margin-left: 26%;">Your order has been shipped to your registered address</h2></br>
+	<%if(address!="address"){%>
+	<span>
+	<%=address%>
+	</span>
+	<%}%>
+	
+	
+	
+</div>
+
+
+
+<%- include footer.ejs %>
+</body>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+<script src="../Scripts/home.js"></script>
+</html>

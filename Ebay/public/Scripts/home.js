@@ -1,14 +1,28 @@
 /**
  * New node file
  */
-$(document).ready(function() {
-	
-	
+function showRecievedMessage(data) {
+	if (data.errorCode == 101) {
+		$("#error-span").text(data.message);
+		$("#errorMessage").fadeIn("slow", function() {
+			// Animation complete
+			setTimeout(function() {
+				$("#errorMessage").fadeOut("slow");
+			}, 4000);
+		});
 
+	} else {
+		$("#success-span").text(data.message);
+		$("#successMessage").fadeIn("slow", function() {
+			// Animation complete
+			setTimeout(function() {
+				$("#successMessage").fadeOut("slow");
+			}, 4000);
+		});
 
-});
+	}
 
-
+}
 function getSubcategories(categoryId) {
 
 	var serverURL = "http://localhost:3000/getSubCategory?cid=" + categoryId;
@@ -193,3 +207,34 @@ $(function() {
 });
 
 	
+
+function placeBidOrBuyProduct(type,productId)
+{
+	var id="#txtqty_"+productId;
+	var qty=$(id).val();
+	if(type==1)
+		{
+			//ad to cart
+		var serverURL = "http://localhost:3000/addToShoppingCart?pid=" + productId+"&quantity="+qty;
+		
+			$.ajax({
+				dataType : "JSON",
+				url : serverURL,
+				success : function(data) {
+					showRecievedMessage(data);
+				},
+				error : function(data) {
+					
+				}
+			});
+		
+		}
+	
+	else
+		{
+			var bid=$("#txtqty").val();
+			$("#highest-bid").text(bid);
+			//place a bid
+		
+		}
+}

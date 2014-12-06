@@ -2,6 +2,10 @@
  * 
  * New node file
  */
+var ejs = require("ejs");
+var mysql = require('./mysql');
+var common = require('./common');
+var home = require('./home');
 
 exports.initializeShoppingCart = function(req, res) {
 	req.session.shoppingCart = new Array();
@@ -9,29 +13,90 @@ exports.initializeShoppingCart = function(req, res) {
 
 exports.showSoppingCart = function(req, res) {
 	// render the view with the products in it
+	var getQuery = "Select  c.categoryId,c.name,c.image,c.isDeleted,s.subCategoryId,s.name subName,s.image subImage,s.isDeleted,s.categoryId from category c JOIN sub_category s on c.categoryId=s.categoryId where c.isDeleted=0 and s.isDeleted=0 order by c.categoryId asc;";
+	mysql.fetchData(function(err, results) {
+		if (err) {
+			throw err;
+		} else {
 
-	var shoppingCart = req.session.shoppingCart;
-	if (typeof (shoppingCart) == "undefined") {
-		shoppingCart = new Array();
-		req.session.shoppingCart = shoppingCart;
-	}
+			var cat = new Array();
+			var subCat = new Array();
+			var currentCategory = results[0];
+			var subCategory = null;
+			for (var count = 0; count < results.length; count++) {
 
-	var resultObj = {
+				if (currentCategory.categoryId != results[count].categoryId
+						|| count == 0) {
+					if (count > 0) {
+						console.log("sub category array");
+						console.log(subCategory);
+						subCat.push(subCategory);
+					}
+					subCategory = new Array();
+					currentCategory = results[count];
+					var newCat = {
+						categoryId : results[count].categoryId,
+						name : results[count].name,
+						image : results[count].image
 
-		products : shoppingCart
-	}
-	ejs.renderFile('./views/shoppingCart.ejs', resultObj,
-			function(err, result) {
-				// render on success
-				if (!err) {
-					res.end(result);
+					};
+					cat.push(newCat);
 				}
-				// render or error
-				else {
-					res.end('An error occurred');
-					console.log(err);
+				// else {
+				var newSubCat = {
+					subCategoryId : results[count].subCategoryId,
+					subName : results[count].subName,
+					image : results[count].subImage,
+
+				};
+				if (subCategory.length < 6) {
+					subCategory.push(newSubCat);
 				}
-			});
+
+				if (count + 1 == results.length) {
+					subCat.push(subCategory);
+				}
+				// }
+
+			}
+			var shoppingCart = req.session.shoppingCart;
+			if (typeof (shoppingCart) == "undefined") {
+				shoppingCart = new Array();
+				req.session.shoppingCart = shoppingCart;
+			}
+			var user=req.session.user;
+			var addr;
+			if(typeof(user)=="undefined")
+				{
+				addr="";
+				}
+			else{
+				addr=user.address;
+			}
+			var resultObj = {
+
+				products : shoppingCart,
+				category : cat,
+				subCategories : subCat,
+				address:addr
+			};
+			ejs.renderFile('./views/shoppingCart.ejs', resultObj,
+					function(err, result) {
+						// render on success
+						if (!err) {
+							res.end(result);
+						}
+						// render or error
+						else {
+							res.end('An error occurred');
+							console.log(err);
+						}
+					});
+		}
+	},getQuery);
+
+						
+	
 }
 
 exports.addToShoppingCart = function(req, res) {
@@ -102,25 +167,92 @@ exports.removeFromShoppingCart = function(req, res) {
 	}
 	req.session.shoppingCart = shopCart;
 	// //render the shopping cart
-	var resultObj = {
-
-		products : shopCart
-	}
-	ejs.renderFile('./views/shoppingCart.ejs', resultObj,
-			function(err, result) {
-				// render on success
-				if (!err) {
-					res.end(result);
-				}
-				// render or error
-				else {
-					res.end('An error occurred');
-					console.log(err);
-				}
-			});
+	res.redirect("/shoppingCart");
 
 }
 
 exports.writeShoppingCartToDatabase = function(req, res) {
+
+}
+
+exports.paymentPage=function(req,res)
+{
+	var newParam=req.param("isNew");
+	var addr;
+	if(newParam==0)
+		{
+			addr=req.param("address");
+		}
+	else
+		{
+		addr="address";
+		
+		}
+	var getQuery = "Select  c.categoryId,c.name,c.image,c.isDeleted,s.subCategoryId,s.name subName,s.image subImage,s.isDeleted,s.categoryId from category c JOIN sub_category s on c.categoryId=s.categoryId where c.isDeleted=0 and s.isDeleted=0 order by c.categoryId asc;";
+	mysql.fetchData(function(err, results) {
+		if (err) {
+			throw err;
+		} else {
+
+			var cat = new Array();
+			var subCat = new Array();
+			var currentCategory = results[0];
+			var subCategory = null;
+			for (var count = 0; count < results.length; count++) {
+
+				if (currentCategory.categoryId != results[count].categoryId
+						|| count == 0) {
+					if (count > 0) {
+						console.log("sub category array");
+						console.log(subCategory);
+						subCat.push(subCategory);
+					}
+					subCategory = new Array();
+					currentCategory = results[count];
+					var newCat = {
+						categoryId : results[count].categoryId,
+						name : results[count].name,
+						image : results[count].image
+
+					};
+					cat.push(newCat);
+				}
+				// else {
+				var newSubCat = {
+					subCategoryId : results[count].subCategoryId,
+					subName : results[count].subName,
+					image : results[count].subImage,
+
+				};
+				if (subCategory.length < 6) {
+					subCategory.push(newSubCat);
+				}
+
+				if (count + 1 == results.length) {
+					subCat.push(subCategory);
+				}
+				// }
+
+			}
+			var resultObj = {
+
+				category : cat,
+				subCategories : subCat,
+				address:addr
+			};
+			ejs.renderFile('./views/payment.ejs', resultObj,
+					function(err, result) {
+						// render on success
+						if (!err) {
+							res.end(result);
+						}
+						// render or error
+						else {
+							res.end('An error occurred');
+							console.log(err);
+						}
+					});
+		}
+	},getQuery);	
 
 }

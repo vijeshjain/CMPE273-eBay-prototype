@@ -1,20 +1,94 @@
-<% for(var count=0;count < products.length; count++)  { 
+<!DOCTYPE html>
+<html>
+<head>
+<title>eBay | Home</title>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+
+</head>
+<body>
+<div>
+		<%- include header.ejs %>
+	</div>
+	
+
+<div>
+	<div style="float: left;
+width: 76%;">
+		<table id="shoppingCart">
+	<thead>
+	<tr>
+		<th>Product Details</th>
+		<th>Quantity</th>
+		<th>Price</th>
+		<th>Actions</th>
+	</tr>
+	</thead>
+	<tbody>
+	<% for(var count=0;count < products.length; count++)  { 
 	   var curObj=products[count];
 	  	
 	%>
-		<div>
-			<div>
-				<img src="<%curObj.image%>" height="40" width=40>
-				<span><%=curObj.name%></span></br>
-				<span><%=curObj.description%></span>
-				<span><%=curObj.quantity%></span>
-			</div>
-			<div>
-				<span id="remove_product_link" class="cart-links">Remove from cart</span>
-				<span id="update_product_link" class="cart-links">Update cart</span>
-			</div>
+	<tr>
+		<td>
+				<div>
+					<img src="images/default_image.png" height="100" width="100">
+					<span><%=curObj.name%></span></br>
+					
+				</div>
+				
+				</td>
+				<td style="text-align:center">
+					<%=curObj.quantity%>
+				</td>
+				<td style="text-align:center">
+					<%
+						var price=curObj.quantity*curObj.basePrice;
+					%>
+					$<%=price%>
+				</td>
+				<td style="text-align:center">
+					<a id="remove_product_link" class="cart-links" href="/removeFromShoppingCart?pid=<%=curObj.productId%>">Remove from cart</a></br>
+					
+				</td>
+				
 			
-		</div>
 			
-		
+
+			
+		</tr>
 		<% }%>
+	</tbody>
+
+
+</table>
+		
+	</div>
+	<div style="float:left">
+		<h2>Shipping address</h2>
+		<%if(address==""){%>
+			<form action="/paymentConfirmation" method="GET">
+				<input type="text" placeholder="Please enter your address" name="address"></br>
+				<input type="hidden" value="0" name="isNew">
+				<input type="submit" value="Checkout" class="btn btn-prim">
+			</form>
+		<%}%>
+		<%if(address!=""){%>
+			<span><%=address%></span>
+			<div>
+					<a id="" class="btn btn-prim" href="/paymentConfirmation?isNew=1">Checkout</a></br>
+			</div>
+		<%}%>
+		
+	</div>
+</div>
+
+
+
+
+<%- include footer.ejs %>
+</body>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+<script src="../Scripts/home.js"></script>
+</html>

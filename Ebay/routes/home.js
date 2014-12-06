@@ -26,7 +26,7 @@ function homePage(req, res) {
 							try {
 								console.log(results);
 								if (results != null && results.length > 0) {
-									for ( var i = 0; i < results.length; i++) {
+									for (var i = 0; i < results.length; i++) {
 										var getUser1 = "select *  from sub_category where categoryid = "
 												+ results[i].categoryId
 												+ " limit 5";
@@ -45,7 +45,7 @@ function homePage(req, res) {
 																	 * Name
 																	 * :::::"+results[i].name);
 																	 */
-																	for ( var j = 0; j < result.length; j++) {
+																	for (var j = 0; j < result.length; j++) {
 																		console
 																				.log("Sub Category:-"
 																						+ result[j].name
@@ -359,7 +359,7 @@ function renderCategoryAndSubCategory(req, res) {
 			var subCat = new Array();
 			var currentCategory = results[0];
 			var subCategory = null;
-			for ( var count = 0; count < results.length; count++) {
+			for (var count = 0; count < results.length; count++) {
 
 				if (currentCategory.categoryId != results[count].categoryId
 						|| count == 0) {
@@ -377,27 +377,27 @@ function renderCategoryAndSubCategory(req, res) {
 
 					};
 					cat.push(newCat);
-				} 
-				//else {
-					var newSubCat = {
-						subCategoryId : results[count].subCategoryId,
-						subName : results[count].subName,
-						image : results[count].subImage,
+				}
+				// else {
+				var newSubCat = {
+					subCategoryId : results[count].subCategoryId,
+					subName : results[count].subName,
+					image : results[count].subImage,
 
-					};
-					if (subCategory.length < 6) {
-						subCategory.push(newSubCat);
-					}
+				};
+				if (subCategory.length < 6) {
+					subCategory.push(newSubCat);
+				}
 
-					if (count + 1 == results.length) {
-						subCat.push(subCategory);
-					}
-				//}
+				if (count + 1 == results.length) {
+					subCat.push(subCategory);
+				}
+				// }
 
 			}
-			
-			category=cat;
-			temp=subCat;
+
+			category = cat;
+			temp = subCat;
 			var resultObj = {
 				category : cat,
 				subCategories : subCat
@@ -432,10 +432,7 @@ function renderCategoryAndSubCategory(req, res) {
  * 
  * category = results; res.render('deleteProduct', {
  * 
- * category : category, subCategories : temp, });
- *  }
- *  } }, getUser);
- *  }
+ * category : category, subCategories : temp, }); } } }, getUser); }
  */
 
 function addProductForm(req, res) {
@@ -512,9 +509,7 @@ function addProductForm(req, res) {
  * 
  * throw err; } else {
  * 
- * category = results; homePage(req, res);
- *  } }, query);
- *  }
+ * category = results; homePage(req, res); } }, query); }
  */
 
 /*
@@ -528,10 +523,7 @@ function addProductForm(req, res) {
  * 
  * mysql.saveData(function(err, results) { if (err) {
  * 
- * throw err; } else { homePage(req, res);
- *  }
- *  }, query);
- *  }
+ * throw err; } else { homePage(req, res); } }, query); }
  */
 function listProducts(req, res) {
 
@@ -545,7 +537,7 @@ function listProducts(req, res) {
 			throw err;
 		} else {
 			if (results.length > 0) {
-				for ( var i = 0; i < results.length; i++) {
+				for (var i = 0; i < results.length; i++) {
 					console.log("Row-----:" + results[i].prod_name);
 				}
 
@@ -610,7 +602,7 @@ function deleteProductForm(req, res) {
 			throw err;
 		} else {
 			if (results.length > 0) {
-				for ( var i = 0; i < results.length; i++) {
+				for (var i = 0; i < results.length; i++) {
 					console.log(results[i].name);
 				}
 
@@ -945,9 +937,7 @@ function updateCategoryForm(req, res) {
 	 * 
 	 * category = results; res.render('updateCategoryForm', {
 	 * 
-	 * category : category, subCategories : temp });
-	 *  }
-	 *  } }, getUser);
+	 * category : category, subCategories : temp }); } } }, getUser);
 	 */
 
 	res.render('updateCategoryForm', {
@@ -1026,9 +1016,7 @@ function deleteCategoryForm(req, res) {
 	 * 
 	 * category = results; res.render('deleteCategoryForm', {
 	 * 
-	 * category : category, subCategories : temp });
-	 *  }
-	 *  } }, getUser);
+	 * category : category, subCategories : temp }); } } }, getUser);
 	 */
 
 	res.render('deleteCategoryForm', {
@@ -1071,6 +1059,94 @@ function deleteCategory(req, res) {
 	}, query);
 }
 
+function renderHome(req, res) {
+	var user = req.session.user;
+	if (typeof (user) == "undefined") {
+		var getQuery = "Select  c.categoryId,c.name,c.image,c.isDeleted,s.subCategoryId,s.name subName,s.image subImage,s.isDeleted,s.categoryId from category c JOIN sub_category s on c.categoryId=s.categoryId where c.isDeleted=0 order by c.categoryId asc;";
+		mysql.fetchData(function(err, results) {
+			if (err) {
+				throw err;
+			} else {
+
+				var cat = new Array();
+				var subCat = new Array();
+				var currentCategory = results[0];
+				var subCategory = null;
+				for (var count = 0; count < results.length; count++) {
+
+					if (currentCategory.categoryId != results[count].categoryId
+							|| count == 0) {
+						if (count > 0) {
+							console.log("sub category array");
+							console.log(subCategory);
+							subCat.push(subCategory);
+						}
+						subCategory = new Array();
+						currentCategory = results[count];
+						var newCat = {
+							categoryId : results[count].categoryId,
+							name : results[count].name,
+							image : results[count].image
+
+						};
+						cat.push(newCat);
+					}
+					// else {
+					var newSubCat = {
+						subCategoryId : results[count].subCategoryId,
+						subName : results[count].subName,
+						image : results[count].subImage,
+
+					};
+					if (subCategory.length < 6) {
+						subCategory.push(newSubCat);
+					}
+
+					if (count + 1 == results.length) {
+						subCat.push(subCategory);
+					}
+					// }
+
+				}
+				var businessObj = {
+					category : cat,
+					subCategories : subCat
+				};
+				ejs.renderFile('./views/homepage.ejs', businessObj,
+						function(err, result) {
+							// render on success
+							if (!err) {
+								res.end(result);
+							}
+							// render or error
+							else {
+								res.end('An error occurred');
+								console.log(err);
+							}
+						});
+
+			}
+		}, getQuery);
+
+	} else {
+
+		ejs.renderFile('./views/homepage.ejs', user, function(err, result) {
+			// render on success
+			if (!err) {
+				res.end(result);
+			}
+			// render or error
+			else {
+				res.end('An error occurred');
+				console.log(err);
+			}
+		});
+
+	}
+
+}
+
+exports.renderHome = renderHome;
 exports.deleteProductForm = deleteProductForm;
 exports.deleteProduct = deleteProduct;
 exports.addProduct = addProduct;
