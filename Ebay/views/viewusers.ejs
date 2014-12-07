@@ -23,7 +23,7 @@
 <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a id="aBuyers" href="#buyers" data-toggle="tab">Buyers</a></li>
     <li><a id="aSellers" href="#sellers" data-toggle="tab">Sellers</a></li>
-    <li><a id="aAllUsers" href="#both" data-toggle="tab">All Users</a></li>
+    <li><a id="aAllUsers" href="#both" data-toggle="tab">Buyers/Sellers</a></li>
 
 </ul>
 <div id="my-tab-content" class="tab-content">
@@ -61,6 +61,9 @@
                                 City
                             </th>
                             <th>
+                                State
+                            </th>
+                            <th>
                                 Zipcode
                             </th>
 
@@ -85,6 +88,7 @@
                             <td><%= rows[i].membershipId %></td>
                             <td><%= rows[i].address %></td>
                             <td><%= rows[i].city %></td>
+                            <td><%= rows[i].state %></td>
                             <td><%= rows[i].zipCode %></td>
 
                             <td>
@@ -134,6 +138,9 @@
                                 City
                             </th>
                             <th>
+                                State
+                            </th>
+                            <th>
                                 Zipcode
                             </th>
 
@@ -157,6 +164,7 @@
                             <td><%= rows[i].membershipId %></td>
                             <td><%= rows[i].address %></td>
                             <td><%= rows[i].city %></td>
+                            <td><%= rows[i].state %></td>
                             <td><%= rows[i].zipCode %></td>
 
                             <td>
@@ -206,6 +214,9 @@
                                 City
                             </th>
                             <th>
+                                State
+                            </th>
+                            <th>
                                 Zipcode
                             </th>
 
@@ -217,6 +228,7 @@
                         <%
 
                         for(var i=0; i < rows.length; i++) {
+                            if(rows[i].isUserSeller===1 && rows[i].isUserBuyer===1) {
                         %>
                         <tbody>
 
@@ -228,6 +240,7 @@
                             <td><%= rows[i].membershipId %></td>
                             <td><%= rows[i].address %></td>
                             <td><%= rows[i].city %></td>
+                            <td><%= rows[i].state %></td>
                             <td><%= rows[i].zipCode %></td>
 
                             <td>
@@ -238,7 +251,7 @@
                         </tr>
 
                         </tbody>
-                        <% } } %>
+                        <% } } } %>
                     </table>
 
                 </div></div>
