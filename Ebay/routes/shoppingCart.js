@@ -325,3 +325,4 @@ exports.paymentPage = function(req, res) {
 	}, getQuery);
 
 }
+

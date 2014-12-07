@@ -58,8 +58,9 @@ exports.getProductFromName = function(req, res) {
 
 exports.getProductDetailsFromName = function(req, res) {
 
-	var getQ ="select *from product JOIN user on product.sellerId= user.userId where name='"+req.param("product")+"'"; 
-		
+	var getQ = "select *from product JOIN user on product.sellerId= user.userId where name='"
+			+ req.param("product") + "'";
+
 	console.log(getQ);
 	mysql
 			.fetchData(
@@ -161,7 +162,7 @@ exports.getProductDetailsFromName = function(req, res) {
 								businessObj.category = user.category;
 								businessObj.subCategories = user.subCategories;
 								businessObj.firstName = user.firstName;
-								businessObj.lastLogin=user.lastLogin;
+								businessObj.lastLogin = user.lastLogin;
 								businessObj.userId = user.userId;
 								ejs.renderFile('./views/productDetails.ejs',
 										businessObj, function(err, result) {
@@ -239,15 +240,15 @@ exports.listAllProducts = function(req, res) {
 							var user = req.session.user;
 							var fname;
 							var uId;
-							
+
 							var lastlogin;
 							if (typeof (user) == "undefined") {
 								fname = "";
-								lastlogin="";
+								lastlogin = "";
 								uId = 0;
 							} else {
 								fname = user.firstName;
-								lastlogin=user.lastLogin;
+								lastlogin = user.lastLogin;
 								uId = user.userId;
 							}
 							mysql
@@ -263,7 +264,7 @@ exports.listAllProducts = function(req, res) {
 																		category : cat,
 																		subCategories : subCat,
 																		firstName : fname,
-																		lastLogin:lastlogin,
+																		lastLogin : lastlogin,
 																		userId : uId
 																	},
 																	function(
@@ -293,7 +294,7 @@ exports.listAllProducts = function(req, res) {
 
 };
 
-exports.showProductsBySubCategory = function(req, res){
+exports.showProductsBySubCategory = function(req, res) {
 	var subCategoryId = req.param("subCategoryId");
 
 	var getQuery = "Select  c.categoryId,c.name,c.image,c.isDeleted,s.subCategoryId,s.name subName,s.image subImage,s.isDeleted,s.categoryId from category c JOIN sub_category s on c.categoryId=s.categoryId where c.isDeleted=0 order by c.categoryId asc;";
@@ -344,7 +345,8 @@ exports.showProductsBySubCategory = function(req, res){
 								// }
 
 							}
-							var ShowProductQuery = "SELECT p.productId ,p.NAME AS productName ,p.description ,p.productType ,pt.NAME AS productTypeName ,p.subCategoryId ,sc.name as subname,p.itemCondition ,ic.NAME AS itemConditionName ,p.basePrice,p.sellerId ,CONCAT (u.firstName	,' '	,u.lastName) AS sellername ,p.IMAGE,p.quantity,p.isDeleted FROM product p INNER JOIN product_type pt ON p.productType = pt.typeId INNER JOIN item_condition ic ON p.itemCondition = ic.conditionId INNER JOIN user u ON p.sellerId = u.userId INNER JOIN sub_category sc ON p.subCategoryId = sc.subCategoryId WHERE sc.subCategoryId = "+ subCategoryId+ " AND p.isDeleted = 0;";
+							var ShowProductQuery = "SELECT p.productId ,p.NAME AS productName ,p.description ,p.productType ,pt.NAME AS productTypeName ,p.subCategoryId ,sc.name as subname,p.itemCondition ,ic.NAME AS itemConditionName ,p.basePrice,p.sellerId ,CONCAT (u.firstName	,' '	,u.lastName) AS sellername ,p.IMAGE,p.quantity,p.isDeleted FROM product p INNER JOIN product_type pt ON p.productType = pt.typeId INNER JOIN item_condition ic ON p.itemCondition = ic.conditionId INNER JOIN user u ON p.sellerId = u.userId INNER JOIN sub_category sc ON p.subCategoryId = sc.subCategoryId WHERE sc.subCategoryId = "
+									+ subCategoryId + " AND p.isDeleted = 0;";
 							var user = req.session.user;
 							var fname;
 							var lastlogin;
@@ -352,11 +354,11 @@ exports.showProductsBySubCategory = function(req, res){
 							if (typeof (user) == "undefined") {
 								fname = "";
 								uId = 0;
-								lastlogin="";
+								lastlogin = "";
 							} else {
 								fname = user.firstName;
 								uId = user.userId;
-								lastlogin=user.lastLogin;
+								lastlogin = user.lastLogin;
 							}
 							mysql
 									.fetchData(
@@ -371,7 +373,7 @@ exports.showProductsBySubCategory = function(req, res){
 																		category : cat,
 																		subCategories : subCat,
 																		firstName : fname,
-																		lastLogin:lastlogin,
+																		lastLogin : lastlogin,
 																		userId : uId
 																	},
 																	function(
@@ -399,17 +401,24 @@ exports.showProductsBySubCategory = function(req, res){
 						}
 					}, getQuery);
 
-
 };
 
-exports.placeBid=function(req,res)
-{
+exports.placeBid = function(req, res) {
 	var data;
 	var responseString;
-	var product=req.param("pid");
-	if(typeof(product)=="undefined")
-		{
+	var product = req.param("pid");
+	var user = req.session.user;
+	if (typeof (user) == "undefined") {
 		data = {
+			errorCode : 101,
+			message : "Please login to place a bid on this product"
+		};
+		responseString = JSON.stringify(data);
+		res.send(responseString);
+
+	} else {
+		if (typeof (product) == "undefined") {
+			data = {
 				errorCode : 101,
 				message : "Error occured on the server side.Please try again."
 			};
@@ -417,10 +426,60 @@ exports.placeBid=function(req,res)
 			res.send(responseString);
 
 		}
-	var bidPrice=req.param("bid");
-	if(typeof(bidPrice)=="undefined")
-	{
-	data = {
+		var bidPrice = req.param("bid");
+		if (typeof (bidPrice) == "undefined") {
+			data = {
+				errorCode : 101,
+				message : "Error occured on the server side.Please try again."
+			};
+			responseString = JSON.stringify(data);
+			res.send(responseString);
+
+		}
+		var update = "Update product SET basePrice=" + bidPrice
+				+ " where productId=" + product;
+		mysql
+				.fetchData(
+						function(err, results) {
+
+							if (err) {
+								data = {
+									errorCode : 101,
+									message : "Error occured on the server side.Please try again."
+								};
+								responseString = JSON.stringify(data);
+								res.send(responseString);
+							} else {
+								var updateBid = "Update bidding SET userId="
+										+ user.userId + " where productId="
+										+ product;
+								mysql.fetchData(function(err, results) {
+
+									if (err) {
+										throw err;
+									} else {
+
+										data = {
+											errorCode : 100,
+											message : "Your bid was recorded."
+										};
+										responseString = JSON.stringify(data);
+										res.send(responseString);
+									}
+								}, update);
+
+							}
+						}, update);
+
+	}
+
+}
+
+exports.stopBiddingAndSell=function(req,res)
+{
+	var product=req.param("productId");
+	if (typeof (product) == "undefined") {
+		data = {
 			errorCode : 101,
 			message : "Error occured on the server side.Please try again."
 		};
@@ -428,30 +487,39 @@ exports.placeBid=function(req,res)
 		res.send(responseString);
 
 	}
-	var update="Update product SET basePrice="+bidPrice+" where productId="+product;
-	mysql
-	.fetchData(
-			function(err, results) {
-				
+	else
+		{
+			var entry="select *from bidding JOIN user on bidding.userId=user.userId where bidding.productId="+product;
+			mysql.fetchData(function(err, results) {
+
 				if (err) {
-					data = {
-						errorCode : 101,
-						message : "Error occured on the server side.Please try again."
-					};
-					responseString = JSON.stringify(data);
-					res.send(responseString);
+					throw err;
 				} else {
-
-					
-					data = {
-						errorCode : 100,
-						message : "Your bid was recorded."
+					var required=results[0];
+					var cartEntry={
+							userId: required.userId,
+							productId:product,
+							quantity:1
 					};
-					responseString = JSON.stringify(data);
-					res.send(responseString);
-				}
-			}, update);
-	
-	
+					mysql.insertData(function(err, results) {
+						if (err) {
+							throw err;
+						} else {
+							data = {
+								errorCode : 100,
+								message : "Product sold to the highest bidder.",
 
+							};
+							responseString = JSON.stringify(data);
+							res.send(responseString);
+
+						}
+
+					}, cartEntry, "shopping_cart");
+					
+				}
+			}, entry);
+		
+		}
+	
 }
