@@ -253,3 +253,61 @@ function placeBidOrBuyProduct(type,productId)
 		
 		}
 }
+
+
+
+function placeBid (type,productId)
+{
+	var id;
+	if(type==1)
+		{
+		id="#all_txtqty_"+productId;
+		
+		}
+	else
+		{
+		id="#a_txtqty_"+productId;
+		}
+		 
+	
+	
+	if(type==1)
+		{
+			//ad to cart
+		var qty=$(id).val();
+		var serverURL = "http://localhost:3000/addToShoppingCart?pid=" + productId+"&quantity="+qty;
+		
+			$.ajax({
+				dataType : "JSON",
+				url : serverURL,
+				success : function(data) {
+					showRecievedMessage(data);
+				},
+				error : function(data) {
+					
+				}
+			});
+		
+		}
+	
+	else
+		{
+			var bid=$(id).val();
+			var targetID="#a_highest_price_"+productId;
+			$(id).text(bid);
+			var serverURL = "http://localhost:3000/bidForProduct?pid=" + productId+"&bid="+bid;
+			
+			$.ajax({
+				dataType : "JSON",
+				url : serverURL,
+				success : function(data) {
+					showRecievedMessage(data);
+				},
+				error : function(data) {
+					
+				}
+			});
+			//start timer to chek the 
+		
+		}
+}

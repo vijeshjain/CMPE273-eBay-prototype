@@ -145,6 +145,14 @@
 												}, getQuery);
  						}
  					else {
+ 							if(businessObj.sellerId==user.userId)
+ 								{
+ 								businessObj.isSeller=true;
+ 								}
+ 							else
+ 								{
+ 								businessObj.isSeller=false;
+ 								}
 								businessObj.category = user.category;
 								businessObj.subCategories = user.subCategories;
 								businessObj.firstName = user.firstName;

@@ -58,11 +58,11 @@
 												<p><span class="boldtext">Quantity left: </span><%= quantity %>
 													<p><label class="boldtext">Buy Quantity: </label>
 														<%if(quantity>=5){%>
-														<input type="number" name="txtqty" min="1" max="5" id="txtqty_<%=productId%>" value="1"></p>
+														<input type="number" name="txtqty" min="1" max="5" id="all_txtqty_<%=productId%>" value="1"></p>
 														
 														<%} else {%>
 														
-														<input type="number" name="txtqty" min="1" max="<%=quantity%>" id="txtqty_<%=productId%>" value="1"></p>
+														<input type="number" name="txtqty" min="1" max="<%=quantity%>" id="all_txtqty_<%=productId%>" value="1"></p>
 														<%}%>
 														<p class="boldtext"><h3>Now: US$ <%= basePrice %></h3></p>
 														
@@ -70,13 +70,14 @@
 														<% } else { %>        
 														<p>Time left: </p></p>
 														<p class="boldtext"><h3>Current Bid: US$ <%= basePrice %></h3></p>
-														<p><label class="boldtext">Place a Bid: </label><input type="text1" name="txtqty"  id="txtqty" ><small style="color:grey">
+														<p><label class="boldtext">Place a Bid: </label><input type="text1" name="txtqty"  id="a_txtqty_<%=productId%>" ><small style="color:grey">
 															<br>
 															Enter US $<%= (basePrice) %> or more
 														</small></p></p>
 														
 														<% } %>
-														<p class="boldtext">Least Price: <span class="textstrikeoff">$ <%= basePrice+(basePrice/2) %></span></p>    
+														<p class="boldtext">Least Price: <span class="textstrikeoff">$ <%= basePrice+(basePrice/2) %></span></p>   
+														<p class="boldtext"><h3>Current Bid: US$<span id="a_highest_price_<%=productId%>"><%= basePrice %></span> </h3></p> 
 														
 
 													</div>
@@ -84,10 +85,10 @@
 													<div class="caption">
 														<p><% if(productType==1) { %>
 															
-															<button type="button" class="btn btn-primary center-block" onclick="placeBidOrBuyProduct(1,<%=productId%>)">Buy It Now</button>
+															<button type="button" class="btn btn-primary center-block" onclick="placeBid(1,<%=productId%>)">Buy It Now</button>
 															<% } else { %>
 															
-															<button type="button" class="btn btn-primary center-block" onclick="placeBidOrBuyProduct(1,<%=productId%>)">Place a Bid</button>
+															<button type="button" class="btn btn-primary center-block" onclick="placeBid(2,<%=productId%>)">Place a Bid</button>
 															<% } %>
 															<img style="margin-left: 150px;" src="../images/paypal_logo.png" alt="PayPal" border="0"></p>
 														</div>
