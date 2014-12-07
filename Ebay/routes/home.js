@@ -1244,7 +1244,7 @@ function renderHome(req, res) {
 function submitReview(req, res) {
 
 
-	var getUser = "insert into product_review (product_id , review , user_id) values (192 , '"+req.param("reviewSubmit")+"',5);";
+	var getUser = "insert into product_review (product_id , review , user_id) values ("+req.param("pid")+" , '"+req.param("reviewSubmit")+"',"+req.param("userId")+");";
 
 
 
@@ -1296,13 +1296,15 @@ function submitReview(req, res) {
 function WriteReview(req, res) {
 
 	var user=req.session.user;
+	var pid=req.param("pid");
 
 	res.render('writeReview', {
 
 		category : category,
 		subCategories : temp,
 		firstName:user.firstName, lastLogin:user.lastLogin,
-		userId:user.userId
+		userId:user.userId,
+		pid: pid
 
 	});
 

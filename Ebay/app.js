@@ -109,7 +109,7 @@ app.get('/bidForProduct',product.placeBid);
 app.get('/myProfile/:userId',user.myProfile);
 
 app.post('/submitReview', home.submitReview);
-app.get('/WriteReview', home.WriteReview);
+app.get('/WriteReview/:pid', home.WriteReview);
 
 
 http.createServer(app).listen(app.get('port'), function(){
