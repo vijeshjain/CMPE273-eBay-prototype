@@ -2,44 +2,44 @@
  * New node file
  */
 
-var ejs = require("ejs");
-var mysql = require('./mysql');
-var common = require('./common');
-var home = require('./home');
+ var ejs = require("ejs");
+ var mysql = require('./mysql');
+ var common = require('./common');
+ var home = require('./home');
 
-exports.getProductJSONList = function(req, res) {
-	var getQuery = "select *from product";
-	mysql.fetchData(function(err, results) {
-		if (err) {
-			throw err;
-		} else {
-			console.log(results);
-			var responseString = JSON.stringify(results);
-			res.send(responseString);
+ exports.getProductJSONList = function(req, res) {
+ 	var getQuery = "select *from product";
+ 	mysql.fetchData(function(err, results) {
+ 		if (err) {
+ 			throw err;
+ 		} else {
+ 			console.log(results);
+ 			var responseString = JSON.stringify(results);
+ 			res.send(responseString);
 
-		}
-	}, getQuery);
+ 		}
+ 	}, getQuery);
 
-};
+ };
 
-exports.getProductFromName = function(req, res) {
+ exports.getProductFromName = function(req, res) {
 
-	var getQ = "select * from product where name like '"
-			+ req.param("searchword") + "%' and isDeleted=0";
-	console.log(getQ);
-	mysql.fetchData(function(err, results) {
-		if (err) {
-			throw err;
-		} else {
-			if (results == null || typeof (results) == "undefined"
-					|| results.length == 0) {
-				results = new Array();
-			}
-			var businessObj = {
-				searchResults : results
-			};
-			ejs.renderFile('./views/searchResultForProduct.ejs', businessObj,
-					function(err, result) {
+ 	var getQ = "select * from product where name like '"
+ 	+ req.param("searchword") + "%' and isDeleted=0";
+ 	console.log(getQ);
+ 	mysql.fetchData(function(err, results) {
+ 		if (err) {
+ 			throw err;
+ 		} else {
+ 			if (results == null || typeof (results) == "undefined"
+ 				|| results.length == 0) {
+ 				results = new Array();
+ 		}
+ 		var businessObj = {
+ 			searchResults : results
+ 		};
+ 		ejs.renderFile('./views/searchResultForProduct.ejs', businessObj,
+ 			function(err, result) {
 						// render on success
 						if (!err) {
 							res.end(result);
@@ -51,122 +51,107 @@ exports.getProductFromName = function(req, res) {
 						}
 					});
 
-		}
-	}, getQ);
+ 	}
+ }, getQ);
 
-};
+ };
 
-exports.getProductDetailsFromName = function(req, res) {
+ exports.getProductDetailsFromName = function(req, res) {
 
-	var getQ = "select *from product JOIN user on product.sellerId= user.userId where name='"
-			+ req.param("product") + "'";
+ 	var getQ ="select * from ebay.product JOIN ebay.user on product.sellerId= user.userId left outer join ebay.product_review on product.productId = product_review.product_id where name='"+req.param("product")+"' limit 1;";		
+ 	console.log(getQ);
+ 	mysql
+ 	.fetchData(
+ 		function(err, results) {
+ 			if (err) {
+ 				throw err;
+ 			} else {
+ 				var businessObj = results[0];
+ 				var user = req.session.user;
+ 				if (typeof (user) == "undefined") {
+ 					var getQuery = "Select  c.categoryId,c.name,c.image,c.isDeleted,s.subCategoryId,s.name subName,s.image subImage,s.isDeleted,s.categoryId from category c JOIN sub_category s on c.categoryId=s.categoryId where c.isDeleted=0 order by c.categoryId asc;";
+ 					mysql.fetchData(function(err, results) {
+ 							if (err) {
+ 								throw err;
+ 							} else {
 
-	console.log(getQ);
-	mysql
-			.fetchData(
-					function(err, results) {
-						if (err) {
-							throw err;
-						} else {
-							var businessObj = results[0];
-							var user = req.session.user;
-							if (typeof (user) == "undefined") {
-								var getQuery = "Select  c.categoryId,c.name,c.image,c.isDeleted,s.subCategoryId,s.name subName,s.image subImage,s.isDeleted,s.categoryId from category c JOIN sub_category s on c.categoryId=s.categoryId where c.isDeleted=0 order by c.categoryId asc;";
-								mysql
-										.fetchData(
-												function(err, results) {
-													if (err) {
-														throw err;
-													} else {
+ 								var cat = new Array();
+ 								var subCat = new Array();
+ 								var currentCategory = results[0];
+ 								var subCategory = null;
+ 								for (var count = 0; count < results.length; count++) {
 
-														var cat = new Array();
-														var subCat = new Array();
-														var currentCategory = results[0];
-														var subCategory = null;
-														for (var count = 0; count < results.length; count++) {
+ 									if (currentCategory.categoryId != results[count].categoryId
+ 										|| count == 0) {
+ 										if (count > 0) {
+ 											console
+ 											.log("sub category array");
+ 											console
+ 											.log(subCategory);
+ 											subCat
+ 											.push(subCategory);
+ 										}
+ 										subCategory = new Array();
+ 										currentCategory = results[count];
+ 										var newCat = {
+ 											categoryId : results[count].categoryId,
+ 											name : results[count].name,
+ 											image : results[count].image
 
-															if (currentCategory.categoryId != results[count].categoryId
-																	|| count == 0) {
-																if (count > 0) {
-																	console
-																			.log("sub category array");
-																	console
-																			.log(subCategory);
-																	subCat
-																			.push(subCategory);
-																}
-																subCategory = new Array();
-																currentCategory = results[count];
-																var newCat = {
-																	categoryId : results[count].categoryId,
-																	name : results[count].name,
-																	image : results[count].image
+ 										};
+ 										cat
+ 										.push(newCat);
+ 									}
+															// else {
+																var newSubCat = {
+																	subCategoryId : results[count].subCategoryId,
+																	subName : results[count].subName,
+																	image : results[count].subImage,
 
 																};
-																cat
-																		.push(newCat);
-															}
-															// else {
-															var newSubCat = {
-																subCategoryId : results[count].subCategoryId,
-																subName : results[count].subName,
-																image : results[count].subImage,
-
-															};
-															if (subCategory.length < 6) {
-																subCategory
-																		.push(newSubCat);
-															}
-
-															if (count + 1 == results.length) {
-																subCat
-																		.push(subCategory);
-															}
-															// }
-
-														}
+																if (subCategory.length < 6) {
+																	subCategory
+																	.push(newSubCat);
+																}
+ 								}
 														businessObj.category = cat;
 														businessObj.subCategories = subCat;
 														businessObj.firstName = "";
 														businessObj.userId = 0;
 
-														ejs
-																.renderFile(
-																		'./views/productDetails.ejs',
-																		businessObj,
-																		function(
-																				err,
-																				result) {
+														ejs.renderFile('./views/productDetails.ejs',businessObj,
+															function(
+																err,
+																result) {
 																			// render
 																			// on
 																			// success
 																			if (!err) {
 																				res
-																						.end(result);
+																				.end(result);
 																			}
 																			// render
 																			// or
 																			// error
 																			else {
 																				res
-																						.end('An error occurred');
+																				.end('An error occurred');
 																				console
-																						.log(err);
+																				.log(err);
 																			}
 																		});
 
 													}
 												}, getQuery);
-
-							} else {
+ 						}
+ 					else {
 								businessObj.category = user.category;
 								businessObj.subCategories = user.subCategories;
 								businessObj.firstName = user.firstName;
 								businessObj.lastLogin = user.lastLogin;
 								businessObj.userId = user.userId;
-								ejs.renderFile('./views/productDetails.ejs',
-										businessObj, function(err, result) {
-											// render on success
+								ejs.renderFile('./views/productDetails.ejs',businessObj, function(err, result) {
+										// render on success
 											if (!err) {
 												res.end(result);
 											}
@@ -177,10 +162,10 @@ exports.getProductDetailsFromName = function(req, res) {
 											}
 										});
 
-							}
+ 						}
 
-						}
-					}, getQ);
+ 			}
+ 		}, getQ);
 
 };
 
@@ -190,49 +175,49 @@ exports.listAllProducts = function(req, res) {
 
 	var getQuery = "Select  c.categoryId,c.name,c.image,c.isDeleted,s.subCategoryId,s.name subName,s.image subImage,s.isDeleted,s.categoryId from category c JOIN sub_category s on c.categoryId=s.categoryId where c.isDeleted=0 order by c.categoryId asc;";
 	mysql
-			.fetchData(
-					function(err, results) {
-						if (err) {
-							throw err;
-						} else {
+	.fetchData(
+		function(err, results) {
+			if (err) {
+				throw err;
+			} else {
 
-							var cat = new Array();
-							var subCat = new Array();
-							var currentCategory = results[0];
-							var subCategory = null;
-							for (var count = 0; count < results.length; count++) {
+				var cat = new Array();
+				var subCat = new Array();
+				var currentCategory = results[0];
+				var subCategory = null;
+				for (var count = 0; count < results.length; count++) {
 
-								if (currentCategory.categoryId != results[count].categoryId
-										|| count == 0) {
-									if (count > 0) {
-										console.log("sub category array");
-										console.log(subCategory);
-										subCat.push(subCategory);
-									}
-									subCategory = new Array();
-									currentCategory = results[count];
-									var newCat = {
-										categoryId : results[count].categoryId,
-										name : results[count].name,
-										image : results[count].image
+					if (currentCategory.categoryId != results[count].categoryId
+						|| count == 0) {
+						if (count > 0) {
+							console.log("sub category array");
+							console.log(subCategory);
+							subCat.push(subCategory);
+						}
+						subCategory = new Array();
+						currentCategory = results[count];
+						var newCat = {
+							categoryId : results[count].categoryId,
+							name : results[count].name,
+							image : results[count].image
+
+						};
+						cat.push(newCat);
+					}
+								// else {
+									var newSubCat = {
+										subCategoryId : results[count].subCategoryId,
+										subName : results[count].subName,
+										image : results[count].subImage,
 
 									};
-									cat.push(newCat);
-								}
-								// else {
-								var newSubCat = {
-									subCategoryId : results[count].subCategoryId,
-									subName : results[count].subName,
-									image : results[count].subImage,
+									if (subCategory.length < 6) {
+										subCategory.push(newSubCat);
+									}
 
-								};
-								if (subCategory.length < 6) {
-									subCategory.push(newSubCat);
-								}
-
-								if (count + 1 == results.length) {
-									subCat.push(subCategory);
-								}
+									if (count + 1 == results.length) {
+										subCat.push(subCategory);
+									}
 								// }
 
 							}
@@ -252,42 +237,38 @@ exports.listAllProducts = function(req, res) {
 								uId = user.userId;
 							}
 							mysql
-									.fetchData(
-											function(err, rows) {
-												if (!err) {
+							.fetchData(
+								function(err, rows) {
+									if (!err) {
 
-													ejs
-															.renderFile(
-																	'./views/showProducts.ejs',
-																	{
-																		rows : rows,
-																		category : cat,
-																		subCategories : subCat,
-																		firstName : fname,
-																		lastLogin : lastlogin,
-																		userId : uId
-																	},
-																	function(
-																			err,
-																			result) {
-																		if (!err) {
-																			console
-																					.log("In Product.ejs *******");
-																			res
-																					.end(result);
-																		} else {
-																			res
-																					.end('An error occurred');
-																			console
-																					.log(err);
-																		}
-																	});
+										ejs
+										.renderFile(
+											'./views/showProducts.ejs',
+											{
+												rows : rows,
+												category : cat,
+												subCategories : subCat,
+												firstName : fname,
+												lastLogin:lastlogin,
+												userId : uId
+											},
+											function(
+												err,
+												result) {
+												if (!err) {
+													console.log("In Product.ejs *******");
+													res.end(result);
 												} else {
-													res
-															.end('An error occurred');
+													res.end('An error occurred');
 													console.log(err);
 												}
-											}, ShowProductQuery);
+											});
+									} else {
+										res
+										.end('An error occurred');
+										console.log(err);
+									}
+								}, ShowProductQuery);
 
 						}
 					}, getQuery);
@@ -299,49 +280,48 @@ exports.showProductsBySubCategory = function(req, res) {
 
 	var getQuery = "Select  c.categoryId,c.name,c.image,c.isDeleted,s.subCategoryId,s.name subName,s.image subImage,s.isDeleted,s.categoryId from category c JOIN sub_category s on c.categoryId=s.categoryId where c.isDeleted=0 order by c.categoryId asc;";
 	mysql
-			.fetchData(
-					function(err, results) {
-						if (err) {
-							throw err;
-						} else {
+	.fetchData(
+		function(err, results) {
+			if (err) {
+				throw err;
+			} else {
 
-							var cat = new Array();
-							var subCat = new Array();
-							var currentCategory = results[0];
-							var subCategory = null;
-							for (var count = 0; count < results.length; count++) {
+				var cat = new Array();
+				var subCat = new Array();
+				var currentCategory = results[0];
+				var subCategory = null;
+				for (var count = 0; count < results.length; count++) {
 
-								if (currentCategory.categoryId != results[count].categoryId
-										|| count == 0) {
-									if (count > 0) {
-										console.log("sub category array");
-										console.log(subCategory);
-										subCat.push(subCategory);
-									}
-									subCategory = new Array();
-									currentCategory = results[count];
-									var newCat = {
-										categoryId : results[count].categoryId,
-										name : results[count].name,
-										image : results[count].image
+					if (currentCategory.categoryId != results[count].categoryId	|| count == 0) {
+						if (count > 0) {
+							console.log("sub category array");
+							console.log(subCategory);
+							subCat.push(subCategory);
+						}
+						subCategory = new Array();
+						currentCategory = results[count];
+						var newCat = {
+							categoryId : results[count].categoryId,
+							name : results[count].name,
+							image : results[count].image
+
+						};
+						cat.push(newCat);
+					}
+								// else {
+									var newSubCat = {
+										subCategoryId : results[count].subCategoryId,
+										subName : results[count].subName,
+										image : results[count].subImage,
 
 									};
-									cat.push(newCat);
-								}
-								// else {
-								var newSubCat = {
-									subCategoryId : results[count].subCategoryId,
-									subName : results[count].subName,
-									image : results[count].subImage,
+									if (subCategory.length < 6) {
+										subCategory.push(newSubCat);
+									}
 
-								};
-								if (subCategory.length < 6) {
-									subCategory.push(newSubCat);
-								}
-
-								if (count + 1 == results.length) {
-									subCat.push(subCategory);
-								}
+									if (count + 1 == results.length) {
+										subCat.push(subCategory);
+									}
 								// }
 
 							}
@@ -361,42 +341,30 @@ exports.showProductsBySubCategory = function(req, res) {
 								lastlogin = user.lastLogin;
 							}
 							mysql
-									.fetchData(
-											function(err, rows) {
-												if (!err) {
+							.fetchData(
+								function(err, rows) {
+									if (!err) {
 
-													ejs
-															.renderFile(
-																	'./views/showProducts.ejs',
-																	{
-																		rows : rows,
-																		category : cat,
-																		subCategories : subCat,
-																		firstName : fname,
-																		lastLogin : lastlogin,
-																		userId : uId
-																	},
-																	function(
-																			err,
-																			result) {
-																		if (!err) {
-																			console
-																					.log("In Product.ejs *******");
-																			res
-																					.end(result);
-																		} else {
-																			res
-																					.end('An error occurred');
-																			console
-																					.log(err);
-																		}
-																	});
+										ejs.renderFile('./views/showProducts.ejs',{	rows : rows,
+												category : cat,
+												subCategories : subCat,
+												firstName : fname,
+												lastLogin:lastlogin,
+												userId : uId
+											},function(err,result) {
+												if (!err) {
+												console.log("In Product.ejs *******");
+													res.end(result);
 												} else {
-													res
-															.end('An error occurred');
-													console.log(err);
+													res.end('An error occurred');
+													console	.log(err);
 												}
-											}, ShowProductQuery);
+											});
+									} else {
+										res.end('An error occurred');
+										console.log(err);
+									}
+								}, ShowProductQuery);
 
 						}
 					}, getQuery);
@@ -478,7 +446,8 @@ exports.placeBid = function(req, res) {
 exports.stopBiddingAndSell=function(req,res)
 {
 	var product=req.param("productId");
-	if (typeof (product) == "undefined") {
+	if(typeof(product)=="undefined")
+	{
 		data = {
 			errorCode : 101,
 			message : "Error occured on the server side.Please try again."
@@ -487,6 +456,19 @@ exports.stopBiddingAndSell=function(req,res)
 		res.send(responseString);
 
 	}
+	var bidPrice=req.param("bid");
+	if(typeof(bidPrice)=="undefined")
+	{
+
+		data = {
+			errorCode : 101,
+			message : "Error occured on the server side.Please try again."
+		};
+		responseString = JSON.stringify(data);
+		res.send(responseString);
+
+	}
+
 	else
 		{
 			var entry="select *from bidding JOIN user on bidding.userId=user.userId where bidding.productId="+product;

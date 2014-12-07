@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>eBay | Sign Up</title>
+	<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+	<!-- <link rel="stylesheet" src="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css"> -->
+	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+	<script src="../Scripts/home.js"></script>
+	<script src="/Scripts/signup.js"></script>
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+	<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+	<script src="../bootstrap/js/bootstrap-rating-input.js" type="text/javascript"></script>
+	
+</head>
+<body>
+	<% include header.ejs %>
+	
+
+	
+	<br>
+
+
+
+	<td class="gh-td" id=gh-as-td><div id="gh-as"></div></td>
+	
+	<div>
+		<div class="form-outer-div">
+			<form class="form-style" action="/submitReview" id="signup-form" method="POST">
+				<h1>Write Review</h1>
+
+				
+				<br>
+
+				<br> 
+
+				<input id="reviewSubmit" type="text" name="reviewSubmit"
+				placeholder="Your Review" required="required"><span
+				class="requiredClass">*</span>
+				
+				<br>
+
+				
+				<input type="hidden" id="pid" name="pid" value="<%= pid %>">
+				<input type="hidden" id="userId" name="userId" value="<%= userId %>">
+				<br> <br>   <br><br> <input
+				id="" class="btn btn-prim" type="submit"
+				value="Submit Review">
+
+
+				<br>
+				
+			</div>	
+
+
+		</div>
+		<br>
+
+	</form>
+</div>
+
+<%- include footer.ejs %>
+</body>
+
+</html>
