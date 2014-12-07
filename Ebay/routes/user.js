@@ -437,6 +437,8 @@ exports.editUser = function(req, res) {
 
 exports.editAndSaveUser = function(req, res) {
 
+	var userId=req.param("uid");
+
 	var editAndSaveQuery = "update user set firstName ='" + req.param("fname")
 	+ "',lastName ='" + req.param("lname") + "',userName ='"
 	+ req.param("lname") + "',membershipId ='"
@@ -449,7 +451,14 @@ exports.editAndSaveUser = function(req, res) {
 		if (!err) {
 			res.end(rows);
 
-			res.redirect('/users');
+			if(req.param("uid")==5)
+			{
+				res.redirect('/users');
+			}
+			else
+			{
+				res.redirect('/myProfile/'+userId);
+			}
 
 		}
 
@@ -530,7 +539,7 @@ exports.myProfile = function(req, res){
 
 	var userProfileSellerQuery = "select h.historyId, h.productId, h.customerId, h.sellerId, h.quantity, h.price,CONCAT(me.firstName, ' ',me.lastName) as username,me.address, me.city, me.state, me.zipCode, me.membershipId, me.lastLogin, me.isUserSeller, me.isUserBuyer, CONCAT(u.firstName, ' ', u.lastName) as sellername, h.sellingDate, p.name as productName,ic.name as itemConditionName from history h inner join product p ON p.productId = h.productId inner join item_condition ic ON ic.conditionId=(select conditionId from product where productId = h.productId) inner join user u ON u.userId=h.sellerId inner join user me ON me.userId = h.customerId where h.sellerId="+userId+";";
 	console.log(userProfileSellerQuery);
-	var userProfileQuery = "select h.historyId, h.productId, h.customerId, h.sellerId, h.quantity, h.price,CONCAT(me.firstName, ' ',me.lastName) as username,me.address, me.city, me.state, me.zipCode, me.membershipId, me.lastLogin, me.isUserSeller, me.isUserBuyer, CONCAT(u.firstName, ' ', u.lastName) as sellername, h.sellingDate, p.name as productName,ic.name as itemConditionName from history h inner join product p ON p.productId = h.productId inner join item_condition ic ON ic.conditionId=(select conditionId from product where productId = h.productId) inner join user u ON u.userId=h.sellerId inner join user me ON me.userId = h.customerId where h.customerId="+userId+";";
+	var userProfileQuery = "select h.historyId, h.productId, h.customerId, h.sellerId, h.quantity, h.price,me.userName,CONCAT(me.firstName, ' ',me.lastName) as username,me.address, me.city, me.state, me.zipCode, me.membershipId, me.lastLogin, me.isUserSeller, me.isUserBuyer, CONCAT(u.firstName, ' ', u.lastName) as sellername, h.sellingDate, p.name as productName,ic.name as itemConditionName from history h inner join product p ON p.productId = h.productId inner join item_condition ic ON ic.conditionId=(select conditionId from product where productId = h.productId) inner join user u ON u.userId=h.sellerId inner join user me ON me.userId = h.customerId where h.customerId="+userId+";";
 	mysql.fetchData(function(err, purcData) {
 		if(!err)
 		{
