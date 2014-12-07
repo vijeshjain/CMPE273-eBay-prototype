@@ -84,12 +84,14 @@
 
 			<ul class="list-group">
 				<li class="list-group-item text-muted">Profile</li>
+				<li class="list-group-item text-right"><span class="pull-left"><strong>Last seen</strong></span><%= purcData[0].userName %></li>
 				<li class="list-group-item text-right"><span class="pull-left"><strong>Last seen</strong></span><%= FormatDate(purcData[0].lastLogin, "%Y-%m-%d %H:%M:%S", false)  %></li>
 				<li class="list-group-item text-right"><span class="pull-left"><strong>Address</strong></span><%= purcData[0].address%></li>
 				<li class="list-group-item text-right"><span class="pull-left"><strong>City</strong></span><%= purcData[0].city%></li>
 				<li class="list-group-item text-right"><span class="pull-left"><strong>State</strong></span><%= purcData[0].state%></li>
 				<li class="list-group-item text-right"><span class="pull-left"><strong>ZipCode</strong></span><%= purcData[0].zipCode%></li>
 				<li class="list-group-item text-right"><span class="pull-left"><strong>Membership Id</strong></span><%= purcData[0].membershipId %></li>
+				<li class="list-group-item text-right"><span class="pull-left"><a href="#" onclick="location.href='/editUser/<%=purcData[0].customerId%>'" type="button" class="btn btn-info">Edit Profile</a></li>
 			</ul> 
 
 
