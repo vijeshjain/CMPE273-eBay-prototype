@@ -51,7 +51,7 @@ function showUserDetails(data)
 $(function() {
 	//****************************************USER SEARCH***************************
 	$(".search").keyup(function() {
-		var inputSearch = $(this).val();
+		var inputSearch = $(this).val().trim();
 		var dataString = 'searchword=' + inputSearch;
 		if (inputSearch != '') {
 			$.ajax({
