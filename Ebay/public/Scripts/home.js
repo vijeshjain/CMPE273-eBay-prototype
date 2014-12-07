@@ -189,11 +189,24 @@ $(function() {
 
 function placeBidOrBuyProduct(type,productId)
 {
-	var id="#txtqty_"+productId;
+	var selectedTab=$("#tabs li.active");
+	var select=selectedTab[0].id;
+	var id;
+	if(select=="all")
+		{
+		id="#s_txtqty_"+productId;
+		}
+	if(select=="bnow")
+		{
+		id="#all_txtqty_"+productId;
+		}
+	if(select=="auc")
+		{
+		id="#a_txtqty_"+productId;
+		}
+	 
 	var qty=$(id).val();
 	
-	console.log("Quantity"+id);
-	console.log("Quantity"+qty);
 	if(type==1)
 		{
 			//ad to cart
@@ -214,9 +227,29 @@ function placeBidOrBuyProduct(type,productId)
 	
 	else
 		{
-			var bid=$("#txtqty").val();
-			$("#highest-bid").text(bid);
-			//place a bid
+			var bid=$(id).val();
+			if(select=="all")
+			{
+			id="#s_highest_price_"+productId;
+			}
+			if(select=="auc")
+			{
+			id="#a_highest_price_"+productId;
+			}
+			$(id).text(bid);
+			var serverURL = "http://localhost:3000/bidForProduct?pid=" + productId+"&bid="+bid;
+			
+			$.ajax({
+				dataType : "JSON",
+				url : serverURL,
+				success : function(data) {
+					showRecievedMessage(data);
+				},
+				error : function(data) {
+					
+				}
+			});
+			//start timer to chek the 
 		
 		}
 }

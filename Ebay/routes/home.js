@@ -271,14 +271,31 @@ function addSubCategory(req, res) {
 
 function listCategories(req, res) {
 	var user=req.session.user;
-	res.render('listCategories', {
+	if(typeof(user)=="undefined")
+		{
+		res.render('listCategories', {
 
-		category : category,
-		subCategories : temp,
-		firstName:user.firstName, lastLogin:user.lastLogin,
-		userId:user.userId
-	});
+			category : category,
+			subCategories : temp,
+			firstName:"", 
+			lastLogin:"",
+			userId:0
+		});
 
+		}
+	else
+		{
+		res.render('listCategories', {
+
+			category : category,
+			subCategories : temp,
+			firstName:user.firstName, 
+			lastLogin:user.lastLogin,
+			userId:user.userId
+		});
+
+		}
+	
 }
 
 function listSubCategories(req, res) {

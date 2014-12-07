@@ -146,7 +146,7 @@ exports.addToShoppingCart = function(req, res) {
 			data = {
 				errorCode : 100,
 				message : "Product added to your shopping cart.",
-				url:"http://localhost:3000"
+				
 			};
 			responseString = JSON.stringify(data);
 			res.send(responseString);
@@ -182,10 +182,6 @@ exports.removeFromShoppingCart = function(req, res) {
 	req.session.shoppingCart = shopCart;
 	// //render the shopping cart
 	res.redirect("/shoppingCart");
-
-}
-
-exports.writeShoppingCartToDatabase = function(req, res) {
 
 }
 
@@ -252,6 +248,7 @@ exports.paymentPage=function(req,res)
 			var firstName;
 			var lastLogin;
 			var userId;
+			
 			if(typeof(user)=="undefined")
 				{
 				
@@ -265,6 +262,8 @@ exports.paymentPage=function(req,res)
 				lastLogin=user.lastLogin;
 				userId=user.userId;
 			}
+			req.session.shoppingCart=new Array();
+			
 			var resultObj = {
 
 				category : cat,

@@ -4,7 +4,7 @@ function getConnection() {
 	var connection = mysql.createConnection({
 		host : 'localhost',
 		user : 'root',
-		password : 'mukul',
+		password : 'Welcome1',
 		database : 'ebay',
 		port: 3306
 	});
@@ -48,9 +48,7 @@ function saveData(callback, sqlQuery) {
 function insertData(callBack, data, table) {
 	console.log("Inside insert data")
 	var connection = getConnection();
-	console.log(connection);
-	connection.query('INSERT INTO ' + table + ' SET ?', data, function(err,
-			rows, fields) {
+	connection.query('INSERT INTO ' + table + ' SET ?', data, function(err,rows, fields) {
 		// Neat!
 		if (err) {
 			console.log("ERROR: " + err.message);
@@ -60,7 +58,6 @@ function insertData(callBack, data, table) {
 	});
 	console.log("\nConnection closed..");
 	connection.end();
-
 }
 
 exports.fetchData = fetchData;

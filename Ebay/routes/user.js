@@ -277,8 +277,42 @@ exports.register = function(req, res) {
 };
 
 exports.logout=function(req,res){
-	req.session.destroy();
-	res.redirect("/");
+	
+	var user= req.session.user;
+	var cart=req.session.shoppingCart;
+	if(typeof(cart)=="undefined"|| cart.length==0)
+		{
+			//return :nothing to write to the db
+			req.session.destroy();
+			res.redirect("/");
+		
+		}
+	else
+		{
+			
+//			for(var count=0; count < cart.length;count++)
+//				{
+//					var currentProd=cart[count];
+//					var query="insert into shopping_cart (userId,productId) values ("+user.userId+","+currentProd.productId+")";
+//					mysql.saveData(function(err, results) {
+//								if (err) {
+//									throw err;
+//									
+//								} else {
+//										if(count+1==cart.length)
+//											{
+//												req.session.destroy();
+//												res.redirect("/");
+//											}
+//								}
+//
+//							}, query);
+//
+//				
+//				}
+		
+		}
+
 	
 }
 

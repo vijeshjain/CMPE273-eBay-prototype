@@ -58,10 +58,8 @@ exports.getProductFromName = function(req, res) {
 
 exports.getProductDetailsFromName = function(req, res) {
 
-	var getQ = "SELECT p.productId ,p.NAME AS productName ,p.description ,p.productType ,pt.NAME AS productTypeName ,p.subCategoryId ,sc.name as subname,p.itemCondition ,ic.NAME AS itemConditionName ,p.basePrice,p.sellerId ,CONCAT (u.firstName	,' '	,u.lastName) AS sellername ,p.IMAGE,p.quantity,p.isDeleted FROM product p INNER JOIN product_type pt ON p.productType = pt.typeId INNER JOIN item_condition ic ON p.itemCondition = ic.conditionId INNER JOIN user u ON p.sellerId = u.userId INNER JOIN sub_category sc ON p.subCategoryId = sc.subCategoryId WHERE p.NAME ='"
-			+ req.param("product") + "' AND p.isDeleted = 0;";
-	// var getQ="select * from product where name ='"+ req.param("product")+"'
-	// and isDeleted=0";
+	var getQ ="select *from product JOIN user on product.sellerId= user.userId where name='"+req.param("product")+"'"; 
+		
 	console.log(getQ);
 	mysql
 			.fetchData(
@@ -403,3 +401,57 @@ exports.showProductsBySubCategory = function(req, res){
 
 
 };
+
+exports.placeBid=function(req,res)
+{
+	var data;
+	var responseString;
+	var product=req.param("pid");
+	if(typeof(product)=="undefined")
+		{
+		data = {
+				errorCode : 101,
+				message : "Error occured on the server side.Please try again."
+			};
+			responseString = JSON.stringify(data);
+			res.send(responseString);
+
+		}
+	var bidPrice=req.param("bid");
+	if(typeof(bidPrice)=="undefined")
+	{
+	data = {
+			errorCode : 101,
+			message : "Error occured on the server side.Please try again."
+		};
+		responseString = JSON.stringify(data);
+		res.send(responseString);
+
+	}
+	var update="Update product SET basePrice="+bidPrice+" where productId="+product;
+	mysql
+	.fetchData(
+			function(err, results) {
+				
+				if (err) {
+					data = {
+						errorCode : 101,
+						message : "Error occured on the server side.Please try again."
+					};
+					responseString = JSON.stringify(data);
+					res.send(responseString);
+				} else {
+
+					
+					data = {
+						errorCode : 100,
+						message : "Your bid was recorded."
+					};
+					responseString = JSON.stringify(data);
+					res.send(responseString);
+				}
+			}, update);
+	
+	
+
+}

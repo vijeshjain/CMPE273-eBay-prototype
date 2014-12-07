@@ -43,9 +43,13 @@ function showRecievedMessage(data) {
                         $("#successMessage").fadeOut("slow");
                 }, 4000);
         });
-        setTimeout(function () {
+        if(typeof(data.url)!="undefined")
+        	{
+        	setTimeout(function () {
                 window.location = data.url;
             }, 3000);
+        	}
+        
 	}
 
 }

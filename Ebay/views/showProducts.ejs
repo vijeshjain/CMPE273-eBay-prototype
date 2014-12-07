@@ -17,9 +17,9 @@
 		<div id="content">
 			<ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
 
-				<li class="active"><a id="aItems" href="#allItems" data-toggle="tab">All Listings</a></li>
-				<li><a id="aBuyItNow" href="#buyNow" data-toggle="tab">Buy It Now</a></li>
-				<li><a id="aAuctions" href="#auctions" data-toggle="tab">Auctions</a></li>
+				<li class="active" id="all"><a id="aItems" href="#allItems" data-toggle="tab">All Listings</a></li>
+				<li id="bnow"><a id="aBuyItNow" href="#buyNow" data-toggle="tab">Buy It Now</a></li>
+				<li id="auc"><a id="aAuctions" href="#auctions" data-toggle="tab">Auctions</a></li>
 				
 
 			</ul>
@@ -48,15 +48,15 @@
 
 												<p><span class="boldtext">Quantity left: </span><%= item.quantity %></p>
 												<% if(item.productType==1) { %>
-												<p><label class="boldtext">Buy Quantity: </label><input type="number" name="txtqty" min="1" max="5" id="txtqty_<%=item.productId%>" value="1"></p>
+												<p><label class="boldtext">Buy Quantity: </label><input type="number" name="txtqty" min="1" max="5" id="s_txtqty_<%=item.productId%>" value="1"></p>
 												<% } else { %>
-												<p><label class="boldtext">Place a Bid: </label><input type="number" name="txtqty" min="<%= (item.basePrice+1) %>" max="10000" id="txtqty_<%=item.productId%>" ></p>
+												<p><label class="boldtext">Place a Bid: </label><input type="number" name="txtqty" min="<%= (item.basePrice+1) %>" max="10000" id="s_txtqty_<%=item.productId%>" ></p>
 												<% } %>
 												<p class="boldtext">List Price: <span class="textstrikeoff">$ <%= item.basePrice+(item.basePrice/2) %></span></p>
 												<% if(item.productType==1) { %>
 												<p class="boldtext"><h3>Now: US$ <%= item.basePrice %></h3></p>
 												<% } else { %>
-												<p class="boldtext"><h3>Current Bid: US$ <span id="highest-bid"><%= item.basePrice %></span></h3></p>
+												<p class="boldtext"><h3>Current Bid: US$ <span id="s_highest-bid_<%=item.productId%>"><%= item.basePrice %></span></h3></p>
 												<% } %>
 
 											</div>
@@ -101,15 +101,15 @@
 															<p class="boldtext">Seller: <span class="bluetext"> <%= item.sellername %></span><span style="color:red"><input type="number" data-max="5" data-min="1" data-empty-value="0" data-clearable="remove" name="sellerRating" id="sellerRating" class="rating" /></p></span>
 
 															<p><span class="boldtext">Quantity left: </span><%= item.quantity %></p>
-															<p><label class="boldtext">Place a Bid: </label><input type="number" name="txtqty" min="<%= (item.basePrice+1) %>" max="5" id="txtqty_<%=item.productId%>" ></p>
+															<p><label class="boldtext">Place a Bid: </label><input type="number" name="txtqty" min="<%= (item.basePrice+1) %>" max="5" id="a_txtqty_<%=item.productId%>" ></p>
 															<p class="boldtext">List Price: <span class="textstrikeoff">$ <%= item.basePrice+(item.basePrice/2) %></span></p>
-															<p class="boldtext"><h3>Current Bid: US$ <%= item.basePrice %></h3></p>
+															<p class="boldtext"><h3>Current Bid: US$<span id="a_highest_price_<%=item.productId%>"><%= item.basePrice %></span> </h3></p>
 
 
 														</div>
 
 														<div class="caption">
-															<p><button type="button" class="btn btn-primary center-block">Place a Bid</button><img style="margin-left: 150px;" src="../images/paypal_logo.png" alt="PayPal" border="0"></p>
+															<p><button type="button" class="btn btn-primary center-block" onclick="placeBidOrBuyProduct(2,<%=item.productId%>)">Place a Bid</button><img style="margin-left: 150px;" src="../images/paypal_logo.png" alt="PayPal" border="0"></p>
 
 														</div>
 													</div>
@@ -146,7 +146,7 @@
 																	<p class="boldtext">Seller: <span class="bluetext"> <%= item.sellername %></span><span style="color:red"><input type="number" data-max="5" data-min="1" data-empty-value="0" data-clearable="remove" name="sellerRating" id="sellerRating" class="rating" /></p></span>
 
 																	<p><span class="boldtext">Quantity left: </span><%= item.quantity %></p>
-																	<p><label class="boldtext">Buy Quantity: </label><input type="number" name="txtqty" min="1" max="5" id="txtqty_<%=item.productId%>" value="1"></p>
+																	<p><label class="boldtext">Buy Quantity: </label><input type="number" name="txtqty" min="1" max="5" id="all_txtqty_<%=item.productId%>" value="1"></p>
 																	<p class="boldtext">List Price: <span class="textstrikeoff">$ <%= item.basePrice+(item.basePrice/2) %></span></p>
 																	<p class="boldtext"><h3>Now: US$ <%= item.basePrice %></h3></p>
 

@@ -38,13 +38,19 @@
 											<p class="pull-right view-counts hidden-md">
 
 												<span class="label label-info" data-toggle="tooltip" title="" data-original-title="">
-													<%= itemConditionName %></span>
+													<% if(itemCondition==1){ %>
+														New</span>
+													<%}%>
+													<% if(itemCondition==2){ %>
+														Refurbished</span>
+													<%}%>
+													
 												</p>
 												<p class="lead snipp-title">
-													<%= productName %>
+													<%= name %>
 												</p>
 												<p><i><%= description %></i></p>
-												<p class="boldtext">Seller: <span class="bluetext"> <%= sellername %></span><span style="color:red"><input type="number" data-max="5" data-min="1" data-empty-value="0" data-clearable="remove" name="sellerRating" id="sellerRating" class="rating" /></p></span>
+												<p class="boldtext">Seller: <span class="bluetext"> <%= firstName%> <%= lastName%></span><span style="color:red"><input type="number" data-max="5" data-min="1" data-empty-value="0" data-clearable="remove" name="sellerRating" id="sellerRating" class="rating" /></p></span>
 
 												
 												
