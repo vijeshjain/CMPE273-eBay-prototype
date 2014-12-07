@@ -539,7 +539,14 @@ exports.myProfile = function(req, res){
 				{
 					var categories = home.category;
 					var user=req.session.user;
-					res.render('myProfile', {sellerData: sellerData, purcData: purcData, category: categories,firstName:"",userId:0}, function(err, results){
+					res.render('myProfile', {
+						sellerData: sellerData, 
+						purcData: purcData,
+						category: categories,
+						firstName : user.firstName,
+						lastLogin : user.lastLogin,
+						userId : user.userId 
+					}, function(err, results){
 
 						if(err)
 						{
