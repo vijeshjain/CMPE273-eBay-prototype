@@ -434,7 +434,7 @@ exports.placeBid = function(req, res) {
 									if (err) {
 										throw err;
 									} else {
-
+											
 										data = {
 											errorCode : 100,
 											message : "Your bid was recorded."
@@ -442,7 +442,7 @@ exports.placeBid = function(req, res) {
 										responseString = JSON.stringify(data);
 										res.send(responseString);
 									}
-								}, update);
+								}, updateBid);
 
 							}
 						}, update);
@@ -454,6 +454,8 @@ exports.placeBid = function(req, res) {
 exports.stopBiddingAndSell=function(req,res)
 {
 	var product=req.param("productId");
+	var data;
+	var responseString;
 	if(typeof(product)=="undefined")
 	{
 		data = {
@@ -464,19 +466,7 @@ exports.stopBiddingAndSell=function(req,res)
 		res.send(responseString);
 
 	}
-	var bidPrice=req.param("bid");
-	if(typeof(bidPrice)=="undefined")
-	{
-
-		data = {
-			errorCode : 101,
-			message : "Error occured on the server side.Please try again."
-		};
-		responseString = JSON.stringify(data);
-		res.send(responseString);
-
-	}
-
+	
 	else
 		{
 			var entry="select *from bidding JOIN user on bidding.userId=user.userId where bidding.productId="+product;
@@ -486,27 +476,41 @@ exports.stopBiddingAndSell=function(req,res)
 					throw err;
 				} else {
 					var required=results[0];
-					var cartEntry={
-							userId: required.userId,
-							productId:product,
-							quantity:1
-					};
-					mysql.insertData(function(err, results) {
-						if (err) {
-							throw err;
-						} else {
-							data = {
+					if(typeof(required)=="undefined")
+						{
+						data = {
 								errorCode : 100,
-								message : "Product sold to the highest bidder.",
+								message : "There have been no bids on this product yet.",
 
 							};
 							responseString = JSON.stringify(data);
 							res.send(responseString);
+						}
+					else
+						{
+						var cartEntry={
+								userId: required.userId,
+								productId:product,
+								quantity:1
+						};
+						mysql.insertData(function(err, results) {
+							if (err) {
+								throw err;
+							} else {
+								data = {
+									errorCode : 100,
+									message : "Product sold to the highest bidder.",
+
+								};
+								responseString = JSON.stringify(data);
+								res.send(responseString);
+
+							}
+
+						}, cartEntry, "shopping_cart");
 
 						}
-
-					}, cartEntry, "shopping_cart");
-					
+										
 				}
 			}, entry);
 		

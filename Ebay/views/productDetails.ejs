@@ -89,6 +89,9 @@
 															<% } else { %>
 															
 															<button type="button" class="btn btn-primary center-block" onclick="placeBid(2,<%=productId%>)">Place a Bid</button>
+															<%if(isSeller){%>
+															<button type="button" class="btn btn-primary center-block" onclick="endBidding(<%=productId%>)">End bidding</button>
+															<%}%>
 															<% } %>
 															<img style="margin-left: 150px;" src="../images/paypal_logo.png" alt="PayPal" border="0"></p>
 														</div>

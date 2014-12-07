@@ -311,3 +311,22 @@ function placeBid (type,productId)
 		
 		}
 }
+
+
+function endBidding(productID)
+{
+	var serverURL = "http://localhost:3000/endBidding?productId=" + productID;
+	
+	$.ajax({
+		dataType : "JSON",
+		url : serverURL,
+		success : function(data) {
+			showRecievedMessage(data);
+		},
+		error : function(data) {
+			
+		}
+	});
+
+
+}

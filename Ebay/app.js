@@ -110,6 +110,7 @@ app.get('/myProfile/:userId',user.myProfile);
 
 app.post('/submitReview', home.submitReview);
 app.get('/WriteReview/:pid', home.WriteReview);
+app.get('/endBidding', product.stopBiddingAndSell);
 
 
 http.createServer(app).listen(app.get('port'), function(){
