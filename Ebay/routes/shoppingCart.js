@@ -65,51 +65,47 @@ exports.showSoppingCart = function(req, res) {
 				shoppingCart = new Array();
 				req.session.shoppingCart = shoppingCart;
 			}
-			var user=req.session.user;
+			var user = req.session.user;
 			var addr;
 			var firstName;
 			var lastLogin;
 			var userId;
-			if(typeof(user)=="undefined")
-				{
-				addr="";
-				firstName="";
-				userId=0;
-				lastLogin="";
-				}
-			else{
-				addr=user.address;
-				firstName=user.firstName;
-				lastLogin=user.lastLogin;
-				userId=user.userId;
+			if (typeof (user) == "undefined") {
+				addr = "";
+				firstName = "";
+				userId = 0;
+				lastLogin = "";
+			} else {
+				addr = user.address;
+				firstName = user.firstName;
+				lastLogin = user.lastLogin;
+				userId = user.userId;
 			}
 			var resultObj = {
 
 				products : shoppingCart,
 				category : cat,
 				subCategories : subCat,
-				address:addr,
-				firstName:firstName,
-				lastLogin:lastLogin,
-				userId:userId
+				address : addr,
+				firstName : firstName,
+				lastLogin : lastLogin,
+				userId : userId
 			};
-			ejs.renderFile('./views/shoppingCart.ejs', resultObj,
-					function(err, result) {
-						// render on success
-						if (!err) {
-							res.end(result);
-						}
-						// render or error
-						else {
-							res.end('An error occurred');
-							console.log(err);
-						}
-					});
+			ejs.renderFile('./views/shoppingCart.ejs', resultObj, function(err,
+					result) {
+				// render on success
+				if (!err) {
+					res.end(result);
+				}
+				// render or error
+				else {
+					res.end('An error occurred');
+					console.log(err);
+				}
+			});
 		}
-	},getQuery);
+	}, getQuery);
 
-						
-	
 }
 
 exports.addToShoppingCart = function(req, res) {
@@ -117,7 +113,7 @@ exports.addToShoppingCart = function(req, res) {
 	var responseString;
 	// product id
 	var pId = req.param("pid");
-	var quantity=req.param("quantity");
+	var quantity = req.param("quantity");
 	if (typeof (pId) == "undefined") {
 		data = {
 			errorCode : 101,
@@ -136,20 +132,48 @@ exports.addToShoppingCart = function(req, res) {
 			throw err;
 		} else {
 			var product = results[0];
-			product.quantity=quantity;
+			product.quantity = quantity;
 			if (typeof (req.session.shoppingCart) == "undefined") {
 				req.session.shoppingCart = new Array();
-				
+
 			}
-			req.session.shoppingCart.push(product);
-			// store in session variable
-			data = {
-				errorCode : 100,
-				message : "Product added to your shopping cart.",
-				
-			};
-			responseString = JSON.stringify(data);
-			res.send(responseString);
+			var user = req.session.user;
+			if (typeof (user) == "undefined") {
+				req.session.shoppingCart.push(product);
+				// store in session variable
+				data = {
+					errorCode : 100,
+					message : "Product added to your shopping cart.",
+
+				};
+				responseString = JSON.stringify(data);
+				res.send(responseString);
+			} else {
+				// write to database
+				req.session.shoppingCart.push(product);
+				var cart = {
+					userId : user.userId,
+					productId : pId,
+					quantity:quantity
+				};
+				mysql.insertData(function(err, results) {
+					if (err) {
+						throw err;
+					} else {
+						data = {
+							errorCode : 100,
+							message : "Product added to your shopping cart.",
+
+						};
+						responseString = JSON.stringify(data);
+						res.send(responseString);
+
+					}
+
+				}, cart, "shopping_cart");
+
+			}
+
 		}
 	}, getQuery);
 
@@ -180,24 +204,38 @@ exports.removeFromShoppingCart = function(req, res) {
 		}
 	}
 	req.session.shoppingCart = shopCart;
-	// //render the shopping cart
-	res.redirect("/shoppingCart");
+	var user=req.session.user;
+	if(typeof(user)!="undefined")
+		{
+			var deleteQuery="Delete from shopping_cart where userId="+req.session.user.userId+" and productId="+pId;
+			mysql.fetchData(function(err, results) {
+				if (err) {
+					throw err;
+				} else {
+					res.redirect("/shoppingCart");
+					}
+				}, deleteQuery);
+		
+		}
+	else{
+		// //render the shopping cart
+		res.redirect("/shoppingCart");
+	}
+	
+	
+
 
 }
 
-exports.paymentPage=function(req,res)
-{
-	var newParam=req.param("isNew");
+exports.paymentPage = function(req, res) {
+	var newParam = req.param("isNew");
 	var addr;
-	if(newParam==0)
-		{
-			addr=req.param("address");
-		}
-	else
-		{
-		addr="address";
-		
-		}
+	if (newParam == 0) {
+		addr = req.param("address");
+	} else {
+		addr = "address";
+
+	}
 	var getQuery = "Select  c.categoryId,c.name,c.image,c.isDeleted,s.subCategoryId,s.name subName,s.image subImage,s.isDeleted,s.categoryId from category c JOIN sub_category s on c.categoryId=s.categoryId where c.isDeleted=0 and s.isDeleted=0 order by c.categoryId asc;";
 	mysql.fetchData(function(err, results) {
 		if (err) {
@@ -244,48 +282,46 @@ exports.paymentPage=function(req,res)
 				// }
 
 			}
-			var user=req.session.user;
+			var user = req.session.user;
 			var firstName;
 			var lastLogin;
 			var userId;
-			
-			if(typeof(user)=="undefined")
-				{
-				
-				firstName="";
-				userId=0;
-				lastLogin="";
-				}
-			else{
-				
-				firstName=user.firstName;
-				lastLogin=user.lastLogin;
-				userId=user.userId;
+
+			if (typeof (user) == "undefined") {
+
+				firstName = "";
+				userId = 0;
+				lastLogin = "";
+			} else {
+
+				firstName = user.firstName;
+				lastLogin = user.lastLogin;
+				userId = user.userId;
 			}
-			req.session.shoppingCart=new Array();
-			
+			req.session.shoppingCart = new Array();
+
 			var resultObj = {
 
 				category : cat,
 				subCategories : subCat,
-				address:addr,
-				firstName:firstName,
-				lastLogin:lastLogin,
-				userId:userId
+				address : addr,
+				firstName : firstName,
+				lastLogin : lastLogin,
+				userId : userId
 			};
-			ejs.renderFile('./views/payment.ejs', resultObj,
-					function(err, result) {
-						// render on success
-						if (!err) {
-							res.end(result);
-						}
-						// render or error
-						else {
-							res.end('An error occurred');
-							console.log(err);
-						}
-					});
+			ejs.renderFile('./views/payment.ejs', resultObj, function(err,
+					result) {
+				// render on success
+				if (!err) {
+					res.end(result);
+				}
+				// render or error
+				else {
+					res.end('An error occurred');
+					console.log(err);
+				}
+			});
 		}
-	},getQuery);	
+	}, getQuery);
 
 }

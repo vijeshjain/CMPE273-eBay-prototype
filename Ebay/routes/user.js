@@ -2,33 +2,34 @@ var ejs = require("ejs");
 var mysql = require('./mysql');
 var common = require('./common');
 var home = require('./home');
-var shoppingCart=require('./shoppingCart');
+var shoppingCart = require('./shoppingCart');
 /*
  * GET users listing.
  */
 
+function updateCurrentDateInLoggedInUser(username) {
+	var currentDate = common.FormatDate(new Date(), "%Y-%m-%d %H:%M:%S", false);
+	var updateTime = "Update user SET lastLogin='" + currentDate
+			+ "' where username='" + username + "'";
 
- 
- function updateCurrentDateInLoggedInUser(username) {
- 	var currentDate = common.FormatDate(new Date(), "%Y-%m-%d %H:%M:%S", false);
- 	var updateTime = "Update user SET lastLogin='" + currentDate
- 	+ "' where username='" + username + "'";
+	mysql.fetchData(function(err, results) {
+		if (err) {
+			throw err;
+		} else {
+			console.log("last login time updated for the user.");
+		}
 
- 	mysql.fetchData(function(err, results) {
- 		if (err) {
- 			throw err;
- 		} else {
- 			console.log("last login time updated for the user.");
- 		}
-
- 	}, updateTime);
- }
+	}, updateTime);
+}
 
 exports.signin = function(req, res) {
- 	
- 	if (typeof (req.param("password")) === "undefined"|| typeof (req.param("username")) === "undefined") {
- 		var message = "Invalid username or password";
- 	ejs.renderFile('./views/invalidLogin.ejs', {message: message},function(err, result) {
+
+	if (typeof (req.param("password")) === "undefined"
+			|| typeof (req.param("username")) === "undefined") {
+		var message = "Invalid username or password";
+		ejs.renderFile('./views/invalidLogin.ejs', {
+			message : message
+		}, function(err, result) {
 			// render on success
 			if (!err) {
 				res.end(result);
@@ -39,111 +40,168 @@ exports.signin = function(req, res) {
 				console.log(err);
 			}
 		});
- }
- var getUser = "select * from user where username='" + req.param("username")
- + "'" + " and password='" + req.param("password") + "'";
+	}
+	var getUser = "select * from user where username='" + req.param("username")
+			+ "'" + " and password='" + req.param("password") + "'";
 
 	// check using the database operations if it is correct
-	mysql.fetchData(function(err, results) {
-		if (err) {
-			throw err;
-		} else {
-			if (results.length > 0) {
-				console.log("valid Login");
-				var loggedInUser = results[0];
-				// on login success update the last login time as current time
-				updateCurrentDateInLoggedInUser(req.param("username"));
-				loggedInUser.lastlogin = common.FormatDate(
-					loggedInUser.lastLogin, "%Y-%m-%d %H:%M:%S", false);
-				// set the session object
-				req.session.user = loggedInUser;
-				// render the home page
-				var getQuery = "Select  c.categoryId,c.name,c.image,c.isDeleted,s.subCategoryId,s.name subName,s.image subImage,s.isDeleted,s.categoryId from category c JOIN sub_category s on c.categoryId=s.categoryId where c.isDeleted=0 order by c.categoryId asc;";
-				mysql.fetchData(function(err, results) {
-					if (err) {
-						throw err;
-					} else {
+	mysql
+			.fetchData(
+					function(err, results) {
+						if (err) {
+							throw err;
+						} else {
+							if (results.length > 0) {
+								console.log("valid Login");
+								var loggedInUser = results[0];
+								// on login success update the last login time
+								// as current time
+								updateCurrentDateInLoggedInUser(req
+										.param("username"));
+								loggedInUser.lastlogin = common.FormatDate(
+										loggedInUser.lastLogin,
+										"%Y-%m-%d %H:%M:%S", false);
+								// set the session object
+								req.session.user = loggedInUser;
+								// render the home page
+								var getQuery = "Select  c.categoryId,c.name,c.image,c.isDeleted,s.subCategoryId,s.name subName,s.image subImage,s.isDeleted,s.categoryId from category c JOIN sub_category s on c.categoryId=s.categoryId where c.isDeleted=0 order by c.categoryId asc;";
+								mysql
+										.fetchData(
+												function(err, results) {
+													if (err) {
+														throw err;
+													} else {
 
-						var cat = new Array();
-						var subCat = new Array();
-						var currentCategory = results[0];
-						var subCategory = null;
-						for ( var count = 0; count < results.length; count++) {
+														var cat = new Array();
+														var subCat = new Array();
+														var currentCategory = results[0];
+														var subCategory = null;
+														for (var count = 0; count < results.length; count++) {
 
-							if (currentCategory.categoryId != results[count].categoryId
-									|| count == 0) {
-								if (count > 0) {
-									console.log("sub category array");
-									console.log(subCategory);
-									subCat.push(subCategory);
-								}
-								subCategory = new Array();
-								currentCategory = results[count];
-								var newCat = {
-									categoryId : results[count].categoryId,
-									name : results[count].name,
-									image : results[count].image
+															if (currentCategory.categoryId != results[count].categoryId
+																	|| count == 0) {
+																if (count > 0) {
+																	console
+																			.log("sub category array");
+																	console
+																			.log(subCategory);
+																	subCat
+																			.push(subCategory);
+																}
+																subCategory = new Array();
+																currentCategory = results[count];
+																var newCat = {
+																	categoryId : results[count].categoryId,
+																	name : results[count].name,
+																	image : results[count].image
 
-								};
-								cat.push(newCat);
-							} 
-							//else {
-								var newSubCat = {
-									subCategoryId : results[count].subCategoryId,
-									subName : results[count].subName,
-									image : results[count].subImage,
+																};
+																cat
+																		.push(newCat);
+															}
+															// else {
+															var newSubCat = {
+																subCategoryId : results[count].subCategoryId,
+																subName : results[count].subName,
+																image : results[count].subImage,
 
-								};
-								if (subCategory.length < 6) {
-									subCategory.push(newSubCat);
-								}
+															};
+															if (subCategory.length < 6) {
+																subCategory
+																		.push(newSubCat);
+															}
 
-								if (count + 1 == results.length) {
-									subCat.push(subCategory);
-								}
-							//}
+															if (count + 1 == results.length) {
+																subCat
+																		.push(subCategory);
+															}
+															// }
 
+														}
+														loggedInUser.category = cat;
+														loggedInUser.subCategories = subCat;
+														req.session.user = loggedInUser;
+														var selectShoppingCart = "select *from shopping_cart JOIN product on shopping_cart.productId=product.productId where userId="
+																+ loggedInUser.userId;
+														mysql
+																.fetchData(
+																		function(
+																				err,
+																				rows) {
+																			if (err) {
+																				throw err;
+																			} else {
+																				if (rows.length > 0) {
+																					var shoppingCart = rows;
+																					req.session.shoppingCart = rows;
+
+																				}
+
+																				ejs
+																						.renderFile(
+																								'./views/homePage.ejs',
+																								loggedInUser,
+																								function(
+																										err,
+																										result) {
+																									// render
+																									// on
+																									// success
+																									if (!err) {
+																										res
+																												.end(result);
+																									}
+																									// render
+																									// or
+																									// error
+																									else {
+																										res
+																												.end('An error occurred');
+																										console
+																												.log(err);
+																									}
+																								});
+																			}
+																		},
+																		selectShoppingCart);
+														/*
+														 * ejs.renderFile('./views/homePage.ejs',
+														 * loggedInUser,
+														 * function(err, result) { //
+														 * render on success if
+														 * (!err) {
+														 * res.end(result); } //
+														 * render or error else {
+														 * res.end('An error
+														 * occurred');
+														 * console.log(err); }
+														 * });
+														 */
+
+													}
+												}, getQuery);
+
+							} else {
+
+								console.log("Invalid Login");
+								var message = "Invalid username or password";
+								ejs.renderFile('./views/invalidLogin.ejs', {
+									message : message
+								}, function(err, result) {
+									// render on success
+									if (!err) {
+										res.end(result);
+									}
+									// render or error
+									else {
+										res.end('An error occurred');
+										console.log(err);
+									}
+								});
+
+							}
 						}
-						loggedInUser.category = cat;
-						loggedInUser.subCategories=subCat;
-						req.session.user = loggedInUser;
-						
-						ejs.renderFile('./views/homePage.ejs', loggedInUser, function(err,
-								result) {
-							// render on success
-							if (!err) {
-								res.end(result);
-							}
-							// render or error
-							else {
-								res.end('An error occurred');
-								console.log(err);
-							}
-						});
-
-					}
-				}, getQuery);
-
-			} else {
-				
-				console.log("Invalid Login");
-				var message = "Invalid username or password";
-				ejs.renderFile('./views/invalidLogin.ejs', {message: message}, function(
-					err, result) {
-					// render on success
-					if (!err) {
-						res.end(result);
-					}
-					// render or error
-					else {
-						res.end('An error occurred');
-						console.log(err);
-					}
-				});
-
-			}
-		}
-	}, getUser);
+					}, getUser);
 
 }
 
@@ -240,145 +298,122 @@ exports.register = function(req, res) {
 
 	};
 	// check if the username is already in use
-	var selectQ = "select * from user where userName='" + Email + "'"+" and isDeleted=0";
-	mysql.fetchData(function(err, results) {
-		if (err) {
-			throw err;
-		} else {
-			if (results.length > 0) {
-				// if we get an entry then send the error
-				data = {
-					errorCode : 101,
-					message : "Please choose a unique username."
-				};
-				responseString = JSON.stringify(data);
-				res.send(responseString);
-			} else {
-				// else register the new user 
-				mysql.insertData(function(err, results) {
-					if (err) {
-						throw err;
-					} else {
-						data = {
-							errorCode : 100,
-							message : "You have successfuly registered to eBay. Please proceed to login.",
-								  url : "http://localhost:3000/signin"
-						
-						};
-						responseString = JSON.stringify(data);
-						res.send(responseString);
-					}
+	var selectQ = "select * from user where userName='" + Email + "'"
+			+ " and isDeleted=0";
+	mysql
+			.fetchData(
+					function(err, results) {
+						if (err) {
+							throw err;
+						} else {
+							if (results.length > 0) {
+								// if we get an entry then send the error
+								data = {
+									errorCode : 101,
+									message : "Please choose a unique username."
+								};
+								responseString = JSON.stringify(data);
+								res.send(responseString);
+							} else {
+								// else register the new user
+								mysql
+										.insertData(
+												function(err, results) {
+													if (err) {
+														throw err;
+													} else {
+														data = {
+															errorCode : 100,
+															message : "You have successfuly registered to eBay. Please proceed to login.",
+															url : "http://localhost:3000/signin"
 
-				}, newUserData, "user");
-			}
-		}
-	}, selectQ);
+														};
+														responseString = JSON
+																.stringify(data);
+														res
+																.send(responseString);
+													}
+
+												}, newUserData, "user");
+							}
+						}
+					}, selectQ);
 
 };
 
-exports.logout=function(req,res){
-	
-	var user= req.session.user;
-	var cart=req.session.shoppingCart;
-	if(typeof(cart)=="undefined"|| cart.length==0)
-		{
-			//return :nothing to write to the db
-			req.session.destroy();
-			res.redirect("/");
-		
-		}
-	else
-		{
-			
-//			for(var count=0; count < cart.length;count++)
-//				{
-//					var currentProd=cart[count];
-//					var query="insert into shopping_cart (userId,productId) values ("+user.userId+","+currentProd.productId+")";
-//					mysql.saveData(function(err, results) {
-//								if (err) {
-//									throw err;
-//									
-//								} else {
-//										if(count+1==cart.length)
-//											{
-//												req.session.destroy();
-//												res.redirect("/");
-//											}
-//								}
-//
-//							}, query);
-//
-//				
-//				}
-		
-		}
+exports.logout = function(req, res) {
 
-	
+	req.session.destroy();
+	res.redirect("/");
 }
 
-exports.displayusers = function(req, res){
+exports.displayusers = function(req, res) {
 
 	var ShowUserQuery = "select * from user where isDeleted=0;";
 
-	mysql.fetchData(function(err,rows){
-		if(!err)
-		{
+	mysql.fetchData(function(err, rows) {
+		if (!err) {
 			var categories = home.category;
-			var user=req.session.user;
-			ejs.renderFile('./views/viewusers.ejs', {rows: rows, category: categories,firstName:user.firstName, lastLogin:user.lastLogin,userId:user.userId }, function(err, result)
-			{
-				if(!err)
-				{
+			var user = req.session.user;
+			ejs.renderFile('./views/viewusers.ejs', {
+				rows : rows,
+				category : categories,
+				firstName : user.firstName,
+				lastLogin : user.lastLogin,
+				userId : user.userId
+			}, function(err, result) {
+				if (!err) {
 					res.end(result);
-				}
-				else
-				{
+				} else {
 					res.end('An error occurred');
 					console.log(err);
 				}
 			});
-		}
-		else
-		{
+		} else {
 			res.end('An error occurred');
 			console.log(err);
 		}
-	},ShowUserQuery);
+	}, ShowUserQuery);
 
 };
 
-exports.deleteUser = function(req,res)
-{
+exports.deleteUser = function(req, res) {
 
-	var deleteUserQuery = "update user set isDeleted=1 where userId = "+req.param("uid")+";";
+	var deleteUserQuery = "update user set isDeleted=1 where userId = "
+			+ req.param("uid") + ";";
 
-	mysql.fetchData(function(err,rows) {
+	mysql.fetchData(function(err, rows) {
 		if (!err) {
 			res.end(rows);
-            //displayusers(req, res);
-            res.redirect('/users');
-        }
+			// displayusers(req, res);
+			res.redirect('/users');
+		}
 
-        else {
+		else {
 
-        	res.end('An error occurred');
-        	console.log(err);
-        }}, deleteUserQuery);
-
+			res.end('An error occurred');
+			console.log(err);
+		}
+	}, deleteUserQuery);
 
 }
 
-exports.editUser = function(req,res)
-{
-	
-	var viewUserProfile = "select * from user where userId="+req.param("uid")+";";
-	
-	mysql.fetchData(function(err,rows) {
+exports.editUser = function(req, res) {
+
+	var viewUserProfile = "select * from user where userId=" + req.param("uid")
+			+ ";";
+
+	mysql.fetchData(function(err, rows) {
 		if (!err) {
-			
+
 			console.log(JSON.stringify(rows));
-			var user=req.session.user;
-			ejs.renderFile('./views/editProfile.ejs', { userData: rows,firstName:user.firstName, lastLogin:user.lastLogin,userId:user.userId}, function(err, result) {
+			var user = req.session.user;
+			ejs.renderFile('./views/editProfile.ejs', {
+				userData : rows,
+				firstName : user.firstName,
+				lastLogin : user.lastLogin,
+				userId : user.userId
+			}, function(err, result) {
 
 				if (!err) {
 					res.end(result);
@@ -395,16 +430,22 @@ exports.editUser = function(req,res)
 
 			res.end('An error occurred');
 			console.log(err);
-		}}, viewUserProfile);
-	
+		}
+	}, viewUserProfile);
 
 }
 
-exports.editAndSaveUser = function(req,res)
-{
+exports.editAndSaveUser = function(req, res) {
 
-	var editAndSaveQuery = "update user set firstName ='"+req.param("fname")+"',lastName ='"+req.param("lname")+"',userName ='"+req.param("lname")+"',membershipId ='"+req.param("membershipId")+"',address ='"+req.param("address")+"',city ='"+req.param("city")+"',zipCode ='"+req.param("zip")+"',isUserBuyer = 0 ,isUserSeller = 1 where userId="+req.param("uid")+";";
-	mysql.fetchData(function(err,rows) {
+	var editAndSaveQuery = "update user set firstName ='" + req.param("fname")
+			+ "',lastName ='" + req.param("lname") + "',userName ='"
+			+ req.param("lname") + "',membershipId ='"
+			+ req.param("membershipId") + "',address ='" + req.param("address")
+			+ "',city ='" + req.param("city") + "',zipCode ='"
+			+ req.param("zip")
+			+ "',isUserBuyer = 0 ,isUserSeller = 1 where userId="
+			+ req.param("uid") + ";";
+	mysql.fetchData(function(err, rows) {
 		if (!err) {
 			res.end(rows);
 
@@ -416,28 +457,29 @@ exports.editAndSaveUser = function(req,res)
 
 			res.end('An error occurred');
 			console.log(err);
-		}}, editAndSaveQuery);
-
+		}
+	}, editAndSaveQuery);
 
 }
 
-exports.getUserFromFirstName=function(req,res)
-{
-	var getQ="select *from user where firstName like'"+ req.param("searchword")+"%' or lastName like'"+req.param("searchword")+"%' and isDeleted=0";
+exports.getUserFromFirstName = function(req, res) {
+	var getQ = "select *from user where firstName like'"
+			+ req.param("searchword") + "%' or lastName like'"
+			+ req.param("searchword") + "%' and isDeleted=0";
 	console.log(getQ);
 	mysql.fetchData(function(err, results) {
 		if (err) {
 			throw err;
 		} else {
-			if(results==null ||typeof(results)=="undefined"|| results.length==0)
-			{
-				results=new Array();
+			if (results == null || typeof (results) == "undefined"
+					|| results.length == 0) {
+				results = new Array();
 			}
 			var businessObj = {
 				searchResults : results
 			};
 			ejs.renderFile('./views/searchResultForuser.ejs', businessObj,
-				function(err, result) {
+					function(err, result) {
 						// render on success
 						if (!err) {
 							res.end(result);
@@ -450,23 +492,21 @@ exports.getUserFromFirstName=function(req,res)
 					});
 
 		}
-	}, getQ);	
+	}, getQ);
 
 }
 
-exports.getUserProfileDetails=function(req,res)
-{
-	var id=req.param("userId");
-	if(id!=null&& id!=undefined)
-	{
-		var getQ="select *from user where userId="+ id;
+exports.getUserProfileDetails = function(req, res) {
+	var id = req.param("userId");
+	if (id != null && id != undefined) {
+		var getQ = "select *from user where userId=" + id;
 		mysql.fetchData(function(err, results) {
 			if (err) {
 				throw err;
 			} else {
-				var user=results[0];
+				var user = results[0];
 				ejs.renderFile('./views/userProfileDetails.ejs', user,
-					function(err, result) {
+						function(err, result) {
 							// render on success
 							if (!err) {
 								res.end(result);
@@ -483,4 +523,3 @@ exports.getUserProfileDetails=function(req,res)
 	}
 
 }
-
