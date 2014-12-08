@@ -105,7 +105,9 @@ $(function() {
 		var $name = t.innerHTML;
 		var decoded = $("<div/>").html($name).text();
 		$('#inputSearch').val(decoded);
-		var dataString="userId="+ $("#user-selected").val();
+		var usserID=t.children[2];
+		var yu=usserID.value;
+		var dataString="userId="+ parseInt(yu);
 		$.ajax({
 			type : "POST",
 			url : "http://localhost:3000/getUserProfileDetails",
@@ -152,7 +154,9 @@ $(function() {
 		var $name = t.innerHTML;
 		var decoded = $("<div/>").html($name).text();
 		$('#product_inputSearch').val(decoded);
-		var dataString="product="+ $("#product-name").text();
+		
+		var yu=t.innerHTML;
+		var dataString="product="+ yu;
 		window.location="http://localhost:3000/getProductDetails?"+dataString;
 		
 		

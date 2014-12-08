@@ -467,10 +467,29 @@ exports.editUser = function(req, res) {
 exports.editAndSaveUser = function(req, res) {
 
 	var userId=req.param("uid");
+	var user=req.session.user;
+	//var currentDate = common.FormatDate(new Date(), "%Y-%m-%d %H:%M:%S", false);
+	var userUpdated={
+			
+			userId:userId,
+			firstName:req.param("fname"),
+			lastName:req.param("lname"),
+			userName:req.param("username"),
+			password:user.password,
+			city:req.param("city"),
+			address:req.param("address"),
+			zipCode:req.param("zip"),
+			membershipId: req.param("membershipId"),
+			isDeleted:0,
+			lastLogin:user.lastLogin,
+			isUserSeller:user.isUserSeller,
+			isUserBuyer:user.isUserBuyer
+			
+	};
 
 	var editAndSaveQuery = "update user set firstName ='" + req.param("fname")
 	+ "',lastName ='" + req.param("lname") + "',userName ='"
-	+ req.param("lname") + "',membershipId ='"
+	+ req.param("username") + "',membershipId ='"
 	+ req.param("membershipId") + "',address ='" + req.param("address")
 	+ "',city ='" + req.param("city") + "',zipCode ='"
 	+ req.param("zip")
@@ -486,6 +505,7 @@ exports.editAndSaveUser = function(req, res) {
 			}
 			else
 			{
+				req.session.user=userUpdated;
 				res.redirect('/myProfile/'+userId);
 			}
 
