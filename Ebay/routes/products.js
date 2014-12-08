@@ -492,7 +492,7 @@ exports.stopBiddingAndSell=function(req,res)
 						var cartEntry={
 								userId: required.userId,
 								productId:product,
-								quantity:1
+								articleQuantity:1
 						};
 						mysql.insertData(function(err, results) {
 							if (err) {

@@ -6,6 +6,7 @@
 
  //var mysql = require('./mysql.js');
  var mysql = require('./PoolManager.js');
+ var common = require('./common');
  
 
 var mysql1 = require("./mysqlcontroller");
@@ -801,13 +802,39 @@ mysql.saveData(function(err, results) {
 		throw err;
 	} else {
 
-		data = {
-			errorCode : 100,
-			message : "Product Added successfully",
-			url : "http://localhost:3000/listProducts"
-		};
-		responseString = JSON.stringify(data);
-		res.send(responseString);
+		//var obj=results[0];
+		var currentDate = common.FormatDate(new Date(), "%Y-%m-%d %H:%M:%S", false);
+		if(productTypeId ==2){
+			
+			var insertObj={
+					
+					productId:results.insertId,
+					userId:req.session.user.userId,
+					bidStart:currentDate,
+					bidEnd:currentDate
+					
+			};
+			mysql.insertData(function(err,results) {
+				if (err) {
+					throw err;
+				} else {
+					data = {
+							errorCode : 100,
+							message : "Product Added successfully",
+							url : "http://localhost:3000/listProducts"
+						};
+						responseString = JSON.stringify(data);
+						res.send(responseString);
+				}
+
+			},insertObj,"bidding");
+			
+			
+		}		
+		
+		
+		
+		
 
 	}
 }, query);
