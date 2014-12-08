@@ -38,11 +38,11 @@ width: 76%;">
 				
 				</td>
 				<td style="text-align:center">
-					<%=curObj.quantity%>
+					<%=curObj.articleQuantity%>
 				</td>
 				<td style="text-align:center">
 					<%
-						var price=curObj.quantity*curObj.basePrice;
+						var price=curObj.articleQuantity*curObj.basePrice;
 					%>
 					$<%=price%>
 				</td>
@@ -67,7 +67,7 @@ width: 76%;">
 		<h2>Shipping address</h2>
 		<%if(address==""){%>
 			<form action="/paymentConfirmation" method="GET">
-				<input type="text" placeholder="Please enter your address" name="address"></br>
+				<input type="text" placeholder="Please enter your address" name="address" required></br>
 				<input type="hidden" value="0" name="isNew">
 				<input type="submit" value="Checkout" class="btn btn-prim" style="color: white;">
 			</form>

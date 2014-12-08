@@ -155,7 +155,7 @@ $(function() {
 		var decoded = $("<div/>").html($name).text();
 		$('#product_inputSearch').val(decoded);
 		
-		var yu=t.innerHTML;
+		var yu=$("span#product-name.name").text();
 		var dataString="product="+ yu;
 		window.location="http://localhost:3000/getProductDetails?"+dataString;
 		

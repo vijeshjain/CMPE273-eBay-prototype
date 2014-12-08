@@ -132,7 +132,7 @@ exports.addToShoppingCart = function(req, res) {
 			throw err;
 		} else {
 			var product = results[0];
-			product.quantity = quantity;
+			product.articleQuantity = quantity;
 			if (typeof (req.session.shoppingCart) == "undefined") {
 				req.session.shoppingCart = new Array();
 
@@ -154,7 +154,7 @@ exports.addToShoppingCart = function(req, res) {
 				var cart = {
 					userId : user.userId,
 					productId : pId,
-					quantity : quantity
+					articleQuantity : quantity
 				};
 				mysql.insertData(function(err, results) {
 					if (err) {
