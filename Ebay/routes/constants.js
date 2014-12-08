@@ -1,0 +1,1 @@
+exports.SELECT_CATEGORY_QUERY	= "Select  c.categoryId,c.name,c.image,c.isDeleted,s.subCategoryId,s.name subName,s.image subImage,s.isDeleted,s.categoryId from category c JOIN sub_category s on c.categoryId=s.categoryId where c.isDeleted=0 and s.isDeleted=0  order by c.categoryId asc;";

@@ -3,9 +3,17 @@
  */
  var sub;
  var ejs = require("ejs");
+
  //var mysql = require('./mysql.js');
  var mysql = require('./PoolManager.js');
  
+
+var mysql1 = require("./mysqlcontroller");
+var Constants = require('./constants');
+var Redis = require("./redis-cache");
+
+
+
  var category = null;
  var subcategory = null;
  var items = null;
@@ -18,29 +26,30 @@
 	// console.log("Query is:" + getUser);
 	// var subCategories = [];
 	var count = 0;
-	mysql
-	.fetchData(
-		function(err, results) {
-			if (err) {
-				throw err;
-			} else {
-				try {
-					console.log(results);
-					if (results != null && results.length > 0) {
-						for (var i = 0; i < results.length; i++) {
-							var getUser1 = "select *  from sub_category where categoryid = "
-							+ results[i].categoryId
-							;
-							console.log(results[i].name);
-							mysql
-							.fetchData(
-								function(err, result) {
-									if (err) {
-										throw err;
-									} else {
-										if (result.length > 0) {
-											console
-											.log("In If*************************************");
+	
+
+	mysql1.executeQuery(Constants.SELECT_CATEGORY_QUERY,
+					function(err, results) {
+						if (err) {
+							throw err;
+						} else {
+							try {
+								console.log(results);
+								if (results != null && results.length > 0) {
+									for (var i = 0; i < results.length; i++) {
+										var getUser1 = "select *  from sub_category where categoryid = "
+												+ results[i].categoryId
+												;
+										console.log(results[i].name);
+										mysql
+												.fetchData(
+														function(err, result) {
+															if (err) {
+																throw err;
+															} else {
+																if (result.length > 0) {
+																	console
+																			.log("In If*************************************");
 																	/*
 																	 * console.log("Category
 																	 * Name
@@ -89,7 +98,7 @@
 				}
 
 			}
-		}, getUser);
+		});
 
 }
 
@@ -185,21 +194,26 @@ function addCategory(req, res) {
 	mysql.saveData(function(err, results) {
 		if (err) {
 
-			throw err;
-		} else {
-			data = {
-				errorCode : 100,
-				message : "Category added successfully",
-				url : "http://localhost:3000/listCategories"
-			};
-			responseString = JSON.stringify(data);
-			res.send(responseString);
-		}
+						throw err;
+					} else {
+						mysql1.executeSQL(Constants.SELECT_CATEGORY_QUERY, function(err, result) {
+//							console.log(result);
+							Redis.cacheCategories(result,temp,category);
+							
+							data = {
+	                                 errorCode : 100,
+	                                 message : "Category added successfully",
+	                                 url : "http://localhost:3000/renderHome"
+	                         };
+	                         responseString = JSON.stringify(data);
+	                         res.send(responseString);
+						});
+					}
 
-	}, query);
-}
-}
-}, selectCategory);
+				}, query);
+			}
+		}
+	}, selectCategory);
 
 }
 
@@ -254,13 +268,18 @@ function addSubCategory(req, res) {
 			throw err;
 		} else {
 
-			data = {
-				errorCode : 100,
-				message : "Sub Category added successfully",
-				url : "http://localhost:3000/listSubCategories"
-			};
-			responseString = JSON.stringify(data);
-			res.send(responseString);
+										mysql1.executeSQL(Constants.SELECT_CATEGORY_QUERY, function(err, result) {
+//											console.log(result);
+											Redis.cacheCategories(result,temp,category);
+											
+											data = {
+					                                 errorCode : 100,
+					                                 message : "Sub Category updated successfully",
+					                                 url : "http://localhost:3000/renderHome"
+					                         };
+					                         responseString = JSON.stringify(data);
+					                         res.send(responseString);
+										});
 
 		}
 	}, query);
@@ -424,8 +443,8 @@ function loadSubCategories(req, res) {
 
 function renderCategoryAndSubCategory(req, res) {
 
-	var getQuery = "Select  c.categoryId,c.name,c.image,c.isDeleted,s.subCategoryId,s.name subName,s.image subImage,s.isDeleted,s.categoryId from category c JOIN sub_category s on c.categoryId=s.categoryId where c.isDeleted=0 and s.isDeleted=0 order by c.categoryId asc;";
-	mysql.fetchData(function(err, results) {
+	//var getQuery = "Select  c.categoryId,c.name,c.image,c.isDeleted,s.subCategoryId,s.name subName,s.image subImage,s.isDeleted,s.categoryId from category c JOIN sub_category s on c.categoryId=s.categoryId where c.isDeleted=0 and s.isDeleted=0  order by c.categoryId asc;";
+	mysql1.executeQuery(Constants.SELECT_CATEGORY_QUERY,function(err, results) {
 		if (err) {
 			throw err;
 		} else {
@@ -493,7 +512,7 @@ function renderCategoryAndSubCategory(req, res) {
 			});
 
 		}
-	}, getQuery);
+	});
 }
 
 // tanvi
@@ -887,13 +906,18 @@ function updateSubCategory(req, res) {
 						throw err;
 					} else {
 
-						data = {
-							errorCode : 100,
-							message : "Sub Category updated successfully",
-							url : "http://localhost:3000/listSubCategories"
-						};
-						responseString = JSON.stringify(data);
-						res.send(responseString);
+						mysql1.executeSQL(Constants.SELECT_CATEGORY_QUERY, function(err, result) {
+//							console.log(result);
+							Redis.cacheCategories(result,temp,category);
+							
+							data = {
+	                                 errorCode : 100,
+	                                 message : "Sub Category updated successfully",
+	                                 url : "http://localhost:3000/renderHome"
+	                         };
+	                         responseString = JSON.stringify(data);
+	                         res.send(responseString);
+						});
 					}
 				}, query);
 			}
@@ -1095,13 +1119,20 @@ function updateCategory(req, res) {
 
 						throw err;
 					} else {
-						data = {
-							errorCode : 100,
-							message : "Category updated successfully",
-							url : "http://localhost:3000/listCategories"
-						};
-						responseString = JSON.stringify(data);
-						res.send(responseString);
+						
+						mysql1.executeSQL(Constants.SELECT_CATEGORY_QUERY, function(err, result) {
+//							console.log(result);
+							Redis.cacheCategories(result,temp,category);
+							
+							data = {
+	                                 errorCode : 100,
+	                                 message : "Category updated successfully",
+	                                 url : "http://localhost:3000/renderHome"
+	                         };
+	                         responseString = JSON.stringify(data);
+	                         res.send(responseString);
+						});
+						 
 
 					}
 				}, query);
@@ -1158,9 +1189,15 @@ function deleteCategory(req, res) {
 
 					throw err;
 				} else {
-
-					category = results;
-					homePage(req, res);
+					data = {
+							errorCode : 100,
+							message : "Category deleted successfully",
+							url : "http://localhost:3000/listCategories"
+						};
+						responseString = JSON.stringify(data);
+						res.send(responseString);
+					/*category = results;
+					homePage(req, res);*/
 
 				}
 			}, dependentQuery);
@@ -1170,9 +1207,9 @@ function deleteCategory(req, res) {
 
 function renderHome(req, res) {
 	var user = req.session.user;
-	if (typeof (user) == "undefined") {
-		var getQuery = "Select  c.categoryId,c.name,c.image,c.isDeleted,s.subCategoryId,s.name subName,s.image subImage,s.isDeleted,s.categoryId from category c JOIN sub_category s on c.categoryId=s.categoryId where c.isDeleted=0 order by c.categoryId asc;";
-		mysql.fetchData(function(err, results) {
+	//if (typeof (user) == "undefined") {
+		//var getQuery = "Select  c.categoryId,c.name,c.image,c.isDeleted,s.subCategoryId,s.name subName,s.image subImage,s.isDeleted,s.categoryId from category c JOIN sub_category s on c.categoryId=s.categoryId where c.isDeleted=0 order by c.categoryId asc;";
+		mysql1.executeQuery(Constants.SELECT_CATEGORY_QUERY,function(err, results) {
 			if (err) {
 				throw err;
 			} else {
@@ -1238,9 +1275,9 @@ function renderHome(req, res) {
 						});
 
 			}
-		}, getQuery);
+		});
 
-} else {
+/*} else {
 
 	ejs.renderFile('./views/homepage.ejs', user, function(err, result) {
 			// render on success
@@ -1254,7 +1291,7 @@ function renderHome(req, res) {
 			}
 		});
 
-}
+}*/
 
 }
 

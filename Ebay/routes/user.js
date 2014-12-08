@@ -209,6 +209,7 @@ exports.register = function(req, res) {
 	var data;
 	var responseString;
 	var Fname = req.param("fname");
+	console.log("hello1" + Fname);
 	if (Fname === null || typeof (Fname) === 'undefined' || (Fname.search(/^[a-zA-Z]{3,15}$/)== -1)) {
 		data = {
 			errorCode : 101,
@@ -218,6 +219,7 @@ exports.register = function(req, res) {
 		res.send(responseString);
 	}
 	var Lname = req.param("lname");
+	console.log("hello2" + Lname);
 	if (Lname === null || typeof (Lname) === 'undefined' || (Lname.search(/^[a-zA-Z]{3,15}$/)== -1)) {
 		data = {
 			errorCode : 101,
@@ -227,6 +229,7 @@ exports.register = function(req, res) {
 		res.send(responseString);
 	}
 	var Email = req.param("username");
+	console.log("hello3" +Email);
 	if (Email === null || typeof (Email) === 'undefined' || (Email.search(/^.+@[^\.].*\.[a-z]{2,}$/)== -1) ) {
 		data = {
 			errorCode : 101,
@@ -236,6 +239,7 @@ exports.register = function(req, res) {
 		res.send(responseString);
 	}
 	var Password = req.param("password");
+	console.log("hello4" +Password);
 	if (Password === null || typeof (Password) === 'undefined' || (Password.search(/^.{8,15}$/)== -1)) {
 		data = {
 			errorCode : 101,
@@ -245,6 +249,7 @@ exports.register = function(req, res) {
 		res.send(responseString);
 	}
 	var confirmPassword = req.param("Confirmpassword");
+	console.log("hello5" +confirmPassword);
 	if (confirmPassword === null || typeof (confirmPassword) === 'undefined') {
 		data = {
 			errorCode : 101,
@@ -262,6 +267,7 @@ exports.register = function(req, res) {
 		res.send(responseString);
 	}
 	var addr = req.param("address");
+	console.log("hello6" +addr);
 	var city = req.param("city");
 	var zipcode = req.param("zip");
 	
