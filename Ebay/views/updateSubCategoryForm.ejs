@@ -20,7 +20,7 @@
 	}
 </script>
 </head>
-<body class="body" onload="updateValues()"> 
+<body  onload="updateValues()"> 
 	<% include header.ejs %>
 	
 
@@ -34,18 +34,30 @@
 				
 						<div class="float-left">
 							<select title="Select a Category to Update"
-								class="category" size="1" id="category" name="category" > <%
+								class="category" size="1" id="category" name="category" > 
+								<option selected="selected">Select a Category</option>
+								<%
 								if(category != null){ category.forEach(function(item) {%>
 								<option name="catName" value="<%= item.categoryId%>"><%= item.name %></option>
 								<% console.log("name:"+item.name); });} %>
 								</select></div>
+							<br>
+							<br>
+							<br>
+							<br>
 							<div class="float-left">
 							<select title="Select a Sub category to Update"
-								class="sub-category" size="1" id="sub-category" name="sub-category"><% 
+								class="sub-category" size="1" id="sub-category" name="sub-category" disabled="disabled">
+								<option selected="selected">Select a sub category</option>
+<!-- 								<% 
 								if(subCategories[0]!= null){ subCategories[0].forEach(function(subItem) {%>
 								<option name="subCatName" value="<%= subItem.categoryId%>"><%= subItem.name %></option>
-								<% console.log("name:"+subItem.name); });} %>
+								<% console.log("name:"+subItem.name); });} %> -->
 							</select></div></td>
+							<br>
+							<br>
+							<br>
+							<br>
 							<div class="float-left">
 			<input id="category-name" type="text" name="newSubCategoryName"
 				placeholder="Sub Category Name" required="required"><span

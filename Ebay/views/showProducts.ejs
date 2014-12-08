@@ -41,15 +41,21 @@
 													<%= item.itemConditionName %></span>
 												</p>
 												<p class="lead snipp-title">
-													<a href="/getProductDetailsFromName"> <%= item.productName %></a> 
-													<%= item.productName %>
+													<a href="/getProductDetails?product=<%= item.productName %>"> <%= item.productName %></a> 
+													
 												</p>
 												<p><i><%= item.description %></i></p>
 												<p class="boldtext">Seller: <span class="bluetext"> <%= item.sellername %></span><span style="color:red"><input type="number" data-max="5" data-min="1" data-empty-value="0" data-clearable="remove" name="sellerRating" id="sellerRating" class="rating" /></p></span>
 
 												<p><span class="boldtext">Quantity left: </span><%= item.quantity %></p>
 												<% if(item.productType==1) { %>
-												<p><label class="boldtext">Buy Quantity: </label><input type="number" name="txtqty" min="1" max="5" id="s_txtqty_<%=item.productId%>" value="1"></p>
+						<p><label class="boldtext">Buy Quantity: </label>
+													<%if(item.quantity>=5){%>
+												<input type="number" name="txtqty" min="1" max="5" id="s_txtqty_<%=item.productId%>" value="1">
+													<%} else {%>
+												<p><label class="boldtext">Buy Quantity: </label><input type="number" name="txtqty" min="1" max="<%=item.quantity%>" id="s_txtqty_<%=item.productId%>" value="1"></p>
+													<%}%>
+													
 												<% } else { %>
 												<p><label class="boldtext">Place a Bid: </label><input type="number" name="txtqty" min="<%= (item.basePrice+1) %>" max="10000" id="s_txtqty_<%=item.productId%>" ></p>
 												<% } %>
@@ -96,7 +102,7 @@
 																<%= item.itemConditionName %></span>
 															</p>
 															<p class="lead snipp-title">
-																<%= item.productName %>
+																<a href="/getProductDetails?product=<%= item.productName %>"> <%= item.productName %></a> 
 															</p>
 															<p><i><%= item.description %></i></p>
 															<p class="boldtext">Seller: <span class="bluetext"> <%= item.sellername %></span><span style="color:red"><input type="number" data-max="5" data-min="1" data-empty-value="0" data-clearable="remove" name="sellerRating" id="sellerRating" class="rating" /></p></span>
@@ -141,13 +147,22 @@
 																		<%= item.itemConditionName %></span>
 																	</p>
 																	<p class="lead snipp-title">
-																		<%= item.productName %>
+																		<a href="/getProductDetails?product=<%= item.productName %>"> <%= item.productName %></a> 
 																	</p>
 																	<p><i><%= item.description %></i></p>
 																	<p class="boldtext">Seller: <span class="bluetext"> <%= item.sellername %></span><span style="color:red"><input type="number" data-max="5" data-min="1" data-empty-value="0" data-clearable="remove" name="sellerRating" id="sellerRating" class="rating" /></p></span>
 
 																	<p><span class="boldtext">Quantity left: </span><%= item.quantity %></p>
-																	<p><label class="boldtext">Buy Quantity: </label><input type="number" name="txtqty" min="1" max="5" id="all_txtqty_<%=item.productId%>" value="1"></p>
+																	<p><label class="boldtext">Buy Quantity: </label>
+																	
+																	
+																	<%if(item.quantity>=5){%>
+												<input type="number" name="txtqty" min="1" max="5" id="all_txtqty_<%=item.productId%>" value="1">
+													<%} else {%>
+												<input type="number" name="txtqty" min="1" max="<%=item.quantity%>" id="all_txtqty_<%=item.productId%>" value="1"></p>
+													<%}%>
+																	
+																	
 																	<p class="boldtext">List Price: <span class="textstrikeoff">$ <%= item.basePrice+(item.basePrice/2) %></span></p>
 																	<p class="boldtext"><h3>Now: US$ <%= item.basePrice %></h3></p>
 

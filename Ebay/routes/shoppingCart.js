@@ -154,7 +154,7 @@ exports.addToShoppingCart = function(req, res) {
 				var cart = {
 					userId : user.userId,
 					productId : pId,
-					quantity:quantity
+					quantity : quantity
 				};
 				mysql.insertData(function(err, results) {
 					if (err) {
@@ -204,26 +204,22 @@ exports.removeFromShoppingCart = function(req, res) {
 		}
 	}
 	req.session.shoppingCart = shopCart;
-	var user=req.session.user;
-	if(typeof(user)!="undefined")
-		{
-			var deleteQuery="Delete from shopping_cart where userId="+req.session.user.userId+" and productId="+pId;
-			mysql.fetchData(function(err, results) {
-				if (err) {
-					throw err;
-				} else {
-					res.redirect("/shoppingCart");
-					}
-				}, deleteQuery);
-		
-		}
-	else{
+	var user = req.session.user;
+	if (typeof (user) != "undefined") {
+		var deleteQuery = "Delete from shopping_cart where userId="
+				+ req.session.user.userId + " and productId=" + pId;
+		mysql.fetchData(function(err, results) {
+			if (err) {
+				throw err;
+			} else {
+				res.redirect("/shoppingCart");
+			}
+		}, deleteQuery);
+
+	} else {
 		// //render the shopping cart
 		res.redirect("/shoppingCart");
 	}
-	
-	
-
 
 }
 
@@ -237,92 +233,150 @@ exports.paymentPage = function(req, res) {
 
 	}
 	var getQuery = "Select  c.categoryId,c.name,c.image,c.isDeleted,s.subCategoryId,s.name subName,s.image subImage,s.isDeleted,s.categoryId from category c JOIN sub_category s on c.categoryId=s.categoryId where c.isDeleted=0 and s.isDeleted=0 order by c.categoryId asc;";
-	mysql.fetchData(function(err, results) {
-		if (err) {
-			throw err;
-		} else {
+	mysql
+			.fetchData(
+					function(err, results) {
+						if (err) {
+							throw err;
+						} else {
 
-			var cat = new Array();
-			var subCat = new Array();
-			var currentCategory = results[0];
-			var subCategory = null;
-			for (var count = 0; count < results.length; count++) {
+							var cat = new Array();
+							var subCat = new Array();
+							var currentCategory = results[0];
+							var subCategory = null;
+							for (var count = 0; count < results.length; count++) {
 
-				if (currentCategory.categoryId != results[count].categoryId
-						|| count == 0) {
-					if (count > 0) {
-						console.log("sub category array");
-						console.log(subCategory);
-						subCat.push(subCategory);
-					}
-					subCategory = new Array();
-					currentCategory = results[count];
-					var newCat = {
-						categoryId : results[count].categoryId,
-						name : results[count].name,
-						image : results[count].image
+								if (currentCategory.categoryId != results[count].categoryId
+										|| count == 0) {
+									if (count > 0) {
+										console.log("sub category array");
+										console.log(subCategory);
+										subCat.push(subCategory);
+									}
+									subCategory = new Array();
+									currentCategory = results[count];
+									var newCat = {
+										categoryId : results[count].categoryId,
+										name : results[count].name,
+										image : results[count].image
 
-					};
-					cat.push(newCat);
-				}
-				// else {
-				var newSubCat = {
-					subCategoryId : results[count].subCategoryId,
-					subName : results[count].subName,
-					image : results[count].subImage,
+									};
+									cat.push(newCat);
+								}
+								// else {
+								var newSubCat = {
+									subCategoryId : results[count].subCategoryId,
+									subName : results[count].subName,
+									image : results[count].subImage,
 
-				};
-				if (subCategory.length < 6) {
-					subCategory.push(newSubCat);
-				}
+								};
+								if (subCategory.length < 6) {
+									subCategory.push(newSubCat);
+								}
 
-				if (count + 1 == results.length) {
-					subCat.push(subCategory);
-				}
-				// }
+								if (count + 1 == results.length) {
+									subCat.push(subCategory);
+								}
+								// }
 
-			}
-			var user = req.session.user;
-			var firstName;
-			var lastLogin;
-			var userId;
+							}
+							var user = req.session.user;
+							var firstName;
+							var lastLogin;
+							var userId;
 
-			if (typeof (user) == "undefined") {
+							if (typeof (user) == "undefined") {
 
-				firstName = "";
-				userId = 0;
-				lastLogin = "";
-			} else {
+								firstName = "";
+								userId = 0;
+								lastLogin = "";
+								req.session.shoppingCart = new Array();
+								var resultObj = {
 
-				firstName = user.firstName;
-				lastLogin = user.lastLogin;
-				userId = user.userId;
-			}
-			req.session.shoppingCart = new Array();
+									category : cat,
+									subCategories : subCat,
+									address : addr,
+									firstName : firstName,
+									lastLogin : lastLogin,
+									userId : userId
+								};
+								ejs.renderFile('./views/payment.ejs',
+										resultObj, function(err, result) {
+											// render on success
+											if (!err) {
+												res.end(result);
+											}
+											// render or error
+											else {
+												res.end('An error occurred');
+												console.log(err);
+											}
+										});
 
-			var resultObj = {
+							} else {
 
-				category : cat,
-				subCategories : subCat,
-				address : addr,
-				firstName : firstName,
-				lastLogin : lastLogin,
-				userId : userId
-			};
-			ejs.renderFile('./views/payment.ejs', resultObj, function(err,
-					result) {
-				// render on success
-				if (!err) {
-					res.end(result);
-				}
-				// render or error
-				else {
-					res.end('An error occurred');
-					console.log(err);
-				}
-			});
-		}
-	}, getQuery);
+								firstName = user.firstName;
+								lastLogin = user.lastLogin;
+								userId = user.userId;
+								var currentShoppedArticles = req.session.shoppingCart;
+								var deleteEntry = "Delete from shopping_cart where userId="+ user.userId;
+								mysql.fetchData(function(err, results) {
+													if (err) {
+														throw err;
+													} else {
+														req.session.shoppingCart = new Array();
+														var currentDate = common.FormatDate(new Date(), "%Y-%m-%d %H:%M:%S", false);
+														for (var count = 0; count < currentShoppedArticles.length; count++) {
+															var currObj = currentShoppedArticles[count];
+															var price = (currObj.quantity * currObj.basePrice);
+															
+															var history = {
+																productId : currObj.productId,
+																customerId : user.userId,
+																sellerId : currObj.sellerId,
+																quantity : currObj.quantity,
+																price : price,
+																sellingDate:currentDate
+															};
+															// insert into
+															// history
+															mysql.insertData(function(err,results) {
+																				if (err) {
+																					throw err;
+																				} else {
+																					
+																				}
 
+																			},history,"history");
+															var resultObj = {
+
+																	category : cat,
+																	subCategories : subCat,
+																	address : addr,
+																	firstName : firstName,
+																	lastLogin : lastLogin,
+																	userId : userId
+																};
+																ejs.renderFile('./views/payment.ejs', resultObj, function(err,
+																		result) {
+																	// render on success
+																	if (!err) {
+																		res.end(result);
+																	}
+																	// render or error
+																	else {
+																		res.end('An error occurred');
+																		console.log(err);
+																	}
+																});
+
+														}
+													}
+
+												}, deleteEntry);
+							}
+							// delete all the entries from the database
+
+						}
+					}, getQuery);
 }
-

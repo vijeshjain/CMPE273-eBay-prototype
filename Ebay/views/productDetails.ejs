@@ -96,11 +96,16 @@
 															<img style="margin-left: 150px;" src="../images/paypal_logo.png" alt="PayPal" border="0"></p>
 														</div>
 														
-														
-														<p><span class="boldtext">Review: </span><%= review %>
-														</div>
+														<% 
+														var prodReview="No Reviews added";
+														if(review!=null && review!=""){
+															prodReview = review;
+														} 
+														%>
+														<p><span class="boldtext">Review: </span><i><%=prodReview%></i></p>
 													</div>
-													
+												</div>
+												
 
 												</div>
 											</div>

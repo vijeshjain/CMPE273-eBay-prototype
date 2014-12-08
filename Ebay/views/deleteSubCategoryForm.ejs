@@ -17,7 +17,7 @@
 	}
 </script>
 </head>
-<body class="body" onload="updateValues()">
+<body onload="updateValues()">
 	<% include header.ejs %>
 
 
@@ -32,22 +32,27 @@
 
 				<div class="float-left">
 					<select title="Select a Category to Delete" class="category"
-						size="1" id="category" name="category"> <% if(category
+						size="1" id="category" name="category">
+						<option selected="selected">Select a Category</option>
+						 <% if(category
 						!= null){ category.forEach(function(item) {%>
 						<option name="catName" value="<%= item.categoryId%>"><%=
 							item.name %></option> <% console.log("name:"+item.name); });} %>
 					</select>
 				</div>
+				<br> <br> <br> <br>
 				<div class="float-left">
 					<select title="Select a Sub category to Delete"
 						class="sub-category" size="1" id="sub-category"
-						name="sub-category"><% if(subCategories[0]!= null){
+						name="sub-category" disabled="disabled">
+							<option selected="selected">Select a sub category</option>
+						<!-- <% if(subCategories[0]!= null){
 						subCategories[0].forEach(function(subItem) {%>
 						<option name="subCatName" value="<%= subItem.categoryId%>"><%=
-							subItem.name %></option> <% console.log("name:"+subItem.name); });} %>
+							subItem.name %></option> <% console.log("name:"+subItem.name); });} %> -->
 					</select>
 				</div>
-				</td>
+				</td> <br> <br> <br> <br>
 				<div class="float-left">
 					<input id="sbtBtn" class="btn btn-prim" type="submit"
 						value="Delete Sub Category">

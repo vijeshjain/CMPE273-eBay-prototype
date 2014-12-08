@@ -46,7 +46,7 @@
 							return ('0' + m).slice(-2);
 						});
 	};
-	if((purcData && purcData!=null && purcData.length>0) || (sellerData && sellerData!=null && sellerData.length>0) )  { %>
+	if(user!=null)  { %>
 	<div class="container" style="margin-top: 20px; margin-bottom: 20px;">
 		<div class="row panel">
 			<div class="col-md-4 bg_blur ">
@@ -56,17 +56,17 @@
 			<!-- <img src="../images/profile_pic.jpg" class="img-thumbnail picture hidden-xs" />
 			<img src="../images/profile_pic.jpg" class="img-thumbnail visible-xs picture_mob" /> -->
 			<div class="header">
-				<h1><%= purcData[0].username %></h1>
+				<h1><%= user.userName %></h1>
 				<h4>Customer Type: 
-					<% if(purcData[0].isUserBuyer==1) { %>
+					<% if(user.isUserBuyer==1) { %>
 					Buyer
-					<%} else if (purcData[0].isUserSeller==1) { %>
+					<%} else if (user.isUserSeller==1) { %>
 					Seller
 					<% } else {%>
 					Buyer/Seller
 					<% } %>
 				</h4>
-				<span>For unbeatable deals on top brands that won't last long, think <strong><%= purcData[0].username %></strong> on eBay. <br/>With free shipping and free returns, offers no-hassle shopping with 100% customer satisfaction guaranteed!</span>
+				<span>For unbeatable deals on top brands that won't last long, think <strong><%= user.userName %></strong> on eBay. <br/>With free shipping and free returns, offers no-hassle shopping with 100% customer satisfaction guaranteed!</span>
 			</div>
 		</div>
 	</div>   
@@ -83,15 +83,15 @@
 		<div class="col-sm-3"><!--left col-->
 
 			<ul class="list-group">
-				<li class="list-group-item text-muted">Profile</li>
-				<li class="list-group-item text-right"><span class="pull-left"><strong>Last seen</strong></span><%= purcData[0].userName %></li>
-				<li class="list-group-item text-right"><span class="pull-left"><strong>Last seen</strong></span><%= FormatDate(purcData[0].lastLogin, "%Y-%m-%d %H:%M:%S", false)  %></li>
-				<li class="list-group-item text-right"><span class="pull-left"><strong>Address</strong></span><%= purcData[0].address%></li>
-				<li class="list-group-item text-right"><span class="pull-left"><strong>City</strong></span><%= purcData[0].city%></li>
-				<li class="list-group-item text-right"><span class="pull-left"><strong>State</strong></span><%= purcData[0].state%></li>
-				<li class="list-group-item text-right"><span class="pull-left"><strong>ZipCode</strong></span><%= purcData[0].zipCode%></li>
-				<li class="list-group-item text-right"><span class="pull-left"><strong>Membership Id</strong></span><%= purcData[0].membershipId %></li>
-				<li class="list-group-item text-right"><span class="pull-left"><a href="#" onclick="location.href='/editUser/<%=purcData[0].customerId%>'" type="button" class="btn btn-info">Edit Profile</a></li>
+				<li class="list-group-item text-muted"><strong style="padding-right: 50px;">Profile</strong><a href="#" onclick="location.href='/editUser/<%=user.userId%>'" type="button" class="btn btn-info">Edit Profile</a></li>
+				<li class="list-group-item text-right"><span class="pull-left"><strong>User Name</strong></span><%= user.userName %></li>
+				<li class="list-group-item text-right" style="height: 60px;"><span class="pull-left"><strong>Last seen</strong></span><%= user.lastLogin %></li>
+				<li class="list-group-item text-right"><span class="pull-left"><strong>Address</strong></span><%= user.address%></li>
+				<li class="list-group-item text-right"><span class="pull-left"><strong>City</strong></span><%= user.city%></li>
+				<li class="list-group-item text-right"><span class="pull-left"><strong>State</strong></span><%= user.state%></li>
+				<li class="list-group-item text-right"><span class="pull-left"><strong>ZipCode</strong></span><%= user.zipCode%></li>
+				<li class="list-group-item text-right" style="height: 60px;"><span class="pull-left"><strong>Membership Id</strong></span><%= user.membershipId %></li>
+				<!-- <li class="list-group-item text-right"><span class="pull-left"></li> -->
 			</ul> 
 
 
@@ -109,7 +109,7 @@
 				<li><a href="#sold" data-toggle="tab">Sold</a></li>
 
 			</ul>
-
+			<% if ((purcData && purcData!=null && purcData.length>0) || (sellerData && sellerData!=null && sellerData.length>0)) { %>
 			<div class="tab-content">
 				<div class="tab-pane active" id="purc">
 					<div class="table-responsive">
@@ -215,8 +215,9 @@
 
 				</div><!--/col-9-->
 			</div><!--/row-->
+			<% } } %>
 			<%- include footer.ejs %>
-			<% } %>
+			
 			<script type="text/javascript">
 
 				

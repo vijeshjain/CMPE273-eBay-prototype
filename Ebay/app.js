@@ -94,6 +94,7 @@ app.get('/deleteSubCategoryForm',home.deleteSubCategoryForm);
 
 app.post('/updateProduct', home.updateProduct);
 app.get('/updateProductForm', home.updateProductForm);
+app.get('/getProductsById', home.getProductsById);
 
 app.get('/getSubCategoryInJson', home.getSubCategoryInJson);
 app.get('/getProductsInJson', home.getProductsInJson);

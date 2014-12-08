@@ -209,25 +209,25 @@ exports.register = function(req, res) {
 	var data;
 	var responseString;
 	var Fname = req.param("fname");
-	if (Fname === null || typeof (Fname) === 'undefined') {
+	if (Fname === null || typeof (Fname) === 'undefined' || (Fname.search(/^[a-zA-Z]{3,15}$/)== -1)) {
 		data = {
 			errorCode : 101,
-			message : "First name requried for sucessful registration"
+			message : "First name should contain 3 to 15 letters"
 		};
 		responseString = JSON.stringify(data);
 		res.send(responseString);
 	}
 	var Lname = req.param("lname");
-	if (Lname === null || typeof (Lname) === 'undefined') {
+	if (Lname === null || typeof (Lname) === 'undefined' || (Lname.search(/^[a-zA-Z]{3,15}$/)== -1)) {
 		data = {
 			errorCode : 101,
-			message : "Last name requried for sucessful registration"
+			message : "Last name should contain 3 to 15 letters"
 		};
 		responseString = JSON.stringify(data);
 		res.send(responseString);
 	}
 	var Email = req.param("username");
-	if (Email === null || typeof (Email) === 'undefined') {
+	if (Email === null || typeof (Email) === 'undefined' || (Email.search(/^.+@[^\.].*\.[a-z]{2,}$/)== -1) ) {
 		data = {
 			errorCode : 101,
 			message : "Email requried for sucessful registration"
@@ -236,10 +236,10 @@ exports.register = function(req, res) {
 		res.send(responseString);
 	}
 	var Password = req.param("password");
-	if (Password === null || typeof (Password) === 'undefined') {
+	if (Password === null || typeof (Password) === 'undefined' || (Password.search(/^.{8,15}$/)== -1)) {
 		data = {
 			errorCode : 101,
-			message : "Password requried for sucessful registration"
+			message : "Password should contain 8 to 15 letters"
 		};
 		responseString = JSON.stringify(data);
 		res.send(responseString);
@@ -264,6 +264,28 @@ exports.register = function(req, res) {
 	var addr = req.param("address");
 	var city = req.param("city");
 	var zipcode = req.param("zip");
+	
+	if (zipcode === null || typeof (zipcode) === 'undefined' || (zipcode.search(/(^\d{5}$)|(^\d{5}-\d{4}$)/)== -1)) {
+		data = {
+			errorCode : 101,
+			message : "Zipcode format is invalid"
+		};
+		responseString = JSON.stringify(data);
+		res.send(responseString);
+	}
+	
+	var membershipNumber = req.param("membershipNumber");
+	
+	if (membershipNumber === null || typeof (membershipNumber) === 'undefined' || (membershipNumber.search(/[0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9][0-9][0-9]/)== -1)) {
+		data = {
+			errorCode : 101,
+			message : "Membership number format is invalid"
+		};
+		responseString = JSON.stringify(data);
+		res.send(responseString);
+	}
+	
+	
 	var state = req.param("state");
 	var sellerProp = 1;
 	var buyerProp = 0;
@@ -294,7 +316,8 @@ exports.register = function(req, res) {
 		state : state,
 		membershipId : memberId,
 		isUserSeller : sellerProp,
-		isUserBuyer : buyerProp
+		isUserBuyer : buyerProp,
+		membershipId:membershipNumber
 
 	};
 	// check if the username is already in use
@@ -548,13 +571,18 @@ exports.myProfile = function(req, res){
 				{
 					var categories = home.category;
 					var user=req.session.user;
+					//console.log(JSON.stringify(user));
+
+					console.log("\n"+user.lastLogin+"\n");
+					console.log("\n"+user.membershipId+"\n");
 					res.render('myProfile', {
 						sellerData: sellerData, 
 						purcData: purcData,
 						category: categories,
 						firstName : user.firstName,
 						lastLogin : user.lastLogin,
-						userId : user.userId 
+						userId : user.userId,
+						user: user
 					}, function(err, results){
 
 						if(err)

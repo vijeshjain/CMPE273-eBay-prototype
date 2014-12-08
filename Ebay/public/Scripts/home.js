@@ -1,6 +1,38 @@
 /**
  * New node file
  */
+$(document).ready(function() {
+	
+	$("body").delegate("#category-list", "onchange", function(ev) {
+		// get the id of the selected category
+		var id=$("#category-list").val();
+		// ajax request using id
+		//
+		var serverURL = "http://localhost:3000/getSubCategory?cid=" + id;
+		$.ajax({
+			dataType : "HTML",
+			url : serverURL,
+			success : function(data) {
+				 $('#subcategory-list').find('option').remove();
+
+                 // next iterate thru your object adding each option to the drop down\    
+                 $(data).each(function (index, item) { // GETTING ERROR HERE
+                     debugger;
+
+                     $('#subcategory-list').append($('<option></option>').val(item.subCategoryId).html(item.subName));
+                 });
+			},
+			error : function(data) {
+				
+			}
+		});
+
+		
+	});
+
+
+});
+
 
 function getSubcategories(categoryId) {
 
@@ -147,7 +179,7 @@ $(function() {
 				url : serverURL,
 				success : function(data) {
 					 $('#sub-category').find('option').remove();
-
+					 $("#sub-category").prop("disabled", false);
 	                 // next iterate thru your object adding each option to the drop down\    
 	                 $(data).each(function (index, item) { // GETTING ERROR HERE
 	                     $('#sub-category').append($('<option></option>').val(item.subCategoryId).html(item.name));
@@ -171,11 +203,38 @@ $(function() {
 				url : serverURL,
 				success : function(data) {
 					 $('#product').find('option').remove();
-
+					 $("#product").prop("disabled", false);
+					 $('#product').append($('<option></option>').val(0).html("Select a product"));
 	                 // next iterate thru your object adding each option to the drop down\    
 	                 $(data).each(function (index, item) { // GETTING ERROR HERE
 	                     $('#product').append($('<option></option>').val(item.productId).html(item.name));
 	                 });
+	                 
+	                
+				},
+				error : function(data) {
+					
+				}
+			});
+	    });
+	 
+	 
+	 $("#product").change(function() {
+	        //alert( $('option:selected', this).text() );
+			var id=$('option:selected', this).val();
+			// ajax request using id
+			var serverURL = "http://localhost:3000/getProductsById?cid=" + id;
+			
+			$.ajax({
+				dataType : "JSON",
+				url : serverURL,
+				success : function(data) {
+	                 
+	             //  alert(data.name);
+                  $('#productName').val(data.name);
+                  $('#productPrice').val(data.basePrice);
+                  $('#productDesc').val(data.description);
+                  $('#quantity').val(data.quantity);
 				},
 				error : function(data) {
 					

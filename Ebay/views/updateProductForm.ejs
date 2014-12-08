@@ -10,7 +10,7 @@
 <script src="../Scripts/home.js"></script>
 <script src="/Scripts/signup.js"></script>
 </head>
-<body class="body">
+<body >
 	<% include header.ejs %>
 	
 
@@ -29,32 +29,49 @@
 
 				<div class="float-left">
 					<select title="Select Category" class="category"
-						size="1" id="category" name="category"> <% if(category
-						!= null){ category.forEach(function(item) {%>
+						size="1" id="category" name="category"> 
+						<option selected="selected">Select a Category</option>
+						<% if(category!= null){ category.forEach(function(item) {%>
 						<option name="catName" value="<%= item.categoryId%>"><%=
 							item.name %></option> <% console.log("name:"+item.name); });} %>
 					</select>
 				</div>
+				<br>
+				<br>
+				<br>
+				<br>
 				<div class="float-left">
 					<select title="Select Sub category"
 						class="sub-category" size="1" id="sub-category"
-						name="sub-category"><% if(subCategories[0]!= null){
+						name="sub-category" disabled="disabled">
+						<option selected="selected">Select a sub category</option>
+						<!-- <% if(subCategories[0]!= null){
 						subCategories[0].forEach(function(subItem) {%>
 						<option name="subCatName" value="<%= subItem.categoryId%>"><%=
-							subItem.name %></option> <% console.log("name:"+subItem.name); });} %>
+							subItem.subName %></option> <% console.log("name:"+subItem.name); });} %> -->
 					</select>
 				</div>
+				<br>
+				<br>
+				<br>
+				<br>
 				<div class="float-left">
 					<select title="Select a Product to Update"
-						class="product" size="1" id="product"
-						name="product" ><!-- <% if(subCategories[0]!= null){
+						class="product" size="1" id="product" disabled="disabled"
+						name="product" >
+						<option selected="selected">Select a product</option>
+						<!-- <% if(subCategories[0]!= null){
 						subCategories[0].forEach(function(subItem) {%>
 						<option name="subCatName" value="<%= subItem.categoryId%>"><%=
 							subItem.name %></option> <% console.log("name:"+subItem.name); });} %> -->
 					</select>
 				</div>
-				</td>
-				<input id="productName" type="text" name="productName"
+				
+				<br>
+				<br>
+				<br>
+				<br>
+				<input id="productName" type="text" name="productName" class="productName"
 				placeholder="Product Name" required="required"><span
 				class="requiredClass">*</span>
 				

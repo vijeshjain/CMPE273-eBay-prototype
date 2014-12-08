@@ -9,7 +9,7 @@
 <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
 
 </head>
-<body class="body">
+<body >
 	<% include header.ejs %>
 	
 
@@ -28,7 +28,10 @@
 						<div class="float-left">
 
 							<select title="Select a category to Update"
-								class="gh-sb gh-sprRetina" size="1" id="gh-cat" name="categoryId"> <%
+								class="gh-sb gh-sprRetina" size="1" id="gh-cat" name="categoryId">
+								<option selected="selected">Select a Category</option>
+								
+								 <%
 								if(category != null){ category.forEach(function(item) {%>
 								<option name="catName" value="<%= item.categoryId%>"><%= item.name %></option>
 								<% console.log("name:"+item.name); });} %>

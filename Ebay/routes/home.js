@@ -1257,6 +1257,23 @@ function renderHome(req, res) {
 
 }
 
+function getProductsById(req, res) {
+	var getQuery = "select *  from product where productId = "
+			+ req.param("cid");
+	console.log(getQuery);
+	mysql.fetchData(function(err, results) {
+		if (err) {
+			throw err;
+		} else {
+
+			var responseString = JSON.stringify(results[0]);
+			res.send(responseString);
+			console.log("products:-"+responseString);
+
+		}
+	}, getQuery);
+
+}
 function submitReview(req, res) {
 
 
@@ -1291,7 +1308,7 @@ function submitReview(req, res) {
 
 				}
 				else{
-					res.render('listProducts', {
+					res.render('home', {
 						category_new : category_new,
 						category : category,
 						subCategories : temp,
@@ -1361,6 +1378,6 @@ exports.updateCategoryForm = updateCategoryForm;
 exports.updateCategory = updateCategory;
 exports.deleteCategoryForm = deleteCategoryForm;
 exports.deleteCategory = deleteCategory;
-
+exports.getProductsById=getProductsById;
 exports.WriteReview = WriteReview;
 exports.submitReview = submitReview;
