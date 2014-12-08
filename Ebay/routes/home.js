@@ -1327,54 +1327,31 @@ function getProductsById(req, res) {
 function submitReview(req, res) {
 
 
-	var getUser = "insert into product_review (product_id , review , user_id) values ("+req.param("pid")+" , '"+req.param("reviewSubmit")+"',"+req.param("userId")+");";
+	   var getUser = "insert into product_review (product_id , review , user_id) values ("+req.param("pid")+" , '"+req.param("reviewSubmit")+"',"+req.param("userId")+");";
 
 
 
-	console.log("Query is:" + getUser);
+	   console.log("Query is:" + getUser);
 
+	   mysql.saveData(function(err, results) {
+	       if (err) {
 
-	mysql.fetchData(function(err, results) {
-		if (err) {
-			throw err;
-		} else {
-			if (results.length > 0) {
-				for (var i = 0; i < results.length; i++) {
-					console.log("Row---:" + results[i].prod_name);
-				}
+	           throw err;
+	       } else {
+	           data = {
+	               errorCode : 100,
+	               message : "Review submitted successfully",
+	               url : "http://localhost:3000/listAllProducts"
+	           };
+	           responseString = JSON.stringify(data);
+	           res.send(responseString);
+	       }
 
-				category_new = results;
-				var user=req.session.user;
-				if(typeof(user)=="undefined")
-				{
-					res.render('listProducts', {
-						category_new : category_new,
-						category : category,
-						subCategories : temp,
-						firstName:"",
-						userId:0
+	   }, getUser);
+	   
+	   
 
-					});
-
-				}
-				else{
-					res.render('home', {
-						category_new : category_new,
-						category : category,
-						subCategories : temp,
-						firstName:user.firstName, lastLogin:user.lastLogin,
-						userId:user.userId
-
-					});
-
-
-				}                
-			}
-
-		}
-	}, getUser);
-
-}
+	}
 
 function WriteReview(req, res) {
 
