@@ -3,9 +3,10 @@
  */
 
  var ejs = require("ejs");
- var mysql = require('./mysql');
+ var mysql = require('./PoolManager.js')
  var common = require('./common');
  var home = require('./home');
+ 
 
  exports.getProductJSONList = function(req, res) {
  	var getQuery = "select *from product";

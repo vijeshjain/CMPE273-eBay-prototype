@@ -4,7 +4,7 @@
  */
 var ejs = require("ejs");
 
-var mysql = require('./mysql');
+var mysql = require('./PoolManager.js');
 var common = require('./common');
 var home = require('./home');
 

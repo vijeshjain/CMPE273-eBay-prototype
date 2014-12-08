@@ -3,8 +3,9 @@
  */
  var sub;
  var ejs = require("ejs");
- var mysql = require('./mysql.js');
-
+ //var mysql = require('./mysql.js');
+ var mysql = require('./PoolManager.js');
+ 
  var category = null;
  var subcategory = null;
  var items = null;
