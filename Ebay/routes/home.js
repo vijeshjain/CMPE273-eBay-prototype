@@ -1284,21 +1284,25 @@ function renderHome(req, res) {
 				var user=req.session.user;
 				var name;
 				var id;
+				var last;
 				if(typeof(user)=="undefined")
 					{
 						name="";
 						id=0;
+						last="";
 					}
 				else
 					{
 					name=user.firstName
 					id=user.userId;
+					last=user.lastLogin;
 					}
 				var businessObj = {
 					category : cat,
 					subCategories : subCat,
 					firstName:name,
-					userId:id
+					userId:id,
+					lastLogin:last
 				};
 				ejs.renderFile('./views/homepage.ejs', businessObj,
 					function(err, result) {

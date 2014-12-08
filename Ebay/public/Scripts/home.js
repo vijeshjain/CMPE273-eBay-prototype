@@ -154,8 +154,17 @@ $(function() {
 		var $name = t.innerHTML;
 		var decoded = $("<div/>").html($name).text();
 		$('#product_inputSearch').val(decoded);
+		var yu
+		if($(t).hasClass("product-search-wrap"))
+			{
+				var usserID=t.children[0];
+				yu=usserID.innerText;
+			}
+		if($(t).hasClass("name"))
+			{
+				yu=$(t).text();
+			}
 		
-		var yu=$("span#product-name.name").text();
 		var dataString="product="+ yu;
 		window.location="http://localhost:3000/getProductDetails?"+dataString;
 		
