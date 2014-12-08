@@ -1255,11 +1255,23 @@ function renderHome(req, res) {
 
 				}
 				var user=req.session.user;
+				var name;
+				var id;
+				if(typeof(user)=="undefined")
+					{
+						name="";
+						id=0;
+					}
+				else
+					{
+					name=user.firstName
+					id=user.userId;
+					}
 				var businessObj = {
 					category : cat,
 					subCategories : subCat,
-					firstName:"",
-					userId:0
+					firstName:name,
+					userId:id
 				};
 				ejs.renderFile('./views/homepage.ejs', businessObj,
 					function(err, result) {
