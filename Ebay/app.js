@@ -11,6 +11,9 @@ var express = require('express')
   ,product=require('./routes/products')
   ,shoppingCart=require('./routes/shoppingCart');
   ;
+  var Redis = require("./routes/redis-cache");
+  var Constants = require('./routes/constants');
+  var mysql = require("./routes/mysqlcontroller");
 var home = require('./routes/home');
 var session = require('express-session');
 var app = express();
@@ -118,3 +121,8 @@ http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
 
+
+mysql.executeSQL(Constants.SELECT_CATEGORY_QUERY, function(err, result) {
+//	console.log(result);
+	Redis.cacheCategories(result);
+});
