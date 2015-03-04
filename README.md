@@ -16,39 +16,50 @@
 
 ![alt tag](https://github.com/vijeshjain/eBay-prototype/blob/master/Project_Screenshots/register.png)
 
-- Homepage:
+- Homepage 1:
 
 ![alt tag](https://github.com/vijeshjain/eBay-prototype/blob/master/Project_Screenshots/homepage.png)
 
+
+- Homepage 2:
+
 ![alt tag](https://github.com/vijeshjain/eBay-prototype/blob/master/Project_Screenshots/homepage1.png)
+
 
 - Products Page:
 
 ![alt tag](https://github.com/vijeshjain/eBay-prototype/blob/master/Project_Screenshots/products.PNG)
 
+
 - Users Lists:
 
 ![alt tag](https://github.com/vijeshjain/eBay-prototype/blob/master/Project_Screenshots/users_list.PNG)
+
 
 - Search products:
 
 ![alt tag](https://github.com/vijeshjain/eBay-prototype/blob/master/Project_Screenshots/search_product.png)
 
+
 - Search users:
 
 ![alt tag](https://github.com/vijeshjain/eBay-prototype/blob/master/Project_Screenshots/search_user.png)
+
 
 - Place bid:
 
 ![alt tag](https://github.com/vijeshjain/eBay-prototype/blob/master/Project_Screenshots/place_bid.png)
 
+
 - Shopping Cart:
 
 ![alt tag](https://github.com/vijeshjain/eBay-prototype/blob/master/Project_Screenshots/shopping_cart.png)
 
+
 - User Profile:
 
 ![alt tag](https://github.com/vijeshjain/eBay-prototype/blob/master/Project_Screenshots/userProfile.png)
+
 
 - Optimization Techniques comparision:
 
