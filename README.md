@@ -10,45 +10,49 @@
 ### Project Screenshots:
 - Login Screen:
 
-![alt tag](https://raw.github.com/username/projectname/branch/path/to/img.png)
+![alt tag](https://github.com/vijeshjain/eBay-prototype/blob/master/Project_Screenshots/login.png)
 
 - Registeration Screen:
 
-![alt tag](https://raw.github.com/username/projectname/branch/path/to/img.png)
+![alt tag](https://github.com/vijeshjain/eBay-prototype/blob/master/Project_Screenshots/register.png)
 
 - Homepage:
 
-![alt tag](https://raw.github.com/username/projectname/branch/path/to/img.png)
+![alt tag](https://github.com/vijeshjain/eBay-prototype/blob/master/Project_Screenshots/homepage.png)
 
-![alt tag](https://raw.github.com/username/projectname/branch/path/to/img.png)
+![alt tag](https://github.com/vijeshjain/eBay-prototype/blob/master/Project_Screenshots/homepage1.png)
 
 - Products Page:
 
-![alt tag](https://raw.github.com/username/projectname/branch/path/to/img.png)
+![alt tag](https://github.com/vijeshjain/eBay-prototype/blob/master/Project_Screenshots/products.PNG)
+
+- Users Lists:
+
+![alt tag](https://github.com/vijeshjain/eBay-prototype/blob/master/Project_Screenshots/users_list.PNG)
 
 - Search products:
 
-![alt tag](https://raw.github.com/username/projectname/branch/path/to/img.png)
+![alt tag](https://github.com/vijeshjain/eBay-prototype/blob/master/Project_Screenshots/search_product.png)
 
 - Search users:
 
-![alt tag](https://raw.github.com/username/projectname/branch/path/to/img.png)
+![alt tag](https://github.com/vijeshjain/eBay-prototype/blob/master/Project_Screenshots/search_user.png)
 
 - Place bid:
 
-![alt tag](https://raw.github.com/username/projectname/branch/path/to/img.png)
+![alt tag](https://github.com/vijeshjain/eBay-prototype/blob/master/Project_Screenshots/place_bid.png)
 
 - Shopping Cart:
 
-![alt tag](https://raw.github.com/username/projectname/branch/path/to/img.png)
+![alt tag](https://github.com/vijeshjain/eBay-prototype/blob/master/Project_Screenshots/shopping_cart.png)
 
 - User Profile:
 
-![alt tag](https://raw.github.com/username/projectname/branch/path/to/img.png)
+![alt tag](https://github.com/vijeshjain/eBay-prototype/blob/master/Project_Screenshots/userProfile.png)
 
 - Optimization Techniques comparision:
 
-![alt tag](https://raw.github.com/username/projectname/branch/path/to/img.png)
+![alt tag](https://github.com/vijeshjain/eBay-prototype/blob/master/Project_Screenshots/optimization_results.PNG)
 
 ### Tools:
 1. NodeJS-Express Framework
